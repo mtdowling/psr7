@@ -162,7 +162,7 @@ class AppendStream implements StreamableInterface
             $this->read(min(8096, $offset - $this->pos));
         }
 
-        return $this->pos == $offset;
+        return $this->pos === $offset;
     }
 
     /**
@@ -179,7 +179,7 @@ class AppendStream implements StreamableInterface
         while ($remaining > 0) {
             // Progress to the next stream if needed.
             if ($this->streams[$this->current]->eof()) {
-                if ($this->current == $total) {
+                if ($this->current === $total) {
                     break;
                 }
                 $this->current++;

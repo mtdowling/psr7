@@ -48,7 +48,7 @@ class Stream implements StreamableInterface
     {
         $type = gettype($resource);
 
-        if ($type == 'string') {
+        if ($type === 'string') {
             $stream = fopen('php://temp', 'r+');
             if ($resource !== '') {
                 fwrite($stream, $resource);
@@ -57,7 +57,7 @@ class Stream implements StreamableInterface
             return new self($stream, $options);
         }
 
-        if ($type == 'resource') {
+        if ($type === 'resource') {
             return new self($resource, $options);
         }
 
@@ -65,7 +65,7 @@ class Stream implements StreamableInterface
             return $resource;
         }
 
-        if ($type == 'object' && method_exists($resource, '__toString')) {
+        if ($type === 'object' && method_exists($resource, '__toString')) {
             return self::factory((string) $resource, $options);
         }
 
