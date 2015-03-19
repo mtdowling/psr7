@@ -81,7 +81,7 @@ class Uri implements UriInterface
         $results = [];
         $segments = explode('/', $path);
         foreach ($segments as $segment) {
-            if ($segment == '..') {
+            if ($segment === '..') {
                 array_pop($results);
             } elseif (!isset($ignoreSegments[$segment])) {
                 $results[] = $segment;
@@ -97,7 +97,7 @@ class Uri implements UriInterface
         }
 
         // Add the trailing slash if necessary
-        if ($newPath != '/' && isset($ignoreSegments[end($segments)])) {
+        if ($newPath !== '/' && isset($ignoreSegments[end($segments)])) {
             $newPath .= '/';
         }
 
@@ -160,7 +160,7 @@ class Uri implements UriInterface
             $parts['query'] = $relParts['query'];
             $parts['fragment'] = $relParts['fragment'];
         } elseif (!empty($relParts['path'])) {
-            if (substr($relParts['path'], 0, 1) == '/') {
+            if (substr($relParts['path'], 0, 1) === '/') {
                 $parts['path'] = self::removeDotSegments($relParts['path']);
                 $parts['query'] = $relParts['query'];
                 $parts['fragment'] = $relParts['fragment'];

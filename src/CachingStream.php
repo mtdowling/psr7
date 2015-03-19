@@ -48,9 +48,9 @@ class CachingStream implements StreamableInterface
      */
     public function seek($offset, $whence = SEEK_SET)
     {
-        if ($whence == SEEK_SET) {
+        if ($whence === SEEK_SET) {
             $byte = $offset;
-        } elseif ($whence == SEEK_CUR) {
+        } elseif ($whence === SEEK_CUR) {
             $byte = $offset + $this->tell();
         } else {
             return false;

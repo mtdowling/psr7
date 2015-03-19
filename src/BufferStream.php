@@ -127,7 +127,7 @@ class BufferStream implements StreamableInterface
 
     public function getMetadata($key = null)
     {
-        if ($key == 'hwm') {
+        if ($key === 'hwm') {
             return $this->hwm;
         }
 

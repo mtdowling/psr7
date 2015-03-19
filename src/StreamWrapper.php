@@ -48,7 +48,7 @@ class StreamWrapper
      */
     public static function register()
     {
-        if (!in_array('guzzle', stream_get_wrappers())) {
+        if (!in_array('guzzle', stream_get_wrappers(), true)) {
             stream_wrapper_register('guzzle', __CLASS__);
         }
     }

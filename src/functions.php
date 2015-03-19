@@ -270,7 +270,7 @@ function copy_to_stream(
         }
         $bytes += $len;
         $dest->write($buf);
-        if ($bytes == $maxLen) {
+        if ($bytes === $maxLen) {
             break;
         }
     }
@@ -327,7 +327,7 @@ function readline(StreamableInterface $stream, $maxLength = null)
         }
         $buffer .= $byte;
         // Break when a new line is found or the max length - 1 is reached
-        if ($byte == PHP_EOL || ++$size == $maxLength - 1) {
+        if ($byte === PHP_EOL || ++$size === $maxLength - 1) {
             break;
         }
     }
@@ -409,9 +409,9 @@ function parse_query($str, $urlEncoding = true)
         $decoder = function ($value) {
             return rawurldecode(str_replace('+', ' ', $value));
         };
-    } elseif ($urlEncoding == PHP_QUERY_RFC3986) {
+    } elseif ($urlEncoding === PHP_QUERY_RFC3986) {
         $decoder = 'rawurldecode';
-    } elseif ($urlEncoding == PHP_QUERY_RFC1738) {
+    } elseif ($urlEncoding === PHP_QUERY_RFC1738) {
         $decoder = 'urldecode';
     } else {
         $decoder = function ($str) { return $str; };
@@ -455,9 +455,9 @@ function build_query(array $params, $encoding = PHP_QUERY_RFC3986)
 
     if ($encoding === false) {
         $encoder = function ($str) { return $str; };
-    } elseif ($encoding == PHP_QUERY_RFC3986) {
+    } elseif ($encoding === PHP_QUERY_RFC3986) {
         $encoder = 'rawurlencode';
-    } elseif ($encoding == PHP_QUERY_RFC1738) {
+    } elseif ($encoding === PHP_QUERY_RFC1738) {
         $encoder = 'urlencode';
     } else {
         throw new \InvalidArgumentException('Invalid type');

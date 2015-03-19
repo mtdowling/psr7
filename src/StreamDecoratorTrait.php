@@ -27,7 +27,7 @@ trait StreamDecoratorTrait
      */
     public function __get($name)
     {
-        if ($name == 'stream') {
+        if ($name === 'stream') {
             $this->stream = $this->createStream();
             return $this->stream;
         }
