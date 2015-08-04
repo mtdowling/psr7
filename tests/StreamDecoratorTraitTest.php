@@ -5,9 +5,8 @@ use Psr\Http\Message\StreamInterface;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\StreamDecoratorTrait;
 
-class Str implements StreamInterface
+class Str extends StreamDecoratorTrait implements StreamInterface
 {
-    use StreamDecoratorTrait;
 }
 
 /**
@@ -31,13 +30,15 @@ class StreamDecoratorTraitTest extends \PHPUnit_Framework_TestCase
     public function testCatchesExceptionsWhenCastingToString()
     {
         $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
-            ->setMethods(['read'])
-            ->getMockForAbstractClass();
+                  ->setMethods(array('read'))
+                  ->getMockForAbstractClass();
         $s->expects($this->once())
-            ->method('read')
-            ->will($this->throwException(new \Exception('foo')));
+          ->method('read')
+          ->will($this->throwException(new \Exception('foo')));
         $msg = '';
-        set_error_handler(function ($errNo, $str) use (&$msg) { $msg = $str; });
+        set_error_handler(function ($errNo, $str) use (&$msg) {
+            $msg = $str;
+        });
         echo new Str($s);
         restore_error_handler();
         $this->assertContains('foo', $msg);
@@ -45,7 +46,7 @@ class StreamDecoratorTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testToString()
     {
-        $this->assertEquals('foo', (string) $this->b);
+        $this->assertEquals('foo', (string)$this->b);
     }
 
     public function testHasSize()
@@ -108,7 +109,7 @@ class StreamDecoratorTraitTest extends \PHPUnit_Framework_TestCase
     {
         $this->b->seek(0, SEEK_END);
         $this->b->write('foo');
-        $this->assertEquals('foofoo', (string) $this->a);
+        $this->assertEquals('foofoo', (string)$this->a);
     }
 
     /**
@@ -119,19 +120,4 @@ class StreamDecoratorTraitTest extends \PHPUnit_Framework_TestCase
         $this->b->foo;
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
-    public function testThrowsWhenGetterNotImplemented()
-    {
-        $s = new BadStream();
-        $s->stream;
-    }
-}
-
-class BadStream
-{
-    use StreamDecoratorTrait;
-
-    public function __construct() {}
 }

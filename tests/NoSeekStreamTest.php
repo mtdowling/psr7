@@ -17,7 +17,7 @@ class NoSeekStreamTest extends \PHPUnit_Framework_TestCase
     public function testCannotSeek()
     {
         $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
-            ->setMethods(['isSeekable', 'seek'])
+            ->setMethods(array('isSeekable', 'seek'))
             ->getMockForAbstractClass();
         $s->expects($this->never())->method('seek');
         $s->expects($this->never())->method('isSeekable');

@@ -7,6 +7,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
+// Manually define missing constants for PHP 5.3
+defined('PHP_QUERY_RFC1738') or define('PHP_QUERY_RFC1738', 1);
+defined('PHP_QUERY_RFC3986') or define('PHP_QUERY_RFC3986', 2);
+
 /**
  * Returns the string representation of an HTTP message.
  *
@@ -74,7 +78,7 @@ function uri_for($uri)
  * @return Stream
  * @throws \InvalidArgumentException if the $resource arg is not valid.
  */
-function stream_for($resource = '', array $options = [])
+function stream_for($resource = '', array $options = array())
 {
     switch (gettype($resource)) {
         case 'string':
@@ -126,10 +130,10 @@ function stream_for($resource = '', array $options = [])
 function parse_header($header)
 {
     static $trimmed = "\"'  \n\t\r";
-    $params = $matches = [];
+    $params = $matches = array();
 
     foreach (normalize_header($header) as $val) {
-        $part = [];
+        $part = array();
         foreach (preg_split('/;(?=([^"]*"[^"]*")*[^"]*$)/', $val) as $kvp) {
             if (preg_match_all('/<[^>]+>|[^=]+/', $kvp, $matches)) {
                 $m = $matches[0];
@@ -162,7 +166,7 @@ function normalize_header($header)
         return array_map('trim', explode(',', $header));
     }
 
-    $result = [];
+    $result = array();
     foreach ($header as $value) {
         foreach ((array) $value as $v) {
             if (strpos($v, ',') === false) {
@@ -271,12 +275,13 @@ function rewind_body(MessageInterface $message)
 function try_fopen($filename, $mode)
 {
     $ex = null;
-    set_error_handler(function () use ($filename, $mode, &$ex) {
+    $fargs = func_get_args();
+    set_error_handler(function () use ($filename, $mode, &$ex, $fargs) {
         $ex = new \RuntimeException(sprintf(
             'Unable to open %s using mode %s: %s',
             $filename,
             $mode,
-            func_get_args()[1]
+            $fargs[1]
         ));
     });
 
@@ -444,7 +449,8 @@ function parse_request($message)
         throw new \InvalidArgumentException('Invalid request string');
     }
     $parts = explode(' ', $data['start-line'], 3);
-    $version = isset($parts[2]) ? explode('/', $parts[2])[1] : '1.1';
+    $subParts = isset($parts[2]) ?  explode('/', $parts[2]) : array();
+    $version = isset($parts[2]) ? $subParts[1] : '1.1';
 
     return new Request(
         $parts[0],
@@ -469,12 +475,13 @@ function parse_response($message)
         throw new \InvalidArgumentException('Invalid response string');
     }
     $parts = explode(' ', $data['start-line'], 3);
+    $subParts = explode('/', $parts[0]);
 
     return new Response(
         $parts[1],
         $data['headers'],
         $data['body'],
-        explode('/', $parts[0])[1],
+        $subParts[1],
         isset($parts[2]) ? $parts[2] : null
     );
 }
@@ -494,7 +501,7 @@ function parse_response($message)
  */
 function parse_query($str, $urlEncoding = true)
 {
-    $result = [];
+    $result = array();
 
     if ($str === '') {
         return $result;
@@ -520,7 +527,7 @@ function parse_query($str, $urlEncoding = true)
             $result[$key] = $value;
         } else {
             if (!is_array($result[$key])) {
-                $result[$key] = [$result[$key]];
+                $result[$key] = array($result[$key]);
             }
             $result[$key][] = $value;
         }
@@ -603,7 +610,7 @@ function mimetype_from_filename($filename)
  */
 function mimetype_from_extension($extension)
 {
-    static $mimetypes = [
+    static $mimetypes = array(
         '7z' => 'application/x-7z-compressed',
         'aac' => 'audio/x-aac',
         'ai' => 'application/postscript',
@@ -702,7 +709,7 @@ function mimetype_from_extension($extension)
         'yaml' => 'text/yaml',
         'yml' => 'text/yaml',
         'zip' => 'application/zip',
-    ];
+    );
 
     $extension = strtolower($extension);
 
@@ -731,7 +738,7 @@ function _parse_message($message)
 
     // Iterate over each line in the message, accounting for line endings
     $lines = preg_split('/(\\r?\\n)/', $message, -1, PREG_SPLIT_DELIM_CAPTURE);
-    $result = ['start-line' => array_shift($lines), 'headers' => [], 'body' => ''];
+    $result = array('start-line' => array_shift($lines), 'headers' => array(), 'body' => '');
     array_shift($lines);
 
     for ($i = 0, $totalLines = count($lines); $i < $totalLines; $i += 2) {
@@ -783,7 +790,7 @@ function _parse_request_uri($path, array $headers)
 /** @internal */
 function _caseless_remove($keys, array $data)
 {
-    $result = [];
+    $result = array();
 
     foreach ($keys as &$key) {
         $key = strtolower($key);

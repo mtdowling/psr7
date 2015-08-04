@@ -6,12 +6,11 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * PSR-7 response implementation.
  */
-class Response implements ResponseInterface
+class Response extends MessageTrait implements ResponseInterface
 {
-    use MessageTrait;
 
     /** @var array Map of standard HTTP status code/reason phrases */
-    private static $phrases = [
+    private static $phrases = array(
         100 => 'Continue',
         101 => 'Switching Protocols',
         102 => 'Processing',
@@ -69,7 +68,7 @@ class Response implements ResponseInterface
         507 => 'Insufficient Storage',
         508 => 'Loop Detected',
         511 => 'Network Authentication Required',
-    ];
+    );
 
     /** @var null|string */
     private $reasonPhrase = '';
@@ -86,7 +85,7 @@ class Response implements ResponseInterface
      */
     public function __construct(
         $status = 200,
-        array $headers = [],
+        array $headers = array(),
         $body = null,
         $version = '1.1',
         $reason = null

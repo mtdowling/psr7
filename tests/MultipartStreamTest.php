@@ -14,7 +14,7 @@ class MultipartStreamTest extends \PHPUnit_Framework_TestCase
 
     public function testCanProvideBoundary()
     {
-        $b = new MultipartStream([], 'foo');
+        $b = new MultipartStream(array(), 'foo');
         $this->assertEquals('foo', $b->getBoundary());
     }
 
@@ -37,7 +37,7 @@ class MultipartStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidatesFilesArrayElement()
     {
-        new MultipartStream([['foo' => 'bar']]);
+        new MultipartStream(array(array('foo' => 'bar')));
     }
 
     /**
@@ -45,21 +45,21 @@ class MultipartStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testEnsuresFileHasName()
     {
-        new MultipartStream([['contents' => 'bar']]);
+        new MultipartStream(array(array('contents' => 'bar')));
     }
 
     public function testSerializesFields()
     {
-        $b = new MultipartStream([
-            [
+        $b = new MultipartStream(array(
+            array(
                 'name'     => 'foo',
                 'contents' => 'bar'
-            ],
-            [
+            ),
+            array(
                 'name' => 'baz',
                 'contents' => 'bam'
-            ]
-        ], 'boundary');
+            )
+        ), 'boundary');
         $this->assertEquals(
             "--boundary\r\nContent-Disposition: form-data; name=\"foo\"\r\nContent-Length: 3\r\n\r\n"
             . "bar\r\n--boundary\r\nContent-Disposition: form-data; name=\"baz\"\r\nContent-Length: 3"
@@ -68,38 +68,38 @@ class MultipartStreamTest extends \PHPUnit_Framework_TestCase
 
     public function testSerializesFiles()
     {
-        $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), [
+        $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), array(
             'getMetadata' => function () {
                 return '/foo/bar.txt';
             }
-        ]);
+        ));
 
-        $f2 = Psr7\FnStream::decorate(Psr7\stream_for('baz'), [
+        $f2 = Psr7\FnStream::decorate(Psr7\stream_for('baz'), array(
             'getMetadata' => function () {
                 return '/foo/baz.jpg';
             }
-        ]);
+        ));
 
-        $f3 = Psr7\FnStream::decorate(Psr7\stream_for('bar'), [
+        $f3 = Psr7\FnStream::decorate(Psr7\stream_for('bar'), array(
             'getMetadata' => function () {
                 return '/foo/bar.gif';
             }
-        ]);
+        ));
 
-        $b = new MultipartStream([
-            [
+        $b = new MultipartStream(array(
+            array(
                 'name'     => 'foo',
                 'contents' => $f1
-            ],
-            [
+            ),
+            array(
                 'name' => 'qux',
                 'contents' => $f2
-            ],
-            [
+            ),
+            array(
                 'name'     => 'qux',
                 'contents' => $f3
-            ],
-        ], 'boundary');
+            ),
+        ), 'boundary');
 
         $expected = <<<EOT
 --boundary
@@ -129,22 +129,22 @@ EOT;
 
     public function testSerializesFilesWithCustomHeaders()
     {
-        $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), [
+        $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), array(
             'getMetadata' => function () {
                 return '/foo/bar.txt';
             }
-        ]);
+        ));
 
-        $b = new MultipartStream([
-            [
+        $b = new MultipartStream(array(
+            array(
                 'name' => 'foo',
                 'contents' => $f1,
-                'headers'  => [
+                'headers'  => array(
                     'x-foo' => 'bar',
                     'content-disposition' => 'custom'
-                ]
-            ]
-        ], 'boundary');
+                )
+            )
+        ), 'boundary');
 
         $expected = <<<EOT
 --boundary
@@ -163,33 +163,33 @@ EOT;
 
     public function testSerializesFilesWithCustomHeadersAndMultipleValues()
     {
-        $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), [
+        $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), array(
             'getMetadata' => function () {
                 return '/foo/bar.txt';
             }
-        ]);
+        ));
 
-        $f2 = Psr7\FnStream::decorate(Psr7\stream_for('baz'), [
+        $f2 = Psr7\FnStream::decorate(Psr7\stream_for('baz'), array(
             'getMetadata' => function () {
                 return '/foo/baz.jpg';
             }
-        ]);
+        ));
 
-        $b = new MultipartStream([
-            [
+        $b = new MultipartStream(array(
+            array(
                 'name'     => 'foo',
                 'contents' => $f1,
-                'headers'  => [
+                'headers'  => array(
                     'x-foo' => 'bar',
                     'content-disposition' => 'custom'
-                ]
-            ],
-            [
+                )
+            ),
+            array(
                 'name'     => 'foo',
                 'contents' => $f2,
-                'headers'  => ['cOntenT-Type' => 'custom'],
-            ]
-        ], 'boundary');
+                'headers'  => array('cOntenT-Type' => 'custom'),
+            )
+        ), 'boundary');
 
         $expected = <<<EOT
 --boundary

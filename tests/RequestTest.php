@@ -32,7 +32,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function testCanConstructWithBody()
     {
-        $r = new Request('GET', '/', [], 'baz');
+        $r = new Request('GET', '/', array(), 'baz');
         $this->assertEquals('baz', (string) $r->getBody());
     }
 
@@ -101,26 +101,26 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function testHostIsAddedFirst()
     {
-        $r = new Request('GET', 'http://foo.com/baz?bar=bam', ['Foo' => 'Bar']);
-        $this->assertEquals([
-            'Host' => ['foo.com'],
-            'Foo'  => ['Bar']
-        ], $r->getHeaders());
+        $r = new Request('GET', 'http://foo.com/baz?bar=bam', array('Foo' => 'Bar'));
+        $this->assertEquals(array(
+            'Host' => array('foo.com'),
+            'Foo'  => array('Bar')
+        ), $r->getHeaders());
     }
 
     public function testCanGetHeaderAsCsv()
     {
-        $r = new Request('GET', 'http://foo.com/baz?bar=bam', [
-            'Foo' => ['a', 'b', 'c']
-        ]);
+        $r = new Request('GET', 'http://foo.com/baz?bar=bam', array(
+            'Foo' => array('a', 'b', 'c')
+        ));
         $this->assertEquals('a, b, c', $r->getHeaderLine('Foo'));
         $this->assertEquals('', $r->getHeaderLine('Bar'));
     }
 
     public function testHostIsNotOverwrittenWhenPreservingHost()
     {
-        $r = new Request('GET', 'http://foo.com/baz?bar=bam', ['Host' => 'a.com']);
-        $this->assertEquals(['Host' => ['a.com']], $r->getHeaders());
+        $r = new Request('GET', 'http://foo.com/baz?bar=bam', array('Host' => 'a.com'));
+        $this->assertEquals(array('Host' => array('a.com')), $r->getHeaders());
         $r2 = $r->withUri(new Uri('http://www.foo.com/bar'), true);
         $this->assertEquals('a.com', $r2->getHeaderLine('Host'));
     }
@@ -128,17 +128,17 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testOverridesHostWithUri()
     {
         $r = new Request('GET', 'http://foo.com/baz?bar=bam');
-        $this->assertEquals(['Host' => ['foo.com']], $r->getHeaders());
+        $this->assertEquals(array('Host' => array('foo.com')), $r->getHeaders());
         $r2 = $r->withUri(new Uri('http://www.baz.com/bar'));
         $this->assertEquals('www.baz.com', $r2->getHeaderLine('Host'));
     }
 
     public function testAggregatesHeaders()
     {
-        $r = new Request('GET', 'http://foo.com', [
+        $r = new Request('GET', 'http://foo.com', array(
             'ZOO' => 'zoobar',
-            'zoo' => ['foobar', 'zoobar']
-        ]);
+            'zoo' => array('foobar', 'zoobar')
+        ));
         $this->assertEquals('zoobar, foobar, zoobar', $r->getHeaderLine('zoo'));
     }
 

@@ -23,7 +23,7 @@ class StreamWrapperTest extends \PHPUnit_Framework_TestCase
 
         // This fails on HHVM for some reason
         if (!defined('HHVM_VERSION')) {
-            $this->assertEquals([
+            $this->assertEquals(array(
                 'dev'     => 0,
                 'ino'     => 0,
                 'mode'    => 33206,
@@ -50,7 +50,7 @@ class StreamWrapperTest extends \PHPUnit_Framework_TestCase
                 10        => 0,
                 11        => 0,
                 12        => 0,
-            ], fstat($handle));
+            ), fstat($handle));
         }
 
         $this->assertTrue(fclose($handle));
@@ -63,7 +63,7 @@ class StreamWrapperTest extends \PHPUnit_Framework_TestCase
     public function testValidatesStream()
     {
         $stream = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
-            ->setMethods(['isReadable', 'isWritable'])
+            ->setMethods(array('isReadable', 'isWritable'))
             ->getMockForAbstractClass();
         $stream->expects($this->once())
             ->method('isReadable')
@@ -85,7 +85,7 @@ class StreamWrapperTest extends \PHPUnit_Framework_TestCase
     public function testCanOpenReadonlyStream()
     {
         $stream = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
-            ->setMethods(['isReadable', 'isWritable'])
+            ->setMethods(array('isReadable', 'isWritable'))
             ->getMockForAbstractClass();
         $stream->expects($this->once())
             ->method('isReadable')

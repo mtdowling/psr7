@@ -9,13 +9,13 @@ class PumpStreamTest extends \PHPUnit_Framework_TestCase
 {
     public function testHasMetadataAndSize()
     {
-        $p = new PumpStream(function () {}, [
-            'metadata' => ['foo' => 'bar'],
+        $p = new PumpStream(function () {}, array(
+            'metadata' => array('foo' => 'bar'),
             'size'     => 100
-        ]);
+        ));
 
         $this->assertEquals('bar', $p->getMetadata('foo'));
-        $this->assertEquals(['foo' => 'bar'], $p->getMetadata());
+        $this->assertEquals(array('foo' => 'bar'), $p->getMetadata());
         $this->assertEquals(100, $p->getSize());
     }
 
@@ -32,7 +32,7 @@ class PumpStreamTest extends \PHPUnit_Framework_TestCase
 
     public function testStoresExcessDataInBuffer()
     {
-        $called = [];
+        $called = array();
         $p = Psr7\stream_for(function ($size) use (&$called) {
             $called[] = $size;
             return 'abcdef';
@@ -41,7 +41,7 @@ class PumpStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('b', $p->read(1));
         $this->assertEquals('cdef', $p->read(4));
         $this->assertEquals('abcdefabc', $p->read(9));
-        $this->assertEquals([1, 9, 3], $called);
+        $this->assertEquals(array(1, 9, 3), $called);
     }
 
     public function testInifiniteStreamWrappedInLimitStream()

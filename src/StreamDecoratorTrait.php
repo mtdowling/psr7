@@ -7,14 +7,14 @@ use Psr\Http\Message\StreamInterface;
  * Stream decorator trait
  * @property StreamInterface stream
  */
-trait StreamDecoratorTrait
+abstract class StreamDecoratorTrait implements StreamInterface
 {
     /**
      * @param StreamInterface $stream Stream to decorate
      */
-    public function __construct(StreamInterface $stream)
+    public function __construct(StreamInterface $stream = null)
     {
-        $this->stream = $stream;
+        if ($stream) $this->stream = $stream;
     }
 
     /**
@@ -65,7 +65,7 @@ trait StreamDecoratorTrait
      */
     public function __call($method, array $args)
     {
-        $result = call_user_func_array([$this->stream, $method], $args);
+        $result = call_user_func_array(array($this->stream, $method), $args);
 
         // Always return the wrapped object if the result is a return $this
         return $result === $this->stream ? $this : $result;
@@ -136,14 +136,4 @@ trait StreamDecoratorTrait
         return $this->stream->write($string);
     }
 
-    /**
-     * Implement in subclasses to dynamically create streams when requested.
-     *
-     * @return StreamInterface
-     * @throws \BadMethodCallException
-     */
-    protected function createStream()
-    {
-        throw new \BadMethodCallException('Not implemented');
-    }
 }

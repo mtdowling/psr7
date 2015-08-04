@@ -7,9 +7,8 @@ use Psr\Http\Message\StreamInterface;
  * Stream decorator that can cache previously read bytes from a sequentially
  * read stream.
  */
-class CachingStream implements StreamInterface
+class CachingStream extends StreamDecoratorTrait implements StreamInterface
 {
-    use StreamDecoratorTrait;
 
     /** @var StreamInterface Stream being wrapped */
     private $remoteStream;
@@ -28,7 +27,7 @@ class CachingStream implements StreamInterface
         StreamInterface $target = null
     ) {
         $this->remoteStream = $stream;
-        $this->stream = $target ?: new Stream(fopen('php://temp', 'r+'));
+        parent::__construct($target ?: new Stream(fopen('php://temp', 'r+')));
     }
 
     public function getSize()
@@ -128,7 +127,7 @@ class CachingStream implements StreamInterface
 
     private function cacheEntireStream()
     {
-        $target = new FnStream(['write' => 'strlen']);
+        $target = new FnStream(array('write' => 'strlen'));
         copy_to_stream($this, $target);
 
         return $this->tell();
