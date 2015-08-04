@@ -63,9 +63,9 @@ class CachingStreamTest extends \PHPUnit_Framework_TestCase
     public function testCanUseSeekEndWithUnknownSize()
     {
         $baseStream = Psr7\stream_for('testing');
-        $decorated = Psr7\FnStream::decorate($baseStream, [
+        $decorated = Psr7\FnStream::decorate($baseStream, array(
             'getSize' => function () { return null; }
-        ]);
+        ));
         $cached = new CachingStream($decorated);
         $cached->seek(1, SEEK_END);
         $this->assertEquals('ng', $cached->read(2));

@@ -38,9 +38,9 @@ class StreamWrapper
                 . 'writable, or both.');
         }
 
-        return fopen('guzzle://stream', $mode, null, stream_context_create([
-            'guzzle' => ['stream' => $stream]
-        ]));
+        return fopen('guzzle://stream', $mode, null, stream_context_create(array(
+            'guzzle' => array('stream' => $stream)
+        )));
     }
 
     /**
@@ -96,13 +96,13 @@ class StreamWrapper
 
     public function stream_stat()
     {
-        static $modeMap = [
+        static $modeMap = array(
             'r'  => 33060,
             'r+' => 33206,
             'w'  => 33188
-        ];
+        );
 
-        return [
+        return array(
             'dev'     => 0,
             'ino'     => 0,
             'mode'    => $modeMap[$this->mode],
@@ -116,6 +116,6 @@ class StreamWrapper
             'ctime'   => 0,
             'blksize' => 0,
             'blocks'  => 0
-        ];
+        );
     }
 }

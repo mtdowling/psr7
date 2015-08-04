@@ -7,9 +7,8 @@ use Psr\Http\Message\StreamInterface;
 /**
  * Decorator used to return only a subset of a stream
  */
-class LimitStream implements StreamInterface
+class LimitStream extends StreamDecoratorTrait implements StreamInterface
 {
-    use StreamDecoratorTrait;
 
     /** @var int Offset to start reading from */
     private $offset;
@@ -29,7 +28,7 @@ class LimitStream implements StreamInterface
         $limit = -1,
         $offset = 0
     ) {
-        $this->stream = $stream;
+        parent::__construct($stream);
         $this->setLimit($limit);
         $this->setOffset($offset);
     }

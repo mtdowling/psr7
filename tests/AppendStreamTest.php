@@ -14,7 +14,7 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
     {
         $a = new AppendStream();
         $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
-            ->setMethods(['isReadable'])
+            ->setMethods(array('isReadable'))
             ->getMockForAbstractClass();
         $s->expects($this->once())
             ->method('isReadable')
@@ -40,7 +40,7 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
     {
         $a = new AppendStream();
         $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
-            ->setMethods(['isReadable', 'rewind', 'isSeekable'])
+            ->setMethods(array('isReadable', 'rewind', 'isSeekable'))
             ->getMockForAbstractClass();
         $s->expects($this->once())
             ->method('isReadable')
@@ -57,11 +57,11 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
 
     public function testSeeksToPositionByReading()
     {
-        $a = new AppendStream([
+        $a = new AppendStream(array(
             Psr7\stream_for('foo'),
             Psr7\stream_for('bar'),
             Psr7\stream_for('baz'),
-        ]);
+        ));
 
         $a->seek(3);
         $this->assertEquals(3, $a->tell());
@@ -76,7 +76,7 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
     {
         $s1 = Psr7\stream_for('foo');
         $s2 = Psr7\stream_for('bar');
-        $a = new AppendStream([$s1, $s2]);
+        $a = new AppendStream(array($s1, $s2));
         $this->assertSame('foobar', (string) $a);
         $a->detach();
         $this->assertSame('', (string) $a);
@@ -86,7 +86,7 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
     public function testClosesEachStream()
     {
         $s1 = Psr7\stream_for('foo');
-        $a = new AppendStream([$s1]);
+        $a = new AppendStream(array($s1));
         $a->close();
         $this->assertSame('', (string) $a);
     }
@@ -97,7 +97,7 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsNotWritable()
     {
-        $a = new AppendStream([Psr7\stream_for('foo')]);
+        $a = new AppendStream(array(Psr7\stream_for('foo')));
         $this->assertFalse($a->isWritable());
         $this->assertTrue($a->isSeekable());
         $this->assertTrue($a->isReadable());
@@ -112,11 +112,11 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
 
     public function testCanReadFromMultipleStreams()
     {
-        $a = new AppendStream([
+        $a = new AppendStream(array(
             Psr7\stream_for('foo'),
             Psr7\stream_for('bar'),
             Psr7\stream_for('baz'),
-        ]);
+        ));
         $this->assertFalse($a->eof());
         $this->assertSame(0, $a->tell());
         $this->assertEquals('foo', $a->read(3));
@@ -130,14 +130,14 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
 
     public function testCanDetermineSizeFromMultipleStreams()
     {
-        $a = new AppendStream([
+        $a = new AppendStream(array(
             Psr7\stream_for('foo'),
             Psr7\stream_for('bar')
-        ]);
+        ));
         $this->assertEquals(6, $a->getSize());
 
         $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
-            ->setMethods(['isSeekable', 'isReadable'])
+            ->setMethods(array('isSeekable', 'isReadable'))
             ->getMockForAbstractClass();
         $s->expects($this->once())
             ->method('isSeekable')
@@ -152,7 +152,7 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
     public function testCatchesExceptionsWhenCastingToString()
     {
         $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
-            ->setMethods(['isSeekable', 'read', 'isReadable', 'eof'])
+            ->setMethods(array('isSeekable', 'read', 'isReadable', 'eof'))
             ->getMockForAbstractClass();
         $s->expects($this->once())
             ->method('isSeekable')
@@ -166,7 +166,7 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
         $s->expects($this->any())
             ->method('eof')
             ->will($this->returnValue(false));
-        $a = new AppendStream([$s]);
+        $a = new AppendStream(array($s));
         $this->assertFalse($a->eof());
         $this->assertSame('', (string) $a);
     }
@@ -180,7 +180,7 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
     public function testReturnsEmptyMetadata()
     {
         $s = new AppendStream();
-        $this->assertEquals([], $s->getMetadata());
+        $this->assertEquals(array(), $s->getMetadata());
         $this->assertNull($s->getMetadata('foo'));
     }
 }

@@ -6,19 +6,19 @@ use Psr\Http\Message\StreamInterface;
 /**
  * Trait implementing functionality common to requests and responses.
  */
-trait MessageTrait
+abstract class MessageTrait
 {
     /** @var array Cached HTTP header collection with lowercase key to values */
-    private $headers = [];
+    protected $headers = array();
 
     /** @var array Actual key to list of values per header. */
-    private $headerLines = [];
+    protected $headerLines = array();
 
     /** @var string */
-    private $protocol = '1.1';
+    protected $protocol = '1.1';
 
     /** @var StreamInterface */
-    private $stream;
+    protected $stream;
 
     public function getProtocolVersion()
     {
@@ -49,7 +49,7 @@ trait MessageTrait
     public function getHeader($header)
     {
         $name = strtolower($header);
-        return isset($this->headers[$name]) ? $this->headers[$name] : [];
+        return isset($this->headers[$name]) ? $this->headers[$name] : array();
     }
 
     public function getHeaderLine($header)
@@ -64,7 +64,7 @@ trait MessageTrait
         $name = strtolower($header);
 
         if (!is_array($value)) {
-            $new->headers[$name] = [trim($value)];
+            $new->headers[$name] = array(trim($value));
         } else {
             $new->headers[$name] = $value;
             foreach ($new->headers[$name] as &$v) {
@@ -136,9 +136,9 @@ trait MessageTrait
         return $new;
     }
 
-    private function setHeaders(array $headers)
+    protected function setHeaders(array $headers)
     {
-        $this->headerLines = $this->headers = [];
+        $this->headerLines = $this->headers = array();
         foreach ($headers as $header => $value) {
             $header = trim($header);
             $name = strtolower($header);

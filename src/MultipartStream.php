@@ -7,9 +7,8 @@ use Psr\Http\Message\StreamInterface;
  * Stream that when read returns bytes for a streaming multipart or
  * multipart/form-data stream.
  */
-class MultipartStream implements StreamInterface
+class MultipartStream extends StreamDecoratorTrait implements StreamInterface
 {
-    use StreamDecoratorTrait;
 
     private $boundary;
 
@@ -25,10 +24,10 @@ class MultipartStream implements StreamInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $elements = [], $boundary = null)
+    public function __construct(array $elements = array(), $boundary = null)
     {
         $this->boundary = $boundary ?: uniqid();
-        $this->stream = $this->createStream($elements);
+        parent::__construct($this->createStream($elements));
     }
 
     /**
@@ -78,7 +77,7 @@ class MultipartStream implements StreamInterface
 
     private function addElement(AppendStream $stream, array $element)
     {
-        foreach (['contents', 'name'] as $key) {
+        foreach (array('contents', 'name') as $key) {
             if (!array_key_exists($key, $element)) {
                 throw new \InvalidArgumentException("A '{$key}' key is required");
             }
@@ -97,7 +96,7 @@ class MultipartStream implements StreamInterface
             $element['name'],
             $element['contents'],
             isset($element['filename']) ? $element['filename'] : null,
-            isset($element['headers']) ? $element['headers'] : []
+            isset($element['headers']) ? $element['headers'] : array()
         );
 
         $stream->addStream(stream_for($this->getHeaders($headers)));
@@ -136,7 +135,7 @@ class MultipartStream implements StreamInterface
             }
         }
 
-        return [$stream, $headers];
+        return array($stream, $headers);
     }
 
     private function getHeader(array $headers, $key)

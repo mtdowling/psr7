@@ -121,10 +121,12 @@ class StreamTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($stream->isWritable());
         $this->assertFalse($stream->isSeekable());
 
-        $throws = function (callable $fn) use ($stream) {
+        $self = $this;
+
+        $throws = function ($fn) use ($stream, $self) {
             try {
                 $fn($stream);
-                $this->fail();
+                $self->fail();
             } catch (\Exception $e) {}
         };
 

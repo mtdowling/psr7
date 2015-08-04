@@ -149,10 +149,10 @@ class LimitStreamTest extends \PHPUnit_Framework_TestCase
 
     public function testReturnsNullIfSizeCannotBeDetermined()
     {
-        $a = new FnStream([
+        $a = new FnStream(array(
             'getSize' => function () { return null; },
             'tell'    => function () { return 0; },
-        ]);
+        ));
         $b = new LimitStream($a);
         $this->assertNull($b->getSize());
     }

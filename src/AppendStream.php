@@ -11,7 +11,7 @@ use Psr\Http\Message\StreamInterface;
 class AppendStream implements StreamInterface
 {
     /** @var StreamInterface[] Streams being decorated */
-    private $streams = [];
+    private $streams = array();
 
     private $seekable = true;
     private $current = 0;
@@ -22,7 +22,7 @@ class AppendStream implements StreamInterface
      * @param StreamInterface[] $streams Streams to decorate. Each stream must
      *                                   be readable.
      */
-    public function __construct(array $streams = [])
+    public function __construct(array $streams = array())
     {
         foreach ($streams as $stream) {
             $this->addStream($stream);
@@ -78,7 +78,7 @@ class AppendStream implements StreamInterface
             $stream->close();
         }
 
-        $this->streams = [];
+        $this->streams = array();
     }
 
     /**
@@ -228,6 +228,6 @@ class AppendStream implements StreamInterface
 
     public function getMetadata($key = null)
     {
-        return $key ? null : [];
+        return $key ? null : array();
     }
 }

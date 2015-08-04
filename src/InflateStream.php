@@ -14,16 +14,14 @@ use Psr\Http\Message\StreamInterface;
  * @link http://tools.ietf.org/html/rfc1952
  * @link http://php.net/manual/en/filters.compression.php
  */
-class InflateStream implements StreamInterface
+class InflateStream extends StreamDecoratorTrait implements StreamInterface
 {
-    use StreamDecoratorTrait;
-
     public function __construct(StreamInterface $stream)
     {
         // Skip the first 10 bytes
         $stream = new LimitStream($stream, -1, 10);
         $resource = StreamWrapper::getResource($stream);
         stream_filter_append($resource, 'zlib.inflate', STREAM_FILTER_READ);
-        $this->stream = new Stream($resource);
+        parent::__construct(new Stream($resource));
     }
 }

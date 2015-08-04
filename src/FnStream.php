@@ -8,6 +8,20 @@ use Psr\Http\Message\StreamInterface;
  *
  * Allows for easy testing and extension of a provided stream without needing
  * to create a concrete class for a simple extension point.
+ * @property callable _fn___toString
+ * @property callable _fn_close
+ * @property callable _fn_detach
+ * @property callable _fn_getSize
+ * @property callable _fn_tell
+ * @property callable _fn_isSeekable
+ * @property callable _fn_rewind
+ * @property callable _fn_seek
+ * @property callable _fn_isWritable
+ * @property callable _fn_write
+ * @property callable _fn_isReadable
+ * @property callable _fn_read
+ * @property callable _fn_getContents
+ * @property callable _fn_getMetadata
  */
 class FnStream implements StreamInterface
 {
@@ -15,9 +29,9 @@ class FnStream implements StreamInterface
     private $methods;
 
     /** @var array Methods that must be implemented in the given array */
-    private static $slots = ['__toString', 'close', 'detach', 'rewind',
+    private static $slots = array('__toString', 'close', 'detach', 'rewind',
         'getSize', 'tell', 'eof', 'isSeekable', 'seek', 'isWritable', 'write',
-        'isReadable', 'read', 'getContents', 'getMetadata'];
+        'isReadable', 'read', 'getContents', 'getMetadata');
 
     /**
      * @param array $methods Hash of method name to a callable.
@@ -66,7 +80,7 @@ class FnStream implements StreamInterface
         // If any of the required methods were not provided, then simply
         // proxy to the decorated stream.
         foreach (array_diff(self::$slots, array_keys($methods)) as $diff) {
-            $methods[$diff] = [$stream, $diff];
+            $methods[$diff] = array($stream, $diff);
         }
 
         return new self($methods);

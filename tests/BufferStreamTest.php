@@ -13,7 +13,7 @@ class BufferStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($b->isSeekable());
         $this->assertEquals(null, $b->getMetadata('foo'));
         $this->assertEquals(10, $b->getMetadata('hwm'));
-        $this->assertEquals([], $b->getMetadata());
+        $this->assertEquals(array(), $b->getMetadata());
     }
 
     public function testRemovesReadDataFromBuffer()
