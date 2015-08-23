@@ -42,7 +42,7 @@ class Request implements RequestInterface
     ) {
         if (is_string($uri)) {
             $uri = new Uri($uri);
-        } elseif (!($uri instanceof UriInterface)) {
+        } elseif (!$uri instanceof UriInterface) {
             throw new \InvalidArgumentException(
                 'URI must be a string or Psr\Http\Message\UriInterface'
             );
