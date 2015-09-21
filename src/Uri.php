@@ -57,7 +57,7 @@ class Uri implements UriInterface
 
     public function __toString()
     {
-        return self::createUriString(
+        return static::createUriString(
             $this->scheme,
             $this->getAuthority(),
             $this->getPath(),
@@ -124,7 +124,7 @@ class Uri implements UriInterface
         }
 
         if (!($rel instanceof UriInterface)) {
-            $rel = new self($rel);
+            $rel = new static($rel);
         }
 
         // Return the relative uri as-is if it has a scheme.
@@ -150,12 +150,12 @@ class Uri implements UriInterface
 
         if (!empty($relParts['authority'])) {
             $parts['authority'] = $relParts['authority'];
-            $parts['path'] = self::removeDotSegments($relParts['path']);
+            $parts['path'] = static::removeDotSegments($relParts['path']);
             $parts['query'] = $relParts['query'];
             $parts['fragment'] = $relParts['fragment'];
         } elseif (!empty($relParts['path'])) {
             if (substr($relParts['path'], 0, 1) == '/') {
-                $parts['path'] = self::removeDotSegments($relParts['path']);
+                $parts['path'] = static::removeDotSegments($relParts['path']);
                 $parts['query'] = $relParts['query'];
                 $parts['fragment'] = $relParts['fragment'];
             } else {
@@ -164,7 +164,7 @@ class Uri implements UriInterface
                 } else {
                     $mergedPath = substr($parts['path'], 0, strrpos($parts['path'], '/') + 1);
                 }
-                $parts['path'] = self::removeDotSegments($mergedPath . $relParts['path']);
+                $parts['path'] = static::removeDotSegments($mergedPath . $relParts['path']);
                 $parts['query'] = $relParts['query'];
                 $parts['fragment'] = $relParts['fragment'];
             }
@@ -174,7 +174,7 @@ class Uri implements UriInterface
             $parts['fragment'] = $relParts['fragment'];
         }
 
-        return new self(static::createUriString(
+        return new static(static::createUriString(
             $parts['scheme'],
             $parts['authority'],
             $parts['path'],
@@ -261,7 +261,7 @@ class Uri implements UriInterface
      */
     public static function fromParts(array $parts)
     {
-        $uri = new self();
+        $uri = new static();
         $uri->applyParts($parts);
         return $uri;
     }
