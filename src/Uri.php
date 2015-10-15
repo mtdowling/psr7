@@ -41,11 +41,17 @@ class Uri implements UriInterface
     /** @var string Uri fragment. */
     private $fragment = '';
 
+    /** @var bool Flag whether to include standard ports in uri if specified. */
+    private $stripPort = true;
+
     /**
      * @param string $uri URI to parse and wrap.
+     * @param bool $stripPort Optionally prevent a standard port number from being stripped from the formatted uri.
      */
-    public function __construct($uri = '')
+    public function __construct($uri = '', $stripPort = true)
     {
+        $this->stripPort = $stripPort;
+
         if ($uri != null) {
             $parts = parse_url($uri);
             if ($parts === false) {
@@ -282,7 +288,7 @@ class Uri implements UriInterface
             $authority = $this->userInfo . '@' . $authority;
         }
 
-        if ($this->isNonStandardPort($this->scheme, $this->host, $this->port)) {
+        if (!$this->stripPort || $this->isNonStandardPort($this->scheme, $this->host, $this->port)) {
             $authority .= ':' . $this->port;
         }
 
@@ -557,7 +563,7 @@ class Uri implements UriInterface
             }
         }
 
-        return $this->isNonStandardPort($scheme, $host, $port) ? $port : null;
+        return (!$this->stripPort || $this->isNonStandardPort($scheme, $host, $port)) ? $port : null;
     }
 
     /**
