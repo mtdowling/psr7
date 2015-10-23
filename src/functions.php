@@ -118,7 +118,7 @@ function stream_for($resource = '', array $options = [])
  *
  * @return array
  */
-function uploaded_files_from_global()
+function uploaded_files_from_globals()
 {
     return uploaded_files_from_array($_FILES);
 }

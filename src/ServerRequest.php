@@ -63,7 +63,7 @@ class ServerRequest extends Request implements ServerRequestInterface
             ->withCookieParams($_COOKIE)
             ->withQueryParams($_GET)
             ->withParsedBody($_POST)
-            ->withUploadedFiles(uploaded_files_from_global());
+            ->withUploadedFiles(uploaded_files_from_globals());
         return $serverRequest;
     }
 
