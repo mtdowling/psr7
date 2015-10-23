@@ -40,8 +40,7 @@ class UploadedFile implements UploadedFileInterface
 
     public function __construct($fileOrStream, $error, $size = null, $clientFilename = null, $clientMediaType = null)
     {
-
-        if (is_string($fileOrStream)) {
+        if (is_string($fileOrStream) && !empty($fileOrStream)) {
             $this->filePath = $fileOrStream;
         } else if ($fileOrStream instanceof StreamInterface) {
             $this->stream = $fileOrStream;

@@ -11,8 +11,31 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     protected $serverRequest;
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->serverRequest = new ServerRequest('GET', new Psr7\Uri(), [], null, '1.1', $_SERVER);
+    }
+
+    /**
+     * @dataProvider populateGlobalVariable
+     */
+    public function testCanCreateFromGlobals()
+    {
+        $serverRequest = ServerRequest::fromGlobals();
+        $this->assertEquals($_SERVER['REQUEST_METHOD'], $serverRequest->getMethod());
+        $this->assertEquals($_SERVER, $serverRequest->getServerParams());
+        $this->assertEquals($_GET, $serverRequest->getQueryParams());
+        $this->assertEquals($_POST, $serverRequest->getParsedBody());
+        $uploadedFiles = $serverRequest->getUploadedFiles()['my-form']['details']['avatars'];
+        $this->assertInstanceOf('GuzzleHttp\Psr7\UploadedFile', $uploadedFiles[0]);
+        $this->assertInstanceOf('GuzzleHttp\Psr7\UploadedFile', $uploadedFiles[1]);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testParsedBodyMustBeValid() {
+        $this->serverRequest->withParsedBody('bad body');
     }
 
     public function testSameInstanceWhenSameCookieParams()
@@ -65,9 +88,12 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 
     public function testNewInstanceWhenNewAttribute()
     {
-        $serverRequest = $this->serverRequest->withAttribute('testK', 'testV');
+        $serverRequest = $this->serverRequest
+            ->withAttribute('testK', 'testV')
+            ->withAttribute('testK_2', 'testV_2');
         $this->assertNotSame($this->serverRequest, $serverRequest);
         $this->assertEquals('testV', $serverRequest->getAttribute('testK'));
+        $this->assertEquals(['testK' => 'testV', 'testK_2' => 'testV_2'], $serverRequest->getAttributes());
     }
 
     public function testSameInstanceWhenRemoveNonexistentAttribute()
@@ -82,5 +108,45 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $serverRequest = $serverRequest->withoutAttribute('testK');
         $this->assertNotSame($this->serverRequest, $serverRequest);
         $this->assertNull($serverRequest->getAttribute('testK'));
+    }
+
+    public function populateGlobalVariable()
+    {
+        $_SERVER['SERVER_NAME'] = 'www.foo.com';
+        $_SERVER['SERVER_PORT'] = 80;
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_SERVER['REQUEST_URI'] = '/index.php?foo=bar';
+        $_SERVER['QUERY_STRING'] = 'foo=bar';
+        $_POST = ['foo' => 'bar'];
+        $_GET = ['foo' => 'bar'];
+        $_COOKIE = ['foo' => 'bar'];
+        $_FILES = [
+            'my-form' => [
+                'details' => [
+                    'avatars' => [
+                        'tmp_name' => [
+                            0 => 'tmp0',
+                            1 => 'tmp1'
+                        ],
+                        'name' => [
+                            0 => 'n0',
+                            1 => 'n1'
+                        ],
+                        'size' => [
+                            0 => 32000,
+                            1 => 64000
+                        ],
+                        'type' => [
+                            0 => 'image/png',
+                            1 => 'image/jpg'
+                        ],
+                        'error' => [
+                            0 => UPLOAD_ERR_OK,
+                            1 => UPLOAD_ERR_CANT_WRITE
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 }

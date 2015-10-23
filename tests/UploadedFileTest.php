@@ -25,6 +25,49 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
         fclose($handle);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testFileOrStreamMustBeValid()
+    {
+        new UploadedFile('', UPLOAD_ERR_OK);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testErrorCodeMustBeValid()
+    {
+        new UploadedFile('path_file', 42);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testFileSizeMustBeValid()
+    {
+        $handle = fopen('php://temp', 'r+');
+        new UploadedFile($handle, UPLOAD_ERR_OK, 4.2);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testClientFilenameMustBeValid()
+    {
+        $handle = fopen('php://temp', 'r+');
+        new UploadedFile($handle, UPLOAD_ERR_OK, 0, 404);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testClientMediaTypeMustBeValid()
+    {
+        $handle = fopen('php://temp', 'r+');
+        new UploadedFile($handle, UPLOAD_ERR_OK, 0, null, 404);
+    }
+
     public function testResourceSize()
     {
         $handle = fopen('php://temp', 'r+');
@@ -48,6 +91,7 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('my-avatar.png', $uploadedFile->getClientFilename());
         $this->assertEquals('image/png', $uploadedFile->getClientMediaType());
         $this->assertEquals(90996, $uploadedFile->getSize());
+        $this->assertEquals(UPLOAD_ERR_OK, $uploadedFile->getError());
     }
 
     public function testMoveTo()

@@ -611,31 +611,4 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-
-    /**
-     * @dataProvider populateGlobalVariable
-     */
-    public function testUriFromGlobal()
-    {
-        /** @var Psr7\Uri $uri */
-        $uri = Psr7\uri_from_global();
-        $this->assertEquals('http://www.foo.com/index.php?foo=bar', $uri);
-    }
-
-    /**
-     * @dataProvider populateGlobalVariable
-     */
-    public function testServerRequestFromGlobal()
-    {
-        /**
-         * @var Psr7\ServerRequest $serverRequest
-         */
-        $serverRequest = Psr7\server_request_from_global();
-        $this->assertEquals($_COOKIE, $serverRequest->getCookieParams());
-        $this->assertEquals($_GET, $serverRequest->getQueryParams());
-        $this->assertEquals($_POST, $serverRequest->getParsedBody());
-        $uploadedFiles = $serverRequest->getUploadedFiles()['my-form']['details']['avatars'];
-        $this->assertInstanceOf('GuzzleHttp\Psr7\UploadedFile', $uploadedFiles[0]);
-        $this->assertInstanceOf('GuzzleHttp\Psr7\UploadedFile', $uploadedFiles[1]);
-    }
 }

@@ -36,6 +36,37 @@ class ServerRequest extends Request implements ServerRequestInterface
         $this->serverParams = $serverParams;
     }
 
+    /**
+     * Return a ServerRequest populated with superglobals :
+     * $_GET
+     * $_POST
+     * $_COOKIE
+     * $_FILES
+     * $_SERVER
+     *
+     * @return ServerRequest
+     */
+    public static function fromGlobals() {
+        $method = !isset($_SERVER['REQUEST_METHOD']) ? 'GET' : $_SERVER['REQUEST_METHOD'];
+        $headers = [];
+        if (function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+        }
+        $serverRequest = new ServerRequest(
+            $method,
+            Uri::fromGlobals(),
+            $headers,
+            stream_for(fopen('php://input', 'r+')),
+            '1.1',
+            $_SERVER);
+        $serverRequest = $serverRequest
+            ->withCookieParams($_COOKIE)
+            ->withQueryParams($_GET)
+            ->withParsedBody($_POST)
+            ->withUploadedFiles(uploaded_files_from_global());
+        return $serverRequest;
+    }
+
     public function getServerParams()
     {
         return $this->serverParams;
