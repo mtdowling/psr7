@@ -114,6 +114,62 @@ function stream_for($resource = '', array $options = [])
 }
 
 /**
+ * Return an UploadedFile instance array of $_FILES superglobal.
+ *
+ * @return array
+ */
+function uploaded_files_from_globals()
+{
+    return uploaded_files_from_array($_FILES);
+}
+
+/**
+ * Return an UploadedFile instance array.
+ *
+ * @param null $files A array which respect $_FILES structure.
+ * @return array Return
+ */
+function uploaded_files_from_array($files = null)
+{
+    $uploadedFiles = [];
+    foreach ($files as $fileKey => $fileData) {
+        if (!is_array($fileData)) {
+            throw new \InvalidArgumentException('Array must respect $_FILES structure');
+        }
+
+        if (is_array($fileData) && !isset($fileData['tmp_name'])) {
+            $uploadedFiles[$fileKey] = uploaded_files_from_array($fileData);
+            continue;
+        }
+
+        //Simple and single named form element
+        if (!is_array($fileData['tmp_name'])) {
+            $uploadedFiles[$fileKey] = new UploadedFile(
+                $fileData['tmp_name'],
+                $fileData['error'],
+                $fileData['size'],
+                $fileData['name'],
+                $fileData['type']
+            );
+            continue;
+        }
+
+        //In the case of an input using array notation for the name
+        foreach (array_keys($fileData['tmp_name']) as $fileNumber) {
+            $uploadedFiles[$fileKey][] = new UploadedFile(
+                $fileData['tmp_name'][$fileNumber],
+                $fileData['error'][$fileNumber],
+                $fileData['size'][$fileNumber],
+                $fileData['name'][$fileNumber],
+                $fileData['type'][$fileNumber]
+            );
+        }
+    }
+
+    return $uploadedFiles;
+}
+
+/**
  * Parse an array of header values containing ";" separated data into an
  * array of associative arrays representing the header key value pair
  * data of the header. When a parameter does not contain a value, but just

@@ -497,6 +497,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
     /**
      * @dataProvider parseParamsProvider
      */
@@ -582,5 +583,44 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
         $r2 = Psr7\modify_request($r1, ['query' => 'foo=bar']);
         $this->assertNotSame($r1, $r2);
         $this->assertEquals('foo=bar', $r2->getUri()->getQuery());
+    }
+
+    public function populateGlobalVariable()
+    {
+        $_SERVER['SERVER_NAME'] = 'www.foo.com';
+        $_SERVER['SERVER_PORT'] = 80;
+        $_SERVER['REQUEST_URI'] = '/index.php?foo=bar';
+        $_SERVER['QUERY_STRING'] = 'foo=bar';
+        $_POST = ['foo' => 'bar'];
+        $_GET = ['foo' => 'bar'];
+        $_COOKIE = ['foo' => 'bar'];
+        $_FILES = [
+            'my-form' => [
+                'details' => [
+                    'avatars' => [
+                        'tmp_name' => [
+                            0 => 'tmp0',
+                            1 => 'tmp1'
+                        ],
+                        'name' => [
+                            0 => 'n0',
+                            1 => 'n1'
+                        ],
+                        'size' => [
+                            0 => 32000,
+                            1 => 64000
+                        ],
+                        'type' => [
+                            0 => 'image/png',
+                            1 => 'image/jpg'
+                        ],
+                        'error' => [
+                            0 => UPLOAD_ERR_OK,
+                            1 => UPLOAD_ERR_CANT_WRITE
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 }

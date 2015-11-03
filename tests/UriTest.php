@@ -10,6 +10,21 @@ class UriTest extends \PHPUnit_Framework_TestCase
 {
     const RFC3986_BASE = "http://a/b/c/d;p?q";
 
+    /**
+     * @dataProvider populateGlobalVariable
+     */
+    public function testCanCreateFromGlobals()
+    {
+        $uri = Uri::fromGlobals();
+
+        $this->assertEquals('https', $uri->getScheme());
+        $this->assertEquals($_SERVER['SERVER_NAME'], $uri->getHost());
+        $this->assertEquals(null, $uri->getPort());
+        $this->assertEquals($_SERVER['REQUEST_URI'], $uri->getPath() . '?' . $uri->getQuery());
+        $this->assertEquals($_SERVER['QUERY_STRING'], $uri->getQuery());
+        $this->assertEquals('https://www.foo.com/index.php?foo=bar', (string) $uri);
+    }
+
     public function testParsesProvidedUrl()
     {
         $uri = new Uri('https://michael:test@test.com:443/path/123?q=abc#test');
@@ -243,5 +258,15 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $uri = (new Uri)->withPath('foo')->withHost('bar.com');
         $this->assertEquals('foo', $uri->getPath());
         $this->assertEquals('bar.com/foo', (string) $uri);
+    }
+
+    public function populateGlobalVariable()
+    {
+        $_SERVER['HTTPS'] = 'on';
+        $_SERVER['SERVER_NAME'] = 'www.foo.com';
+        $_SERVER['SERVER_PORT'] = 443;
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/index.php?foo=bar';
+        $_SERVER['QUERY_STRING'] = 'foo=bar';
     }
 }

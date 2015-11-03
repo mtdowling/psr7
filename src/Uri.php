@@ -67,6 +67,30 @@ class Uri implements UriInterface
     }
 
     /**
+     * Return a UriInterface populated with data contained in superglobal $_SERVER
+     *
+     * @return Uri
+     */
+    public static function fromGlobals() {
+        $scheme = 'http';
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+            $scheme = 'https';
+        }
+        $host = $_SERVER['SERVER_NAME'];
+        $port = $_SERVER['SERVER_PORT'];
+        $path = $_SERVER['REQUEST_URI'];
+        if (($pos = strpos($path, '?')) !== false) {
+            $path = substr($path, 0, $pos);
+        }
+        $queryString = !empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '';
+
+        $completeUri = $scheme . '://' . $host . ':' . $port . $path . $queryString;
+        $uri = new Uri($completeUri);
+
+        return $uri;
+    }
+
+    /**
      * Removes dot segments from a path and returns the new path.
      *
      * @param string $path
