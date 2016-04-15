@@ -92,8 +92,14 @@ trait MessageTrait
         }
 
         $new = clone $this;
-        $new->headers[strtolower($header)][] = $value;
-        $new->headerLines[$header][] = $value;
+        if (is_array($value)) {
+            $values = array_merge($new->headers[strtolower($header)], $value);
+            $new->headers[strtolower($header)] = $values;
+            $new->headerLines[$header][] = $values;
+        } else {
+            $new->headers[strtolower($header)][] = $value;
+            $new->headerLines[$header][] = $value;
+        }
         return $new;
     }
 
