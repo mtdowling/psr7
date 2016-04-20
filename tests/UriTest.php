@@ -29,6 +29,24 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('michael:test', $uri->getUserInfo());
     }
 
+    public function testParseProvidedUrlWithStripsUriFalseKeepsDefaultPorts()
+    {
+        $uri = new Uri('https://michael:test@test.com:443/path/123?q=abc#test', false);
+
+        $this->assertEquals(
+            'https://michael:test@test.com:443/path/123?q=abc#test',
+            (string) $uri
+        );
+
+        $this->assertEquals('test', $uri->getFragment());
+        $this->assertEquals('test.com', $uri->getHost());
+        $this->assertEquals('/path/123', $uri->getPath());
+        $this->assertEquals(443, $uri->getPort());
+        $this->assertEquals('q=abc', $uri->getQuery());
+        $this->assertEquals('https', $uri->getScheme());
+        $this->assertEquals('michael:test', $uri->getUserInfo());
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unable to parse URI
@@ -195,6 +213,15 @@ class UriTest extends \PHPUnit_Framework_TestCase
         // No host or port
         $uri = new Uri('http://foo.co');
         $this->assertEquals('foo.co', $uri->getAuthority());
+    }
+
+    public function testGetAuthorityReturnsStandardPortWithOptionSet()
+    {
+        $uri = new Uri('https://foo.co:443', false);
+        $this->assertEquals('foo.co:443', $uri->getAuthority());
+
+        $uri = new Uri('http://foo.co:80', false);
+        $this->assertEquals('foo.co:80', $uri->getAuthority());
     }
 
     public function pathTestProvider()
