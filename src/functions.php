@@ -8,8 +8,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
-require_once __DIR__.'/functions.php';
-
 /**
  * Returns the string representation of an HTTP message.
  *

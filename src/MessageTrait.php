@@ -3,6 +3,8 @@ namespace GuzzleHttp\Psr7;
 
 use Psr\Http\Message\StreamInterface;
 
+require_once __DIR__.'/functions.php';
+
 /**
  * Trait implementing functionality common to requests and responses.
  */
