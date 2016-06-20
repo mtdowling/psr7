@@ -492,7 +492,7 @@ function parse_request($message)
 function parse_response($message)
 {
     $data = _parse_message($message);
-    if (!preg_match('/^HTTP\/.* [0-9]{3} .*/', $data['start-line'])) {
+    if (!preg_match('/^HTTP\/.* [0-9]{3}( .*|$)/', $data['start-line'])) {
         throw new \InvalidArgumentException('Invalid response string');
     }
     $parts = explode(' ', $data['start-line'], 3);
