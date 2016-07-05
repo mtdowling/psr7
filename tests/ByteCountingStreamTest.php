@@ -11,7 +11,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Bytes per read should be non-negative value, got
+     * @expectedExceptionMessage Bytes per read should be non-negative integer, got
      */
     public function testEnsureNonNegativeByteCount()
     {

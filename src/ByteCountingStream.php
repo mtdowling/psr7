@@ -23,8 +23,8 @@ class ByteCountingStream implements StreamInterface
     {
         $this->stream = $stream;
 
-        if ($bytes < 0) {
-            $msg = "Bytes per read should be non-negative value, got {$bytes}.";
+        if (!is_int($bytes) || $bytes < 0) {
+            $msg = "Bytes per read should be non-negative integer, got {$bytes}.";
             throw new \InvalidArgumentException($msg);
         }
         $this->byteCount = $bytes;
