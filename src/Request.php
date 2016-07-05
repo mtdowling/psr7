@@ -49,7 +49,7 @@ class Request implements RequestInterface
             $this->updateHostFromUri();
         }
 
-        if ($body !== '' && $body !== null) {
+        if ($body !== '' && $body !== null && $body !== []) {
             $this->stream = stream_for($body);
         }
     }
