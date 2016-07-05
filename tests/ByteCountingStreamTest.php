@@ -13,7 +13,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Bytes per read should be non-negative value, got
      */
-    public function testEnsureNonNegativeBytesCount()
+    public function testEnsureNonNegativeByteCount()
     {
         new ByteCountingStream(Psr7\stream_for('testing'), -2);
     }
@@ -22,6 +22,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
     {
         $testStream = new ByteCountingStream(Psr7\stream_for('testing'), 2);
         $this->assertEquals(2, strlen($testStream->readBytes()));
+        $testStream->close();
     }
 
     public function testReadBytesUnderCount()
