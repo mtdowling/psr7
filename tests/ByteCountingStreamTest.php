@@ -11,30 +11,51 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Bytes per read should be non-negative integer, got
+     * @expectedExceptionMessage Bytes to read should be non-negative integer, got
      */
     public function testEnsureNonNegativeByteCount()
     {
         new ByteCountingStream(Psr7\stream_for('testing'), -2);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Bytes to read should be less than or equal to stream size
+     */
+    public function testEnsureValidByteCountNumber()
+    {
+        new ByteCountingStream(Psr7\stream_for('testing'), 10);
+    }
+
     public function testByteCountingReadWhenAvailable()
     {
-        $testStream = new ByteCountingStream(Psr7\stream_for('testing'), 2);
-        $this->assertEquals(2, strlen($testStream->readBytes()));
+        $testStream = new ByteCountingStream(Psr7\stream_for('foo bar test'), 8);
+        $this->assertEquals('foo ', $testStream->read(4));
+        $this->assertEquals('bar ', $testStream->read(4));
+        $this->assertEquals('', $testStream->read(4));
         $testStream->close();
     }
 
-    public function testReadBytesUnderCount()
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Not enough bytes to read from position :
+     */
+    public function testEnsureStopReadWhenHitEof()
     {
-        $lackOfBytes = new ByteCountingStream(Psr7\stream_for('foo'), 5);
-        $this->assertEquals('foo', $lackOfBytes->readBytes());
-        $lackOfBytes->close();
+        $test = new ByteCountingStream(Psr7\stream_for('testing'), 6);
+        $test->seek(4);
+        $test->read(4);
+    }
 
-        $endingBytes = new ByteCountingStream(Psr7\stream_for('foo bar'), 4);
-        $this->assertEquals('foo ', $endingBytes->readBytes());
-        $this->assertEquals('bar', $endingBytes->readBytes());
-        $endingBytes->close();
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Fail to read
+     */
+    public function testEnsureReadWithRange()
+    {
+        $test = new ByteCountingStream(Psr7\stream_for('testing'), 6);
+        $this->assertEquals('test', $test->read(4));
+        $test->read(4);
     }
 
     /**
@@ -44,8 +65,8 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
     public function testEnsureReadUnclosedStream()
     {
         $body = Psr7\stream_for("closed");
-        $closedStream = new ByteCountingStream($body, 2);
+        $closedStream = new ByteCountingStream($body, 5);
         $body->close();
-        $closedStream->readBytes();
+        $closedStream->read(3);
     }
 }

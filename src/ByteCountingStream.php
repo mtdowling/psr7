@@ -2,6 +2,7 @@
 namespace GuzzleHttp\Psr7;
 
 use Psr\Http\Message\StreamInterface;
+use SebastianBergmann\GlobalState\RuntimeException;
 
 /**
  *  Stream decorator that counts the number of bytes read off of an underlying
@@ -11,12 +12,14 @@ class ByteCountingStream implements StreamInterface
 {
     use StreamDecoratorTrait;
 
-    /** @var int Number of bytes allowed per read */
-    private $byteCount;
+    /** @var int Number of bytes allowed to read */
+    private $maximum;
 
+    /** @var int Number of bytes read off*/
+    private $bytesCount;
     /**
      * @param StreamInterface $stream Stream to wrap
-     * @param int             $bytes  Number of bytes per read
+     * @param int             $bytes  Number of bytes to read
      * @throws \InvalidArgumentException
      */
     public function __construct(StreamInterface $stream, $bytes)
@@ -24,35 +27,38 @@ class ByteCountingStream implements StreamInterface
         $this->stream = $stream;
 
         if (!is_int($bytes) || $bytes < 0) {
-            $msg = "Bytes per read should be non-negative integer, got {$bytes}.";
+            $msg = "Bytes to read should be non-negative integer, got {$bytes}.";
             throw new \InvalidArgumentException($msg);
         }
-        $this->byteCount = $bytes;
+
+        if ($bytes > $this->stream->getSize()) {
+            $msg = "Bytes to read should be less than or equal to stream size : {$this->stream->getSize()}, "
+                . "got {$bytes}";
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->maximum = $bytes;
+        $this->bytesCount = 0;
     }
 
-    /**
-     * Reads byteCount number of bytes per read unless
-     * there are not enough bytes to read from.
-     *
-     * @throws \RuntimeException
-     */
-    public function readBytes()
+    public function read($length)
     {
-        $remaining = $this->stream->getSize() - $this->stream->tell();
-        if ($remaining < $this->byteCount) {
-            $data = $this->stream->read($remaining);
+        if ($this->bytesCount === $this->maximum) {
+            return '';
+        }
+
+        $remaining = $this->maximum - $this->bytesCount;
+        if ($length <= $remaining) {
+            if ($this->stream->tell() + $length > $this->stream->getSize()) {
+                $msg = "Not enough bytes to read from position : {$this->stream->tell()}";
+                throw new \RuntimeException($msg);
+            }
+
+            $this->bytesCount += $length;
+            return $this->stream->read($length);
         } else {
-            $data = $this->stream->read($this->byteCount);
+            $msg = "Fail to read {$length} more bytes, available bytes remaining : {$remaining}";
+            throw new RuntimeException($msg);
         }
-
-        $error = $remaining < $this->byteCount ?
-            strlen($data) !== $remaining :
-            strlen($data) !== $this->byteCount;
-
-        if ($error) {
-            $msg = "Fail to read bytes from {$this->stream->tell()}";
-            throw new \RuntimeException($msg);
-        }
-        return $data;
     }
 }
