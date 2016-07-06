@@ -20,7 +20,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Bytes to read should be less than or equal to stream size
+     * @expectedExceptionMessage The ByteCountingStream decorator expects to be able to read
      */
     public function testEnsureValidByteCountNumber()
     {
@@ -51,7 +51,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Fail to read
      */
-    public function testEnsureReadWithRange()
+    public function testEnsureReadWithinRange()
     {
         $test = new ByteCountingStream(Psr7\stream_for('testing'), 6);
         $this->assertEquals('test', $test->read(4));
