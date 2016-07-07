@@ -7,6 +7,7 @@ use Psr\Http\Message\StreamInterface;
  *  Stream decorator that ensures an expected number of bytes can be read
  *  from an underlying read stream. \RuntimeException is thrown when
  *  the underlying stream fails to provide the expected number of bytes.
+ *  Excess bytes will be ignored.
  */
 class ByteCountingStream implements StreamInterface
 {
@@ -47,14 +48,17 @@ class ByteCountingStream implements StreamInterface
 
         if ($length <= $this->remaining) {
             if ($this->stream->tell() + $length > $this->stream->getSize()) {
-                $msg = "Not enough bytes to read from position : {$this->stream->tell()}";
+                $msg = "The ByteCountingStream decorator expect to read {$length} bytes, "
+                    . "but there is not enough bytes to read from position : "
+                    . "{$this->stream->tell()}";
                 throw new \RuntimeException($msg);
             }
 
             $this->remaining -= $length;
             return $this->stream->read($length);
         } else {
-            $msg = "Fail to read {$length} more bytes, available bytes remaining : {$this->remaining}";
+            $msg = "The ByteCountingStream decorator fails to read {$length} more bytes, "
+                . "because there only remains {$this->remaining} bytes to be read.";
             throw new \RuntimeException($msg);
         }
     }

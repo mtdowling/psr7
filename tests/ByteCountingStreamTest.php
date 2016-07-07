@@ -38,7 +38,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Not enough bytes to read from position :
+     * @expectedExceptionMessage The ByteCountingStream decorator expect to read
      */
     public function testEnsureStopReadWhenHitEof()
     {
@@ -49,7 +49,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Fail to read
+     * @expectedExceptionMessage The ByteCountingStream decorator fails to read
      */
     public function testEnsureReadWithinRange()
     {
