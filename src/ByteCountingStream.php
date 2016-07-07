@@ -30,7 +30,10 @@ class ByteCountingStream implements StreamInterface
             throw new \InvalidArgumentException($msg);
         }
 
-        if ($bytesToRead > $this->stream->getSize()) {
+        if (
+            $this->stream->getSize() !== null &&
+            $bytesToRead > $this->stream->getSize()
+        ) {
             $msg = "The ByteCountingStream decorator expects to be able to "
                 . "read {$bytesToRead} from a stream, but the stream being decorated "
                 . "only contains {$this->stream->getSize()} bytes.";
@@ -46,20 +49,15 @@ class ByteCountingStream implements StreamInterface
             return '';
         }
 
-        if ($length <= $this->remaining) {
-            if ($this->stream->tell() + $length > $this->stream->getSize()) {
-                $msg = "The ByteCountingStream decorator expect to read {$length} bytes, "
-                    . "but there is not enough bytes to read from position : "
-                    . "{$this->stream->tell()}";
-                throw new \RuntimeException($msg);
-            }
+        $bytesToRead = min($length, $this->remaining);
+        $data = $this->stream->read($bytesToRead);
+        $this->remaining -= strlen($data);
 
-            $this->remaining -= $length;
-            return $this->stream->read($length);
-        } else {
-            $msg = "The ByteCountingStream decorator fails to read {$length} more bytes, "
-                . "because there only remains {$this->remaining} bytes to be read.";
+        if ((!$data || $data === '') && $this->remaining !== 0) {
+            $msg = "The ByteCountingStream decorator expects to be able to read "
+                . "{$bytesToRead} bytes, but the stream failed to provide enough bytes.";
             throw new \RuntimeException($msg);
         }
+        return $data;
     }
 }
