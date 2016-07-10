@@ -14,11 +14,14 @@ final class UriNormalizer
 {
     /**
      * Default normalizations which only include the ones that preserve semantics.
-     *
-     * self::CAPITALIZE_PERCENT_ENCODING | self::DECODE_UNRESERVED_CHARACTERS | self::CONVERT_EMPTY_PATH |
-     * self::REMOVE_DEFAULT_HOST | self::REMOVE_DEFAULT_PORT | self::REMOVE_DOT_SEGMENTS
      */
-    const PRESERVING_NORMALIZATIONS = 63;
+    const PRESERVING_NORMALIZATIONS =
+        self::CAPITALIZE_PERCENT_ENCODING |
+        self::DECODE_UNRESERVED_CHARACTERS |
+        self::CONVERT_EMPTY_PATH |
+        self::REMOVE_DEFAULT_HOST |
+        self::REMOVE_DEFAULT_PORT |
+        self::REMOVE_DOT_SEGMENTS;
 
     /**
      * All letters within a percent-encoding triplet (e.g., "%3A") are case-insensitive, and should be capitalized.

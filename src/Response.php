@@ -11,8 +11,8 @@ class Response implements ResponseInterface
 {
     use MessageTrait;
 
-    /** @var array Map of standard HTTP status code/reason phrases */
-    private static $phrases = [
+    /** Map of standard HTTP status code/reason phrases */
+    const PHRASES = [
         100 => 'Continue',
         101 => 'Switching Protocols',
         102 => 'Processing',
@@ -100,8 +100,8 @@ class Response implements ResponseInterface
         }
 
         $this->setHeaders($headers);
-        if ($reason == '' && isset(self::$phrases[$this->statusCode])) {
-            $this->reasonPhrase = self::$phrases[$this->statusCode];
+        if ($reason == '' && isset(self::PHRASES[$this->statusCode])) {
+            $this->reasonPhrase = self::PHRASES[$this->statusCode];
         } else {
             $this->reasonPhrase = (string) $reason;
         }
@@ -123,8 +123,8 @@ class Response implements ResponseInterface
     {
         $new = clone $this;
         $new->statusCode = (int) $code;
-        if ($reasonPhrase == '' && isset(self::$phrases[$new->statusCode])) {
-            $reasonPhrase = self::$phrases[$new->statusCode];
+        if ($reasonPhrase == '' && isset(self::PHRASES[$new->statusCode])) {
+            $reasonPhrase = self::PHRASES[$new->statusCode];
         }
         $new->reasonPhrase = $reasonPhrase;
         return $new;

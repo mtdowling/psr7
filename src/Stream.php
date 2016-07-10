@@ -10,6 +10,22 @@ use Psr\Http\Message\StreamInterface;
  */
 class Stream implements StreamInterface
 {
+    /** @internal */
+    const READABLE_MODES = [
+        'r' => true, 'w+' => true, 'r+' => true, 'x+' => true, 'c+' => true,
+        'rb' => true, 'w+b' => true, 'r+b' => true, 'x+b' => true,
+        'c+b' => true, 'rt' => true, 'w+t' => true, 'r+t' => true,
+        'x+t' => true, 'c+t' => true, 'a+' => true
+    ];
+
+    /** @internal */
+    const WRITABLE_MODES = [
+        'w' => true, 'w+' => true, 'rw' => true, 'r+' => true, 'x+' => true,
+        'c+' => true, 'wb' => true, 'w+b' => true, 'r+b' => true,
+        'x+b' => true, 'c+b' => true, 'w+t' => true, 'r+t' => true,
+        'x+t' => true, 'c+t' => true, 'a' => true, 'a+' => true
+    ];
+
     private $stream;
     private $size;
     private $seekable;
@@ -17,22 +33,6 @@ class Stream implements StreamInterface
     private $writable;
     private $uri;
     private $customMetadata;
-
-    /** @var array Hash of readable and writable stream types */
-    private static $readWriteHash = [
-        'read' => [
-            'r' => true, 'w+' => true, 'r+' => true, 'x+' => true, 'c+' => true,
-            'rb' => true, 'w+b' => true, 'r+b' => true, 'x+b' => true,
-            'c+b' => true, 'rt' => true, 'w+t' => true, 'r+t' => true,
-            'x+t' => true, 'c+t' => true, 'a+' => true
-        ],
-        'write' => [
-            'w' => true, 'w+' => true, 'rw' => true, 'r+' => true, 'x+' => true,
-            'c+' => true, 'wb' => true, 'w+b' => true, 'r+b' => true,
-            'x+b' => true, 'c+b' => true, 'w+t' => true, 'r+t' => true,
-            'x+t' => true, 'c+t' => true, 'a' => true, 'a+' => true
-        ]
-    ];
 
     /**
      * This constructor accepts an associative array of options.
@@ -65,8 +65,8 @@ class Stream implements StreamInterface
         $this->stream = $stream;
         $meta = stream_get_meta_data($this->stream);
         $this->seekable = $meta['seekable'];
-        $this->readable = isset(self::$readWriteHash['read'][$meta['mode']]);
-        $this->writable = isset(self::$readWriteHash['write'][$meta['mode']]);
+        $this->readable = isset(self::READABLE_MODES[$meta['mode']]);
+        $this->writable = isset(self::WRITABLE_MODES[$meta['mode']]);
         $this->uri = $this->getMetadata('uri');
     }
 
