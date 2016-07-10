@@ -65,8 +65,8 @@ class Stream implements StreamInterface
         $this->stream = $stream;
         $meta = stream_get_meta_data($this->stream);
         $this->seekable = $meta['seekable'];
-        $this->readable = isset(self::READABLE_MODES[$meta['mode']]);
-        $this->writable = isset(self::WRITABLE_MODES[$meta['mode']]);
+        $this->readable = array_key_exists($meta['mode'], self::READABLE_MODES);
+        $this->writable = array_key_exists($meta['mode'], self::WRITABLE_MODES);
         $this->uri = $this->getMetadata('uri');
     }
 

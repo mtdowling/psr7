@@ -100,7 +100,7 @@ class Response implements ResponseInterface
         }
 
         $this->setHeaders($headers);
-        if ($reason == '' && isset(self::PHRASES[$this->statusCode])) {
+        if ($reason == '' && array_key_exists($this->statusCode, self::PHRASES)) {
             $this->reasonPhrase = self::PHRASES[$this->statusCode];
         } else {
             $this->reasonPhrase = (string) $reason;
@@ -123,7 +123,7 @@ class Response implements ResponseInterface
     {
         $new = clone $this;
         $new->statusCode = (int) $code;
-        if ($reasonPhrase == '' && isset(self::PHRASES[$new->statusCode])) {
+        if ($reasonPhrase == '' && array_key_exists($new->statusCode, self::PHRASES)) {
             $reasonPhrase = self::PHRASES[$new->statusCode];
         }
         $new->reasonPhrase = $reasonPhrase;
