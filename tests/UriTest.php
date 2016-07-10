@@ -222,7 +222,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDefaultPort($scheme, $port, $isDefaultPort)
     {
-        $uri = $this->getMock(UriInterface::class);
+        $uri = $this->createMock(UriInterface::class);
         $uri->expects($this->any())->method('getScheme')->will($this->returnValue($scheme));
         $uri->expects($this->any())->method('getPort')->will($this->returnValue($port));
 
@@ -597,7 +597,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
 
         $uri = $uri->withScheme('');
         $this->assertSame('//example.org//path-not-host.com', (string) $uri); // This is still valid
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $uri->withHost(''); // Now it becomes invalid
     }
 
@@ -615,7 +615,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $uri = (new Uri('urn:/mailto:foo'))->withScheme('');
         $this->assertSame('/mailto:foo', $uri->getPath());
 
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         (new Uri('urn:mailto:foo'))->withScheme('');
     }
 
