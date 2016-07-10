@@ -4,6 +4,9 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\NoSeekStream;
+use GuzzleHttp\Psr7\PumpStream;
+use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\ServerRequestInterface;
 
 class FunctionsTest extends \PHPUnit_Framework_TestCase
@@ -107,7 +110,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
 
     public function testReadsLineUntilFalseReturnedFromRead()
     {
-        $s = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
+        $s = $this->getMockBuilder(Stream::class)
             ->setMethods(['read', 'eof'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -366,10 +369,10 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
 
     public function testCreatesUriForValue()
     {
-        $this->assertInstanceOf('GuzzleHttp\Psr7\Uri', Psr7\uri_for('/foo'));
+        $this->assertInstanceOf(Uri::class, Psr7\uri_for('/foo'));
         $this->assertInstanceOf(
-            'GuzzleHttp\Psr7\Uri',
-            Psr7\uri_for(new Psr7\Uri('/foo'))
+            Uri::class,
+            Psr7\uri_for(new Uri('/foo'))
         );
     }
 
@@ -393,7 +396,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     public function testCreatesWithFactory()
     {
         $stream = Psr7\stream_for('foo');
-        $this->assertInstanceOf('GuzzleHttp\Psr7\Stream', $stream);
+        $this->assertInstanceOf(Stream::class, $stream);
         $this->assertEquals('foo', $stream->getContents());
         $stream->close();
     }
@@ -401,20 +404,20 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     public function testFactoryCreatesFromEmptyString()
     {
         $s = Psr7\stream_for();
-        $this->assertInstanceOf('GuzzleHttp\Psr7\Stream', $s);
+        $this->assertInstanceOf(Stream::class, $s);
     }
 
     public function testFactoryCreatesFromNull()
     {
         $s = Psr7\stream_for(null);
-        $this->assertInstanceOf('GuzzleHttp\Psr7\Stream', $s);
+        $this->assertInstanceOf(Stream::class, $s);
     }
 
     public function testFactoryCreatesFromResource()
     {
         $r = fopen(__FILE__, 'r');
         $s = Psr7\stream_for($r);
-        $this->assertInstanceOf('GuzzleHttp\Psr7\Stream', $s);
+        $this->assertInstanceOf(Stream::class, $s);
         $this->assertSame(file_get_contents(__FILE__), (string) $s);
     }
 
@@ -422,7 +425,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     {
         $r = new HasToString();
         $s = Psr7\stream_for($r);
-        $this->assertInstanceOf('GuzzleHttp\Psr7\Stream', $s);
+        $this->assertInstanceOf(Stream::class, $s);
         $this->assertEquals('foo', (string) $s);
     }
 
@@ -457,7 +460,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     {
         $a = new \ArrayIterator(['foo', 'bar', '123']);
         $p = Psr7\stream_for($a);
-        $this->assertInstanceOf('GuzzleHttp\Psr7\PumpStream', $p);
+        $this->assertInstanceOf(PumpStream::class, $p);
         $this->assertEquals('foo', $p->read(3));
         $this->assertFalse($p->eof());
         $this->assertEquals('b', $p->read(1));
@@ -495,48 +498,48 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
 
     public function parseParamsProvider()
     {
-        $res1 = array(
-            array(
+        $res1 = [
+            [
                 '<http:/.../front.jpeg>',
                 'rel' => 'front',
                 'type' => 'image/jpeg',
-            ),
-            array(
+            ],
+            [
                 '<http://.../back.jpeg>',
                 'rel' => 'back',
                 'type' => 'image/jpeg',
-            ),
-        );
-        return array(
-            array(
+            ],
+        ];
+        return [
+            [
                 '<http:/.../front.jpeg>; rel="front"; type="image/jpeg", <http://.../back.jpeg>; rel=back; type="image/jpeg"',
-                $res1
-            ),
-            array(
+                $res1,
+            ],
+            [
                 '<http:/.../front.jpeg>; rel="front"; type="image/jpeg",<http://.../back.jpeg>; rel=back; type="image/jpeg"',
-                $res1
-            ),
-            array(
+                $res1,
+            ],
+            [
                 'foo="baz"; bar=123, boo, test="123", foobar="foo;bar"',
-                array(
-                    array('foo' => 'baz', 'bar' => '123'),
-                    array('boo'),
-                    array('test' => '123'),
-                    array('foobar' => 'foo;bar')
-                )
-            ),
-            array(
+                [
+                    ['foo' => 'baz', 'bar' => '123'],
+                    ['boo'],
+                    ['test' => '123'],
+                    ['foobar' => 'foo;bar'],
+                ],
+            ],
+            [
                 '<http://.../side.jpeg?test=1>; rel="side"; type="image/jpeg",<http://.../side.jpeg?test=2>; rel=side; type="image/jpeg"',
-                array(
-                    array('<http://.../side.jpeg?test=1>', 'rel' => 'side', 'type' => 'image/jpeg'),
-                    array('<http://.../side.jpeg?test=2>', 'rel' => 'side', 'type' => 'image/jpeg')
-                )
-            ),
-            array(
+                [
+                    ['<http://.../side.jpeg?test=1>', 'rel' => 'side', 'type' => 'image/jpeg'],
+                    ['<http://.../side.jpeg?test=2>', 'rel' => 'side', 'type' => 'image/jpeg'],
+                ],
+            ],
+            [
                 '',
-                array()
-            )
-        );
+                [],
+            ],
+        ];
     }
     /**
      * @dataProvider parseParamsProvider
@@ -581,7 +584,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     {
         $r1 = new Psr7\Request('GET', 'http://foo.com');
         $r2 = Psr7\modify_request($r1, [
-            'uri' => new Psr7\Uri('http://www.foo.com')
+            'uri' => new Uri('http://www.foo.com')
         ]);
         $this->assertEquals('http://www.foo.com', (string) $r2->getUri());
         $this->assertEquals('www.foo.com', (string) $r2->getHeaderLine('host'));
@@ -591,7 +594,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     {
         $r1 = new Psr7\Request('GET', 'http://foo.com:8000');
         $r2 = Psr7\modify_request($r1, [
-            'uri' => new Psr7\Uri('http://www.foo.com:8000')
+            'uri' => new Uri('http://www.foo.com:8000')
         ]);
         $this->assertEquals('http://www.foo.com:8000', (string) $r2->getUri());
         $this->assertEquals('www.foo.com:8000', (string) $r2->getHeaderLine('host'));

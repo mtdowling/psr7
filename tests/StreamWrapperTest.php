@@ -3,6 +3,7 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\StreamWrapper;
 use GuzzleHttp\Psr7;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * @covers GuzzleHttp\Psr7\StreamWrapper
@@ -64,7 +65,7 @@ class StreamWrapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidatesStream()
     {
-        $stream = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
+        $stream = $this->getMockBuilder(StreamInterface::class)
             ->setMethods(['isReadable', 'isWritable'])
             ->getMockForAbstractClass();
         $stream->expects($this->once())
@@ -86,7 +87,7 @@ class StreamWrapperTest extends \PHPUnit_Framework_TestCase
 
     public function testCanOpenReadonlyStream()
     {
-        $stream = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
+        $stream = $this->getMockBuilder(StreamInterface::class)
             ->setMethods(['isReadable', 'isWritable'])
             ->getMockForAbstractClass();
         $stream->expects($this->once())

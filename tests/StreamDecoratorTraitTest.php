@@ -33,7 +33,7 @@ class StreamDecoratorTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testCatchesExceptionsWhenCastingToString()
     {
-        $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
+        $s = $this->getMockBuilder(StreamInterface::class)
             ->setMethods(['read'])
             ->getMockForAbstractClass();
         $s->expects($this->once())

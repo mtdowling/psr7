@@ -266,7 +266,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 
     public function testNormalizeFilesRaisesException()
     {
-        $this->setExpectedException('InvalidArgumentException', 'Invalid value in files specification');
+        $this->setExpectedException(\InvalidArgumentException::class, 'Invalid value in files specification');
 
         ServerRequest::normalizeFiles(['test' => 'something']);
     }

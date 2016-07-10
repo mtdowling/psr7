@@ -3,6 +3,7 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * @covers GuzzleHttp\Psr7\MessageTrait
@@ -17,7 +18,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('1.1', $r->getProtocolVersion());
         $this->assertSame('OK', $r->getReasonPhrase());
         $this->assertSame([], $r->getHeaders());
-        $this->assertInstanceOf('Psr\Http\Message\StreamInterface', $r->getBody());
+        $this->assertInstanceOf(StreamInterface::class, $r->getBody());
         $this->assertSame('', (string) $r->getBody());
     }
 
@@ -74,21 +75,21 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     public function testCanConstructWithBody()
     {
         $r = new Response(200, [], 'baz');
-        $this->assertInstanceOf('Psr\Http\Message\StreamInterface', $r->getBody());
+        $this->assertInstanceOf(StreamInterface::class, $r->getBody());
         $this->assertSame('baz', (string) $r->getBody());
     }
 
     public function testNullBody()
     {
         $r = new Response(200, [], null);
-        $this->assertInstanceOf('Psr\Http\Message\StreamInterface', $r->getBody());
+        $this->assertInstanceOf(StreamInterface::class, $r->getBody());
         $this->assertSame('', (string) $r->getBody());
     }
 
     public function testFalseyBody()
     {
         $r = new Response(200, [], '0');
-        $this->assertInstanceOf('Psr\Http\Message\StreamInterface', $r->getBody());
+        $this->assertInstanceOf(StreamInterface::class, $r->getBody());
         $this->assertSame('0', (string) $r->getBody());
     }
 
@@ -141,7 +142,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $b = Psr7\stream_for('0');
         $r = (new Response())->withBody($b);
-        $this->assertInstanceOf('Psr\Http\Message\StreamInterface', $r->getBody());
+        $this->assertInstanceOf(StreamInterface::class, $r->getBody());
         $this->assertSame('0', (string) $r->getBody());
     }
 

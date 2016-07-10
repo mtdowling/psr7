@@ -2,6 +2,7 @@
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\Uri;
+use Psr\Http\Message\UriInterface;
 
 /**
  * @covers GuzzleHttp\Psr7\Uri
@@ -221,7 +222,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDefaultPort($scheme, $port, $isDefaultPort)
     {
-        $uri = $this->getMock('Psr\Http\Message\UriInterface');
+        $uri = $this->getMock(UriInterface::class);
         $uri->expects($this->any())->method('getScheme')->will($this->returnValue($scheme));
         $uri->expects($this->any())->method('getPort')->will($this->returnValue($port));
 
@@ -596,7 +597,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
 
         $uri = $uri->withScheme('');
         $this->assertSame('//example.org//path-not-host.com', (string) $uri); // This is still valid
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException(\InvalidArgumentException::class);
         $uri->withHost(''); // Now it becomes invalid
     }
 
@@ -614,7 +615,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $uri = (new Uri('urn:/mailto:foo'))->withScheme('');
         $this->assertSame('/mailto:foo', $uri->getPath());
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException(\InvalidArgumentException::class);
         (new Uri('urn:mailto:foo'))->withScheme('');
     }
 
@@ -651,7 +652,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
         // should not use late static binding to access private static members.
         // If they do, this will fatal.
         $this->assertInstanceOf(
-            'GuzzleHttp\Tests\Psr7\ExtendedUriTest',
+            ExtendedUriTest::class,
             new ExtendedUriTest('http://h:9/')
         );
     }

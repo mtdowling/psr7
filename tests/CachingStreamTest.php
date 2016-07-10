@@ -76,9 +76,9 @@ class CachingStreamTest extends \PHPUnit_Framework_TestCase
     public function testRewindUsesSeek()
     {
         $a = Psr7\stream_for('foo');
-        $d = $this->getMockBuilder('GuzzleHttp\Psr7\CachingStream')
-            ->setMethods(array('seek'))
-            ->setConstructorArgs(array($a))
+        $d = $this->getMockBuilder(CachingStream::class)
+            ->setMethods(['seek'])
+            ->setConstructorArgs([$a])
             ->getMock();
         $d->expects($this->once())
             ->method('seek')
@@ -106,7 +106,7 @@ class CachingStreamTest extends \PHPUnit_Framework_TestCase
         fwrite($stream, 'testing');
         fseek($stream, 0);
 
-        $this->decorated = $this->getMockBuilder('\GuzzleHttp\Psr7\Stream')
+        $this->decorated = $this->getMockBuilder(Stream::class)
             ->setConstructorArgs([$stream])
             ->setMethods(['read'])
             ->getMock();

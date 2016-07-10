@@ -3,6 +3,7 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriResolver;
+use Psr\Http\Message\UriInterface;
 
 /**
  * @covers GuzzleHttp\Psr7\UriResolver
@@ -19,7 +20,7 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
         $baseUri = new Uri($base);
         $targetUri = UriResolver::resolve($baseUri, new Uri($rel));
 
-        $this->assertInstanceOf('Psr\Http\Message\UriInterface', $targetUri);
+        $this->assertInstanceOf(UriInterface::class, $targetUri);
         $this->assertSame($expectedTarget, (string) $targetUri);
         // This ensures there are no test cases that only work in the resolve() direction but not the
         // opposite via relativize(). This can happen when both base and rel URI are relative-path
@@ -35,7 +36,7 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
         $baseUri = new Uri($base);
         $relativeUri = UriResolver::relativize($baseUri, new Uri($target));
 
-        $this->assertInstanceOf('Psr\Http\Message\UriInterface', $relativeUri);
+        $this->assertInstanceOf(UriInterface::class, $relativeUri);
         // There are test-cases with too many dot-segments and relative references that are equal like "." == "./".
         // So apart from the same-as condition, this alternative success condition is necessary.
         $this->assertTrue(
@@ -57,7 +58,7 @@ class UriResolverTest extends \PHPUnit_Framework_TestCase
         $targetUri = new Uri($target);
         $relativeUri = UriResolver::relativize($baseUri, $targetUri);
 
-        $this->assertInstanceOf('Psr\Http\Message\UriInterface', $relativeUri);
+        $this->assertInstanceOf(UriInterface::class, $relativeUri);
         $this->assertSame($expectedRelativeReference, (string) $relativeUri);
 
         $this->assertSame((string) UriResolver::resolve($baseUri, $targetUri), (string) UriResolver::resolve($baseUri, $relativeUri));
