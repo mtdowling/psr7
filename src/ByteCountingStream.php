@@ -19,14 +19,15 @@ class ByteCountingStream implements StreamInterface
     /**
      * @param StreamInterface $stream       Stream to wrap
      * @param int             $bytesToRead  Number of bytes to read
-     * @throws \InvalidArgumentException
+     * @throws ByteCountingStreamException | \InvalidArgumentException
      */
     public function __construct(StreamInterface $stream, $bytesToRead)
     {
         $this->stream = $stream;
 
         if (!is_int($bytesToRead) || $bytesToRead < 0) {
-            $msg = "Bytes to read should be non-negative integer, got {$bytesToRead}.";
+            $msg = "Bytes to read should be a non-negative integer for "
+                . "ByteCountingStream, got {$bytesToRead}.";
             throw new \InvalidArgumentException($msg);
         }
 
@@ -34,10 +35,10 @@ class ByteCountingStream implements StreamInterface
             $this->stream->getSize() !== null &&
             $bytesToRead > $this->stream->getSize()
         ) {
-            $msg = "The ByteCountingStream decorator expects to be able to "
-                . "read {$bytesToRead} from a stream, but the stream being decorated "
-                . "only contains {$this->stream->getSize()} bytes.";
-            throw new \InvalidArgumentException($msg);
+            throw new ByteCountingStreamException(
+                $bytesToRead,
+                $this->stream->getSize()
+            );
         }
 
         $this->remaining = $bytesToRead;
@@ -49,14 +50,15 @@ class ByteCountingStream implements StreamInterface
             return '';
         }
 
+        $offset = $this->tell();
         $bytesToRead = min($length, $this->remaining);
         $data = $this->stream->read($bytesToRead);
         $this->remaining -= strlen($data);
 
         if ((!$data || $data === '') && $this->remaining !== 0) {
-            $msg = "The ByteCountingStream decorator expects to be able to read "
-                . "{$bytesToRead} bytes, but the stream failed to provide enough bytes.";
-            throw new \RuntimeException($msg);
+            // hits EOF
+            $provide = $this->tell() - $offset;
+            throw new ByteCountingStreamException($this->remaining, $provide);
         }
         return $data;
     }

@@ -11,7 +11,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Bytes to read should be non-negative integer, got
+     * @expectedExceptionMessage Bytes to read should be a non-negative integer for ByteCountingStream
      */
     public function testEnsureNonNegativeByteCount()
     {
@@ -19,7 +19,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \GuzzleHttp\Psr7\ByteCountingStreamException
      * @expectedExceptionMessage The ByteCountingStream decorator expects to be able to read
      */
     public function testEnsureValidByteCountNumber()
@@ -42,7 +42,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \GuzzleHttp\Psr7\ByteCountingStreamException
      * @expectedExceptionMessage The ByteCountingStream decorator expects to be able to read
      */
     public function testEnsureStopReadWhenHitEof()
@@ -54,7 +54,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Cannot read from non-readable stream
+     * @expectedExceptionMessage The stream is detached
      */
     public function testEnsureReadUnclosedStream()
     {
