@@ -211,6 +211,15 @@ class Stream implements StreamInterface
         return fread($this->stream, $length);
     }
 
+    public function readLine()
+    {   
+        if (!$this->readable) {
+            throw new \RuntimeException('Cannot read from non-readable stream');
+        }
+
+        return fgets($this->stream);
+    }
+
     public function write($string)
     {
         if (!$this->writable) {
