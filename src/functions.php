@@ -133,11 +133,13 @@ function parse_header($header)
 
     foreach (normalize_header($header) as $val) {
         $part = [];
-        foreach (preg_split('/;(?=([^"]*"[^"]*")*[^"]*$)/', $val) as $kvp) {
+        foreach (preg_split('/;(?=([^"]*"[^"]*")*[^"]*$)/', $val) as $i => $kvp) {
             if (preg_match_all('/<[^>]+>|[^=]+/', $kvp, $matches)) {
                 $m = $matches[0];
                 if (isset($m[1])) {
                     $part[trim($m[0], $trimmed)] = trim($m[1], $trimmed);
+                } elseif($i > 0) {
+                    $part[trim($m[0], $trimmed)] = '';
                 } else {
                     $part[] = trim($m[0], $trimmed);
                 }

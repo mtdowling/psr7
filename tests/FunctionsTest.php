@@ -504,6 +504,12 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
                 $res1
             ),
             array(
+                'video/mpeg; xmpeg %s',
+                array(
+                    array('video/mpeg', 'xmpeg %s' => ''),
+                ),
+            ),
+            array(
                 'foo="baz"; bar=123, boo, test="123", foobar="foo;bar"',
                 array(
                     array('foo' => 'baz', 'bar' => '123'),
