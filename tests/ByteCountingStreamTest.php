@@ -39,6 +39,11 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
         $testStream->seek(4);
         $this->assertEquals('ing', $testStream->read(5));
         $testStream->close();
+
+        $testStream = new ByteCountingStream(Psr7\stream_for('00'), 2);
+        $testStream->seek(1);
+        $this->assertEquals('0', $testStream->read(2));
+        $testStream->close();
     }
 
     /**
