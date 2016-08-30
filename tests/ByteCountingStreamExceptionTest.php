@@ -14,14 +14,15 @@ class ByteCountingStreamExceptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testCanGenerateByteCountingStreamException($expect, $actual)
     {
-        $msg = "The ByteCountingStream decorator expects to be able to "
-            . "read {$expect} bytes from a stream, but the stream being decorated "
-            . "only contains {$actual} bytes.";
+        $msg = "The stream decorated by ByteCountingStream"
+            . " has less bytes than expected.";
         $prev = new \RuntimeException("prev");
 
         $exception = new ByteCountingStreamException($expect, $actual, $prev);
         $this->assertEquals($msg, $exception->getMessage());
         $this->assertSame($prev, $exception->getPrevious());
+        $this->assertEquals($expect, $exception->getExpectBytes());
+        $this->assertEquals($actual, $exception->getActualBytes());
     }
 
     public function getTestCases()

@@ -19,7 +19,8 @@ class ByteCountingStream implements StreamInterface
     /**
      * @param StreamInterface $stream       Stream to wrap
      * @param int             $bytesToRead  Number of bytes to read
-     * @throws ByteCountingStreamException | \InvalidArgumentException
+     * @throws ByteCountingStreamException
+     * @throws \InvalidArgumentException
      */
     public function __construct(StreamInterface $stream, $bytesToRead)
     {
@@ -55,8 +56,7 @@ class ByteCountingStream implements StreamInterface
         $data = $this->stream->read($bytesToRead);
         $this->remaining -= strlen($data);
 
-        if ((!$data || $data === '') && $this->remaining !== 0) {
-            // hits EOF
+        if ($this->stream->eof() && $this->remaining !== 0) {
             $provide = $this->tell() - $offset;
             throw new ByteCountingStreamException($this->remaining, $provide);
         }

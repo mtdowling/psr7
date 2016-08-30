@@ -20,7 +20,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \GuzzleHttp\Psr7\ByteCountingStreamException
-     * @expectedExceptionMessage The ByteCountingStream decorator expects to be able to read
+     * @expectedExceptionMessage The stream decorated by ByteCountingStream has less bytes than expected.
      */
     public function testEnsureValidByteCountNumber()
     {
@@ -43,7 +43,7 @@ class ByteCountingStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \GuzzleHttp\Psr7\ByteCountingStreamException
-     * @expectedExceptionMessage The ByteCountingStream decorator expects to be able to read
+     * @expectedExceptionMessage The stream decorated by ByteCountingStream has less bytes than expected.
      */
     public function testEnsureStopReadWhenHitEof()
     {

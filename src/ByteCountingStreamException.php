@@ -17,9 +17,8 @@ class ByteCountingStreamException extends \RuntimeException
      */
     public function __construct($expect, $actual, $previous = null)
     {
-        $msg = "The ByteCountingStream decorator expects to be able to "
-        . "read {$expect} bytes from a stream, but the stream being decorated "
-        . "only contains {$actual} bytes.";
+        $msg = "The stream decorated by ByteCountingStream"
+            . " has less bytes than expected.";
         $this->expectBytes = $expect;
         $this->actualBytes = $actual;
 
@@ -39,7 +38,7 @@ class ByteCountingStreamException extends \RuntimeException
      * Get remaining bytes available for read
      * @return int
      */
-    public function getRemainingBytes()
+    public function getActualBytes()
     {
         return $this->actualBytes;
     }
