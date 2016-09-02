@@ -323,7 +323,11 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
             ],
             'Different port' => [
                 'http://www.blakesimpson.co.uk:8324/blog/article.php?id=10&user=foo',
-                array_merge($server, ['SERVER_PORT' => '8324']),
+                array_merge($server, ['HTTP_HOST' => 'www.blakesimpson.co.uk:8324', 'SERVER_PORT' => '8324']),
+            ],
+            'HTTP_HOST missing different port' => [
+                'http://www.blakesimpson.co.uk:8324/blog/article.php?id=10&user=foo',
+                array_merge($server, ['HTTP_HOST' => null, 'SERVER_PORT' => '8324']),
             ],
             'Empty server variable' => [
                 '',
