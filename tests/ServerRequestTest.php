@@ -312,9 +312,9 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
                 'https://www.blakesimpson.co.uk/blog/article.php?id=10&user=foo',
                 array_merge($server, ['HTTPS' => 'on', 'SERVER_PORT' => '443']),
             ],
-            'No HTTPS param' => [
+            'With HTTPS param = 1' => [
                 'http://www.blakesimpson.co.uk/blog/article.php?id=10&user=foo',
-                $server
+                array_merge($server, ['HTTPS' => '1']),
             ],
             'HTTP_HOST missing' => [
                 'http://www.blakesimpson.co.uk/blog/article.php?id=10&user=foo',
