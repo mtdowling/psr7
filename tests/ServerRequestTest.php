@@ -326,7 +326,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
                 array_merge($server, ['SERVER_PORT' => '8324']),
             ],
             'Empty server variable' => [
-                '',
+                'http://localhost',
                 [],
             ],
         ];
