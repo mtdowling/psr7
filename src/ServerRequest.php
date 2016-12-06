@@ -195,7 +195,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         }
 
         if (isset($_SERVER['HTTP_HOST'])) {
-            $uri = $uri->withHost($_SERVER['HTTP_HOST']);
+            $uri = $uri->withHost(explode(':', $_SERVER['HTTP_HOST'])[0]);
         } elseif (isset($_SERVER['SERVER_NAME'])) {
             $uri = $uri->withHost($_SERVER['SERVER_NAME']);
         }
