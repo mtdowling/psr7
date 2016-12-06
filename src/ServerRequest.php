@@ -190,6 +190,8 @@ class ServerRequest extends Request implements ServerRequestInterface
 
         if (isset($_SERVER['HTTPS'])) {
             $uri = $uri->withScheme($_SERVER['HTTPS'] == 'on' ? 'https' : 'http');
+        } else {
+            $uri = $uri->withScheme('http');
         }
 
         if (isset($_SERVER['HTTP_HOST'])) {
