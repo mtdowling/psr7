@@ -185,7 +185,8 @@ class ServerRequest extends Request implements ServerRequestInterface
      *
      * @return UriInterface
      */
-    public static function getUriFromGlobals() {
+    public static function getUriFromGlobals()
+    {
         $uri = new Uri('');
 
         if (isset($_SERVER['HTTPS'])) {
