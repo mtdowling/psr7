@@ -8,6 +8,9 @@ use Psr\Http\Message\UriInterface;
 
 /**
  * PSR-7 request implementation.
+ *
+ * Class Request
+ * @package GuzzleHttp\Psr7
  */
 class Request implements RequestInterface
 {
@@ -54,6 +57,9 @@ class Request implements RequestInterface
         }
     }
 
+    /**
+     * @return null|string
+     */
     public function getRequestTarget()
     {
         if ($this->requestTarget !== null) {
@@ -71,6 +77,10 @@ class Request implements RequestInterface
         return $target;
     }
 
+    /**
+     * @param null|string $requestTarget Request target
+     * @return Request
+     */
     public function withRequestTarget($requestTarget)
     {
         if (preg_match('#\s#', $requestTarget)) {
@@ -84,11 +94,18 @@ class Request implements RequestInterface
         return $new;
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return $this->method;
     }
 
+    /**
+     * @param string $method HTTP method
+     * @return Request
+     */
     public function withMethod($method)
     {
         $new = clone $this;
@@ -96,11 +113,19 @@ class Request implements RequestInterface
         return $new;
     }
 
+    /**
+     * @return Uri|null|UriInterface|string
+     */
     public function getUri()
     {
         return $this->uri;
     }
 
+    /**
+     * @param UriInterface  $uri            URI
+     * @param bool          $preserveHost   Preserve host
+     * @return $this|Request
+     */
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
         if ($uri === $this->uri) {
