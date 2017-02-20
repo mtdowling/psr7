@@ -193,13 +193,21 @@ class ServerRequest extends Request implements ServerRequestInterface
         }
 
         if (isset($_SERVER['HTTP_HOST'])) {
-            $uri = $uri->withHost($_SERVER['HTTP_HOST']);
+            $host = explode(':', $_SERVER['HTTP_HOST'])[0];
+            $has_port = isset(explode(':', $_SERVER['HTTP_HOST'])[1]);
+            $port = null;
+            if ($has_port) {
+                $port = explode(':', $_SERVER['HTTP_HOST'])[1];
+            }
+            $uri = $uri->withHost($host);
+            if (!is_null($port)) {
+                $uri = $uri->withPort($port);
+            }
         } elseif (isset($_SERVER['SERVER_NAME'])) {
             $uri = $uri->withHost($_SERVER['SERVER_NAME']);
-        }
-
-        if (isset($_SERVER['SERVER_PORT'])) {
-            $uri = $uri->withPort($_SERVER['SERVER_PORT']);
+            if (isset($_SERVER['SERVER_PORT'])) {
+                $uri = $uri->withPort($_SERVER['SERVER_PORT']);
+            }
         }
 
         if (isset($_SERVER['REQUEST_URI'])) {
