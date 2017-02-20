@@ -187,15 +187,18 @@ class ServerRequest extends Request implements ServerRequestInterface
      */
     public static function getUriFromGlobals() {
         $uri = new Uri('');
-
-        if (isset($_SERVER['HTTPS'])) {
-            $uri = $uri->withScheme($_SERVER['HTTPS'] == 'on' ? 'https' : 'http');
-        }
+        $addSchema = false;
 
         if (isset($_SERVER['HTTP_HOST'])) {
             $uri = $uri->withHost($_SERVER['HTTP_HOST']);
+            $addSchema = true;
         } elseif (isset($_SERVER['SERVER_NAME'])) {
             $uri = $uri->withHost($_SERVER['SERVER_NAME']);
+            $addSchema = true;
+        }
+
+        if ($addSchema) {
+            $uri = $uri->withScheme(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http');
         }
 
         if (isset($_SERVER['SERVER_PORT'])) {
