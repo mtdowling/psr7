@@ -1,18 +1,11 @@
 language: php
 
-sudo: false
+php:
+  - 5.6
+  - 7.0
+  - 7.1
 
-matrix:
-  include:
-    # Use the newer stack for HHVM as HHVM does not support Precise anymore since a long time and so Precise has an outdated version
-    - php: hhvm-3.12
-      sudo: required
-      dist: trusty
-      group: edge
-    - php: 5.6
-    - php: 7.0
-    - php: 7.1
-  fast_finish: true
+sudo: false
 
 cache:
   directories:
@@ -20,6 +13,7 @@ cache:
     - $HOME/.composer/cache
 
 install:
+  - phpenv config-rm xdebug.ini
   - travis_retry composer install --no-interaction --prefer-dist
 
 script: make test
