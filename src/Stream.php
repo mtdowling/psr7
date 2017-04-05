@@ -99,6 +99,8 @@ class Stream implements StreamInterface
 
     public function getContents()
     {
+        $this->rewind();
+        
         $contents = stream_get_contents($this->stream);
 
         if ($contents === false) {
