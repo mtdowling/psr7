@@ -6,6 +6,9 @@ use Psr\Http\Message\StreamInterface;
 
 /**
  * PSR-7 response implementation.
+ *
+ * Class Response
+ * @package GuzzleHttp\Psr7
  */
 class Response implements ResponseInterface
 {
@@ -109,16 +112,27 @@ class Response implements ResponseInterface
         $this->protocol = $version;
     }
 
+    /**
+     * @return int
+     */
     public function getStatusCode()
     {
         return $this->statusCode;
     }
 
+    /**
+     * @return string
+     */
     public function getReasonPhrase()
     {
         return $this->reasonPhrase;
     }
 
+    /**
+     * @param int       $code           HTTP status code
+     * @param string    $reasonPhrase   HTTP reason phrase
+     * @return Response
+     */
     public function withStatus($code, $reasonPhrase = '')
     {
         $new = clone $this;
