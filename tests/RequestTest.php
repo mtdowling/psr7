@@ -44,6 +44,13 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Psr\Http\Message\StreamInterface', $r->getBody());
         $this->assertSame('', (string) $r->getBody());
     }
+    
+    public function testEmptyArrayBody()
+    {
+        $r = new Request('GET', '/', [], []);
+        $this->assertInstanceOf('Psr\Http\Message\StreamInterface', $r->getBody());
+        $this->assertSame('', (string) $r->getBody());
+    }
 
     public function testFalseyBody()
     {
