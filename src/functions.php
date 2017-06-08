@@ -431,7 +431,7 @@ function hash(
  * @param StreamInterface $stream    Stream to read from
  * @param int             $maxLength Maximum buffer length
  *
- * @return string|bool
+ * @return string
  */
 function readline(StreamInterface $stream, $maxLength = null)
 {
