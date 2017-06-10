@@ -105,6 +105,16 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("45\n", Psr7\readline($s));
     }
 
+    public function testReadLinesEof()
+    {
+        // Should return empty string on EOF
+        $s = Psr7\stream_for("foo\nbar");
+        while (!$s->eof()) {
+            Psr7\readline($s);
+        }
+        $this->assertSame('', Psr7\readline($s));
+    }
+
     public function testReadsLineUntilFalseReturnedFromRead()
     {
         $s = $this->getMockBuilder('GuzzleHttp\Psr7\Stream')
