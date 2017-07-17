@@ -72,7 +72,7 @@ function uri_for($uri)
  * @param resource|string|null|int|float|bool|StreamInterface|callable $resource Entity body data
  * @param array                                                        $options  Additional options
  *
- * @return Stream
+ * @return StreamInterface
  * @throws \InvalidArgumentException if the $resource arg is not valid.
  */
 function stream_for($resource = '', array $options = [])
