@@ -166,7 +166,21 @@ class ServerRequest extends Request implements ServerRequestInterface
     public static function fromGlobals()
     {
         $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-        $headers = function_exists('getallheaders') ? getallheaders() : [];
+
+        $headers = [];
+        if (function_exists('getallheaders')) $headers = getallheaders();
+        else {
+            foreach($_SERVER as $k => $v) {
+                if (substr($k, 0, 5) == 'HTTP_') {
+                    $k = explode('_', substr($k, 5));
+                    $header = [];
+                    foreach($k as $word) $header[] = ucfirst(strtolower($word));
+                    $header = implode('-',$header);
+                    $headers[$header] = [$v];
+                }
+            }
+        }
+
         $uri = self::getUriFromGlobals();
         $body = new LazyOpenStream('php://input', 'r+');
         $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? str_replace('HTTP/', '', $_SERVER['SERVER_PROTOCOL']) : '1.1';
