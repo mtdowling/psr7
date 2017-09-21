@@ -179,6 +179,11 @@ class ServerRequest extends Request implements ServerRequestInterface
                     $headers[$header] = [$v];
                 }
             }
+
+            // For some reason, PHP doesn't consider content type a valid header, so it sets it apart
+            if (array_key_exists('CONTENT_TYPE', $_SERVER) && !array_key_exists('Content-Type', $headers)) {
+                $headers['Content-Type'] = [ $_SERVER['CONTENT_TYPE'] ];
+            }
         }
 
         $uri = self::getUriFromGlobals();
