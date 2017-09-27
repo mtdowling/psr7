@@ -88,4 +88,12 @@ class FnStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $b->read(3));
         $this->assertTrue($called);
     }
+
+    public function testDoNotAllowUnserialization()
+    {
+        $this->setExpectedException('\LogicException');
+        $a = new FnStream([]);
+        $b = serialize($a);
+        unserialize($b);
+    }
 }
