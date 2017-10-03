@@ -91,9 +91,9 @@ class FnStreamTest extends \PHPUnit_Framework_TestCase
 
     public function testDoNotAllowUnserialization()
     {
-        $this->setExpectedException('\LogicException');
         $a = new FnStream([]);
         $b = serialize($a);
+        $this->setExpectedException('\LogicException', 'FnStream should never be unserialized');
         unserialize($b);
     }
 }
