@@ -177,7 +177,11 @@ trait MessageTrait
     private function trimHeaderValues(array $values)
     {
         return array_map(function ($value) {
-            return trim($value, " \t");
+            if(is_resource($value) || is_a($value, 'StreamInterface')){ // do not try to trim stream like values
+                return $value;
+            } else {
+                return trim($value, " \t");
+            }
         }, $values);
     }
 }
