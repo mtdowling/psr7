@@ -111,6 +111,8 @@ function stream_for($resource = '', array $options = [])
 
     if (is_callable($resource)) {
         return new PumpStream($resource, $options);
+    } elseif (is_array($resource)) {
+        return stream_for(http_build_query($resource, '', '&'), $options);
     }
 
     throw new \InvalidArgumentException('Invalid resource type: ' . gettype($resource));

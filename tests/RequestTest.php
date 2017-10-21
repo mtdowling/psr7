@@ -4,6 +4,7 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * @covers GuzzleHttp\Psr7\Request
@@ -191,5 +192,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $r = new Request('GET', 'http://foo.com:8124/bar');
         $r = $r->withUri(new Uri('http://foo.com:8125/bar'));
         $this->assertEquals('foo.com:8125', $r->getHeaderLine('host'));
+    }
+
+    public function testAssertArrayBody()
+    {
+        $r = new Request('GET', '/', [], ['foo' => 'bar']);
+        $this->assertInstanceOf(StreamInterface::class, $r->getBody());
     }
 }
