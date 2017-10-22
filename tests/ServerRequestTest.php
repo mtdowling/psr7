@@ -349,7 +349,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Uri($expected), ServerRequest::getUriFromGlobals());
     }
 
-    public function testFromGlobals()
+    protected function fromGlobalsTest($type='ServerRequest')
     {
         $_SERVER = [
             'REQUEST_URI' => '/blog/article.php?id=10&user=foo',
@@ -393,7 +393,9 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $server = ServerRequest::fromGlobals();
+        if ($type == 'ServerRequest') $server = ServerRequest::fromGlobals();
+        elseif ($type == 'ExtendedServerRequest') $server = \GuzzleHttp\Psr7\Test\ExtendedServerRequest::fromPsr7(ServerRequest::fromGlobals());
+        else throw new \RuntimeException("Don't know how to test server requests of type `$type`");
 
         $this->assertSame('POST', $server->getMethod());
         $this->assertEquals(['Host' => ['www.example.org']], $server->getHeaders());
@@ -419,6 +421,23 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($expectedFiles, $server->getUploadedFiles());
+
+        return $server;
+    }
+
+    public function testFromGlobals() {
+        $this->fromGlobalsTest('ServerRequest');
+    }
+
+    public function testFromPsr7() {
+        $r = $this->fromGlobalsTest('ExtendedServerRequest');
+        $this->assertInstanceOf("\\GuzzleHttp\\Psr7\\Test\\ExtendedServerRequest", $r);
+    }
+
+    public function testFromPsr7DoesntBreakOnNonServerRequest() {
+        $request = new \GuzzleHttp\Psr7\Request("GET", "https://foo.com");
+        $request = ServerRequest::fromPsr7($request);
+        $this->assertInstanceOf("\\GuzzleHttp\\Psr7\\ServerRequest", $request);
     }
 
     public function testUploadedFiles()
