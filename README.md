@@ -372,7 +372,7 @@ This method accepts the following `$resource` types:
 $stream = GuzzleHttp\Psr7\stream_for('foo');
 $stream = GuzzleHttp\Psr7\stream_for(fopen('/path/to/file', 'r'));
 
-$generator function ($bytes) {
+$generator = function ($bytes) {
     for ($i = 0; $i < $bytes; $i++) {
         yield ' ';
     }
