@@ -312,6 +312,10 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
                 'https://217.112.82.20/blog/article.php?id=10&user=foo',
                 array_merge($server, ['HTTP_HOST' => null, 'SERVER_NAME' => null]),
             ],
+            'Query string with ?' => [
+                'https://www.example.org/path?continue=https://example.com/path?param=1',
+                array_merge($server, ['REQUEST_URI' => '/path?continue=https://example.com/path?param=1', 'QUERY_STRING' => '']),
+            ],
             'No query String' => [
                 'https://www.example.org/blog/article.php',
                 array_merge($server, ['REQUEST_URI' => '/blog/article.php', 'QUERY_STRING' => '']),
