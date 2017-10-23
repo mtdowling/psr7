@@ -168,13 +168,16 @@ class ServerRequest extends Request implements ServerRequestInterface
         $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
 
         $headers = [];
-        if (function_exists('getallheaders')) $headers = getallheaders();
-        else {
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+        } else {
             foreach($_SERVER as $k => $v) {
                 if (substr($k, 0, 5) == 'HTTP_') {
                     $k = explode('_', substr($k, 5));
                     $header = [];
-                    foreach($k as $word) $header[] = ucfirst(strtolower($word));
+                    foreach($k as $word) {
+                        $header[] = ucfirst(strtolower($word));
+                    }
                     $header = implode('-',$header);
                     $headers[$header] = [$v];
                 }
