@@ -3,12 +3,13 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\NoSeekStream;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Psr7\NoSeekStream
  * @covers GuzzleHttp\Psr7\StreamDecoratorTrait
  */
-class NoSeekStreamTest extends \PHPUnit_Framework_TestCase
+class NoSeekStreamTest extends TestCase
 {
     /**
      * @expectedException \RuntimeException

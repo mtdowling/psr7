@@ -3,12 +3,13 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Psr7\MessageTrait
  * @covers GuzzleHttp\Psr7\Response
  */
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     public function testDefaultConstructor()
     {

@@ -2,8 +2,9 @@
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\BufferStream;
+use PHPUnit\Framework\TestCase;
 
-class BufferStreamTest extends \PHPUnit_Framework_TestCase
+class BufferStreamTest extends TestCase
 {
     public function testHasMetadata()
     {

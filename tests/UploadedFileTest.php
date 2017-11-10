@@ -4,11 +4,12 @@ namespace GuzzleHttp\Tests\Psr7;
 use ReflectionProperty;
 use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\Psr7\UploadedFile;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Psr7\UploadedFile
  */
-class UploadedFileTest extends \PHPUnit_Framework_TestCase
+class UploadedFileTest extends TestCase
 {
     private $cleanup;
 

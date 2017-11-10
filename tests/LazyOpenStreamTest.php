@@ -2,8 +2,9 @@
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\LazyOpenStream;
+use PHPUnit\Framework\TestCase;
 
-class LazyOpenStreamTest extends \PHPUnit_Framework_TestCase
+class LazyOpenStreamTest extends TestCase
 {
     private $fname;
 

@@ -2,11 +2,12 @@
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\Uri;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Psr7\Uri
  */
-class UriTest extends \PHPUnit_Framework_TestCase
+class UriTest extends TestCase
 {
     public function testParsesProvidedUri()
     {

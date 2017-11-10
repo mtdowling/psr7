@@ -4,11 +4,12 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Psr7\UploadedFile;
 use GuzzleHttp\Psr7\Uri;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Psr7\ServerRequest
  */
-class ServerRequestTest extends \PHPUnit_Framework_TestCase
+class ServerRequestTest extends TestCase
 {
     public function dataNormalizeFiles()
     {
