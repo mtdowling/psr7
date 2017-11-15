@@ -4,11 +4,12 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\CachingStream;
 use GuzzleHttp\Psr7\Stream;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Psr7\CachingStream
  */
-class CachingStreamTest extends \PHPUnit_Framework_TestCase
+class CachingStreamTest extends TestCase
 {
     /** @var CachingStream */
     private $body;
