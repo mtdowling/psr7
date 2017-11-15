@@ -222,7 +222,7 @@ class UriTest extends TestCase
      */
     public function testIsDefaultPort($scheme, $port, $isDefaultPort)
     {
-        $uri = $this->getMock('Psr\Http\Message\UriInterface');
+        $uri = $this->getMockBuilder('Psr\Http\Message\UriInterface')->getMock();
         $uri->expects($this->any())->method('getScheme')->will($this->returnValue($scheme));
         $uri->expects($this->any())->method('getPort')->will($this->returnValue($port));
 
@@ -588,6 +588,9 @@ class UriTest extends TestCase
         (new Uri)->withPath('//foo');
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testPathStartingWithTwoSlashes()
     {
         $uri = new Uri('http://example.org//path-not-host.com');
@@ -595,7 +598,6 @@ class UriTest extends TestCase
 
         $uri = $uri->withScheme('');
         $this->assertSame('//example.org//path-not-host.com', (string) $uri); // This is still valid
-        $this->setExpectedException('\InvalidArgumentException');
         $uri->withHost(''); // Now it becomes invalid
     }
 
@@ -608,12 +610,14 @@ class UriTest extends TestCase
         (new Uri)->withPath('mailto:foo');
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testRelativeUriWithPathHavingColonSegment()
     {
         $uri = (new Uri('urn:/mailto:foo'))->withScheme('');
         $this->assertSame('/mailto:foo', $uri->getPath());
 
-        $this->setExpectedException('\InvalidArgumentException');
         (new Uri('urn:mailto:foo'))->withScheme('');
     }
 

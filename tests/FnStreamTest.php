@@ -90,11 +90,14 @@ class FnStreamTest extends TestCase
         $this->assertTrue($called);
     }
 
+    /**
+     * @expectedException LogicException
+     * @expectedExceptionMessage FnStream should never be unserialized
+     */
     public function testDoNotAllowUnserialization()
     {
         $a = new FnStream([]);
         $b = serialize($a);
-        $this->setExpectedException('\LogicException', 'FnStream should never be unserialized');
         unserialize($b);
     }
 }
