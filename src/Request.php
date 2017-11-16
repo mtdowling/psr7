@@ -54,6 +54,25 @@ class Request implements RequestInterface
         }
     }
 
+    /**
+     * String representation of Request-object as HTTP message
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        if (!$this->hasHeader('Content-Length')) {
+            $message = $this->withAddedHeader(
+                'Content-Length',
+                $this->getBody()->getSize()
+            );
+        } else {
+            $message = $this;
+        }
+
+        return str($message);
+    }
+
     public function getRequestTarget()
     {
         if ($this->requestTarget !== null) {
