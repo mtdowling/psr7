@@ -192,4 +192,18 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $r = $r->withUri(new Uri('http://foo.com:8125/bar'));
         $this->assertEquals('foo.com:8125', $r->getHeaderLine('host'));
     }
+
+    public function testToString()
+    {
+        $r = new Request('POST', 'http://foo.com:8124/bar', ['Content-Length'=>0], '{"zoo":"baz"}');
+        $this->assertSame(
+            'POST /bar HTTP/1.1'."\r\n".'Host: foo.com:8124'."\r\n".'Content-Length: 0'."\r\n\r\n".'{"zoo":"baz"}',
+            sprintf("%s", $r)
+        );
+        $r = $r->withoutHeader('Content-Length');
+        $this->assertSame(
+            'POST /bar HTTP/1.1'."\r\n".'Host: foo.com:8124'."\r\n".'Content-Length: 13'."\r\n\r\n".'{"zoo":"baz"}',
+            sprintf("%s", $r)
+        );
+    }
 }
