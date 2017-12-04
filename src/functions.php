@@ -246,7 +246,8 @@ function modify_request(RequestInterface $request, array $changes)
             isset($changes['version'])
                 ? $changes['version']
                 : $request->getProtocolVersion(),
-            $request->getServerParams()
+            $request->getServerParams(),
+            $request->getUploadedFiles()
         );
     }
 
