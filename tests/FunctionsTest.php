@@ -671,7 +671,9 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
         $modifiedRequest = Psr7\modify_request($request, ['set_headers' => ['foo' => 'bar']]);
 
         $this->assertCount(1, $modifiedRequest->getUploadedFiles());
-        $this->assertInstanceOf(Psr7\UploadedFile::class, $modifiedRequest->getUploadedFiles()[0]);
+
+        $files = $modifiedRequest->getUploadedFiles();
+        $this->assertInstanceOf('GuzzleHttp\Psr7\UploadedFile', $files[0]);
 
     }
 }
