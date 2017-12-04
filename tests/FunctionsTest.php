@@ -660,6 +660,20 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
         $r2 = Psr7\modify_request($r1, ['remove_headers' => ['non-existent']]);
         $this->assertTrue($r2 instanceof ServerRequestInterface);
     }
+
+    public function testModifyServerRequestWithUploadedFiles()
+    {
+        $request = new Psr7\ServerRequest('GET', 'http://example.com/bla');
+        $file = new Psr7\UploadedFile('Test', 100, \UPLOAD_ERR_OK);
+        $request = $request->withUploadedFiles([$file]);
+
+        /** @var Psr7\ServerRequest $modifiedRequest */
+        $modifiedRequest = Psr7\modify_request($request, ['set_headers' => ['foo' => 'bar']]);
+
+        $this->assertCount(1, $modifiedRequest->getUploadedFiles());
+        $this->assertInstanceOf(Psr7\UploadedFile::class, $modifiedRequest->getUploadedFiles()[0]);
+
+    }
 }
 
 class HasToString
