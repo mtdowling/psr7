@@ -166,29 +166,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public static function fromGlobals()
     {
         $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-
-        $headers = [];
-        if (function_exists('getallheaders')) {
-            $headers = getallheaders();
-        } else {
-            foreach($_SERVER as $k => $v) {
-                if (substr($k, 0, 5) == 'HTTP_') {
-                    $k = explode('_', substr($k, 5));
-                    $header = [];
-                    foreach($k as $word) {
-                        $header[] = ucfirst(strtolower($word));
-                    }
-                    $header = implode('-',$header);
-                    $headers[$header] = [$v];
-                }
-            }
-
-            // For some reason, PHP doesn't consider content type a valid header, so it sets it apart
-            if (array_key_exists('CONTENT_TYPE', $_SERVER) && !array_key_exists('Content-Type', $headers)) {
-                $headers['Content-Type'] = [ $_SERVER['CONTENT_TYPE'] ];
-            }
-        }
-
+        $headers = function_exists('getallheaders') ? getallheaders() : [];
         $uri = self::getUriFromGlobals();
         $body = new LazyOpenStream('php://input', 'r+');
         $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? str_replace('HTTP/', '', $_SERVER['SERVER_PROTOCOL']) : '1.1';

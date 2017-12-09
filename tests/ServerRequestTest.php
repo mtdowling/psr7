@@ -360,7 +360,11 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
             'REQUEST_METHOD' => 'POST',
             'QUERY_STRING' => 'id=10&user=foo',
             'DOCUMENT_ROOT' => '/path/to/your/server/root/',
+            'CONTENT_TYPE' => 'text/plain',
             'HTTP_HOST' => 'www.example.org',
+            'HTTP_ACCEPT' => 'text/html',
+            'HTTP_REFERRER' => 'https://example.com',
+            'HTTP_USER_AGENT' => 'My User Agent',
             'HTTPS' => 'on',
             'REMOTE_ADDR' => '193.60.168.69',
             'REMOTE_PORT' => '5390',
@@ -396,7 +400,13 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $server = ServerRequest::fromGlobals();
 
         $this->assertSame('POST', $server->getMethod());
-        $this->assertEquals(['Host' => ['www.example.org']], $server->getHeaders());
+        $this->assertEquals([
+            'Host' => ['www.example.org'],
+            'Content-Type' => ['text/plain'],
+            'Accept' => ['text/html'],
+            'Referrer' => ['https://example.com'],
+            'User-Agent' => ['My User Agent'],
+        ], $server->getHeaders());
         $this->assertSame('', (string) $server->getBody());
         $this->assertSame('1.1', $server->getProtocolVersion());
         $this->assertEquals($_COOKIE, $server->getCookieParams());
