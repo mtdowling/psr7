@@ -229,8 +229,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public static function fromPsr7(RequestInterface $src) {
-        $request = parent::fromPsr7($src);
+    public static function fromRequest(RequestInterface $src) {
+        $request = parent::fromRequest($src);
 
         if ($src instanceof ServerRequestInterface) {
             return $request

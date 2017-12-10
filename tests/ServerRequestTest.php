@@ -394,7 +394,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         ];
 
         if ($type == 'ServerRequest') $server = ServerRequest::fromGlobals();
-        elseif ($type == 'ExtendedServerRequest') $server = \GuzzleHttp\Psr7\Test\ExtendedServerRequest::fromPsr7(ServerRequest::fromGlobals());
+        elseif ($type == 'ExtendedServerRequest') $server = \GuzzleHttp\Psr7\Test\ExtendedServerRequest::fromRequest(ServerRequest::fromGlobals());
         else throw new \RuntimeException("Don't know how to test server requests of type `$type`");
 
         $this->assertSame('POST', $server->getMethod());
@@ -429,14 +429,14 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $this->fromGlobalsTest('ServerRequest');
     }
 
-    public function testFromPsr7() {
+    public function testFromRequest() {
         $r = $this->fromGlobalsTest('ExtendedServerRequest');
         $this->assertInstanceOf("\\GuzzleHttp\\Psr7\\Test\\ExtendedServerRequest", $r);
     }
 
-    public function testFromPsr7DoesntBreakOnNonServerRequest() {
+    public function testFromRequestDoesntBreakOnNonServerRequest() {
         $request = new \GuzzleHttp\Psr7\Request("GET", "https://foo.com");
-        $request = ServerRequest::fromPsr7($request);
+        $request = ServerRequest::fromRequest($request);
         $this->assertInstanceOf("\\GuzzleHttp\\Psr7\\ServerRequest", $request);
     }
 

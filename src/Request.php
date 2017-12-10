@@ -126,7 +126,7 @@ class Request implements RequestInterface
      * @param RequestInterface
      * @return static
      */
-    public static function fromPsr7(RequestInterface $src) {
+    public static function fromRequest(RequestInterface $src) {
         return new static($src->getMethod(), $src->getUri(), $src->getHeaders(), $src->getBody(), $src->getProtocolVersion());
     }
 

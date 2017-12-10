@@ -193,10 +193,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo.com:8125', $r->getHeaderLine('host'));
     }
 
-    public function testCanCreateFromPsr7()
+    public function testCanCreateFromRequest()
     {
         $r = new Request('GET', 'https://foo.com:8124/bar', ['Content-Type' => 'application/test'], 'baz', '2.0');
-        $er = \GuzzleHttp\Psr7\Test\ExtendedRequest::fromPsr7($r);
+        $er = \GuzzleHttp\Psr7\Test\ExtendedRequest::fromRequest($r);
         $this->assertEquals("GET", $er->getMethod());
         $this->assertEquals('https://foo.com:8124/bar', (string)$er->getUri());
         $this->assertEquals(['application/test'], $er->getHeader('Content-Type'));
