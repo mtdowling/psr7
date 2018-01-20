@@ -113,10 +113,11 @@ class MultipartStream implements StreamInterface
         // Set a default content-disposition header if one was no provided
         $disposition = $this->getHeader($headers, 'content-disposition');
         if (!$disposition) {
+            $parts=  explode('/', str_replace('\\', '/', $filename));
             $headers['Content-Disposition'] = ($filename === '0' || $filename)
                 ? sprintf('form-data; name="%s"; filename="%s"',
                     $name,
-                    basename($filename))
+                    end($parts))
                 : "form-data; name=\"{$name}\"";
         }
 
