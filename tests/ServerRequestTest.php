@@ -326,7 +326,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
             ],
             'HTTPS request with x-url-scheme' => [
                 'https://www.example.org/blog/article.php?id=10&user=foo',
-                array_merge($server, ['HTTP_X_URL_SCHEME' => '1']),
+                array_merge($server, ['HTTP_X_URL_SCHEME' => 'https']),
             ],
             'HTTP request' => [
                 'http://www.example.org/blog/article.php?id=10&user=foo',
