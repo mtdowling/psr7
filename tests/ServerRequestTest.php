@@ -300,6 +300,34 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
                 'https://www.example.org/blog/article.php?id=10&user=foo',
                 array_merge($server, ['HTTPS' => '1']),
             ],
+            'HTTPS request with x-forwarded-proto' => [
+                'https://www.example.org/blog/article.php?id=10&user=foo',
+                array_merge($server, ['HTTP_X_FORWARDED_PROTO' => 'https']),
+            ],
+            'HTTPS request with x-forwarded-protocol' => [
+                'https://www.example.org/blog/article.php?id=10&user=foo',
+                array_merge($server, ['HTTP_X_FORWARDED_PROTOCOL' => 'https']),
+            ],
+            'HTTPS request with x-forwarded-ssl' => [
+                'https://www.example.org/blog/article.php?id=10&user=foo',
+                array_merge($server, ['HTTP_X_FORWARDED_SSL' => 'on']),
+            ],
+            'HTTPS request with different x-forwarded-ssl value' => [
+                'https://www.example.org/blog/article.php?id=10&user=foo',
+                array_merge($server, ['HTTP_X_FORWARDED_SSL' => '1']),
+            ],
+            'HTTPS request with front-end-https' => [
+                'https://www.example.org/blog/article.php?id=10&user=foo',
+                array_merge($server, ['HTTP_FRONT_END_HTTPS' => 'on']),
+            ],
+            'HTTPS request with different front-end-https value' => [
+                'https://www.example.org/blog/article.php?id=10&user=foo',
+                array_merge($server, ['HTTP_FRONT_END_HTTPS' => '1']),
+            ],
+            'HTTPS request with x-url-scheme' => [
+                'https://www.example.org/blog/article.php?id=10&user=foo',
+                array_merge($server, ['HTTP_X_URL_SCHEME' => '1']),
+            ],
             'HTTP request' => [
                 'http://www.example.org/blog/article.php?id=10&user=foo',
                 array_merge($server, ['HTTPS' => 'off', 'SERVER_PORT' => '80']),
