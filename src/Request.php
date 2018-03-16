@@ -117,6 +117,19 @@ class Request implements RequestInterface
         return $new;
     }
 
+    /**
+     * Create a PSR7 Request instance from another PSR7 Request instance.
+     *
+     * This is intended to be used to convert already-existing Request instances
+     * to instances of a subclass which may have different capabilities.
+     *
+     * @param RequestInterface
+     * @return static
+     */
+    public static function fromRequest(RequestInterface $src) {
+        return new static($src->getMethod(), $src->getUri(), $src->getHeaders(), $src->getBody(), $src->getProtocolVersion());
+    }
+
     private function updateHostFromUri()
     {
         $host = $this->uri->getHost();

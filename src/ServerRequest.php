@@ -3,6 +3,7 @@
 namespace GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Message\StreamInterface;
@@ -223,6 +224,23 @@ class ServerRequest extends Request implements ServerRequestInterface
         }
 
         return $uri;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromRequest(RequestInterface $src) {
+        $request = parent::fromRequest($src);
+
+        if ($src instanceof ServerRequestInterface) {
+            return $request
+                ->withCookieParams($src->getCookieParams())
+                ->withQueryParams($src->getQueryParams())
+                ->withParsedBody($src->getParsedBody())
+                ->withUploadedFiles($src->getUploadedFiles());
+        } else {
+            return $request;
+        }
     }
 
 
