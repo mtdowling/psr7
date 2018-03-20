@@ -185,16 +185,17 @@ class ServerRequest extends Request implements ServerRequestInterface
      *
      * @return UriInterface
      */
-    public static function getUriFromGlobals() {
+    public static function getUriFromGlobals()
+    {
         $uri = new Uri('');
 
         $https_keys = [
-            'HTTP_X_FORWARDED_PROTO' => 'http',
             'HTTP_X_FORWARDED_PROTOCOL' => 'http',
-            'HTTP_X_FORWARDED_SSL' => 'off',
-            'HTTP_FRONT_END_HTTPS' => 'off',
-            'HTTP_X_URL_SCHEME' => 'http',
-            'HTTPS' => 'off',
+            'HTTP_X_FORWARDED_PROTO'    => 'http',
+            'HTTP_X_FORWARDED_SSL'      => 'off',
+            'HTTP_FRONT_END_HTTPS'      => 'off',
+            'HTTP_X_URL_SCHEME'         => 'http',
+            'HTTPS'                     => 'off',
         ];
 
         $scheme = 'http';
