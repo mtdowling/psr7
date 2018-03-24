@@ -180,23 +180,42 @@ class ServerRequest extends Request implements ServerRequestInterface
             ->withUploadedFiles(self::normalizeFiles($_FILES));
     }
 
+    private static function extractPortFromHost($host)
+    {
+        if (preg_match('/:(\d+)$/', $host, $matches) !== 1) {
+            return [$host, null];
+        }
+
+        list($match, $port) = $matches;
+
+        $host = mb_substr(
+            $host,
+            0,
+            mb_strlen($host) - mb_strlen($match)
+        );
+
+        return [$host, (int) $port];
+    }
+
     /**
      * Get a Uri populated with values from $_SERVER.
      *
      * @return UriInterface
      */
-    public static function getUriFromGlobals() {
+    public static function getUriFromGlobals()
+    {
         $uri = new Uri('');
 
         $uri = $uri->withScheme(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http');
 
         $hasPort = false;
         if (isset($_SERVER['HTTP_HOST'])) {
-            $hostHeaderParts = explode(':', $_SERVER['HTTP_HOST']);
-            $uri = $uri->withHost($hostHeaderParts[0]);
-            if (isset($hostHeaderParts[1])) {
+            list($host, $port) = static::extractPortFromHost($_SERVER['HTTP_HOST']);
+            $uri = $uri->withHost($host);
+
+            if ($port !== null) {
                 $hasPort = true;
-                $uri = $uri->withPort($hostHeaderParts[1]);
+                $uri = $uri->withPort($port);
             }
         } elseif (isset($_SERVER['SERVER_NAME'])) {
             $uri = $uri->withHost($_SERVER['SERVER_NAME']);
