@@ -523,4 +523,19 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertSame([], $requestWithoutAttribute->getAttributes());
         $this->assertSame('different-default', $requestWithoutAttribute->getAttribute('name', 'different-default'));
     }
+    
+    public function testExtend()
+    {
+        $actual = FooExtend::fromGlobals();
+        $this->assertInstanceOf('GuzzleHttp\\Tests\\Psr7\\FooExtend', $actual);
+        $this->assertTrue($actual->bar());
+    }
+}
+
+class FooExtend extends ServerRequest
+{
+    public function bar()
+    {
+        return true;
+    }
 }
