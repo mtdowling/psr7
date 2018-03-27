@@ -189,7 +189,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     {
         $uri = new Uri('');
 
-        $https_keys = [
+        $httpsKeys = [
             'HTTP_X_FORWARDED_PROTOCOL' => 'http',
             'HTTP_X_FORWARDED_PROTO'    => 'http',
             'HTTP_X_FORWARDED_SSL'      => 'off',
@@ -199,7 +199,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         ];
 
         $scheme = 'http';
-        foreach ($https_keys as $key => $value) {
+        foreach ($httpsKeys as $key => $value) {
             if (isset($_SERVER[$key]) && $_SERVER[$key] != $value) {
                 $scheme = 'https';
                 break;
