@@ -238,7 +238,7 @@ function modify_request(RequestInterface $request, array $changes)
     }
 
     if ($request instanceof ServerRequestInterface) {
-        return new ServerRequest(
+        return (new ServerRequest(
             isset($changes['method']) ? $changes['method'] : $request->getMethod(),
             $uri,
             $headers,
@@ -246,9 +246,8 @@ function modify_request(RequestInterface $request, array $changes)
             isset($changes['version'])
                 ? $changes['version']
                 : $request->getProtocolVersion(),
-            $request->getServerParams(),
-            $request->getUploadedFiles()
-        );
+            $request->getServerParams()
+        ))->withUploadedFiles($request->getUploadedFiles());
     }
 
     return new Request(

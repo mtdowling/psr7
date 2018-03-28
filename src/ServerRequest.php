@@ -68,11 +68,9 @@ class ServerRequest extends Request implements ServerRequestInterface
         array $headers = [],
         $body = null,
         $version = '1.1',
-        array $serverParams = [],
-        array $uploadedFiles = []
+        array $serverParams = []
     ) {
         $this->serverParams = $serverParams;
-        $this->uploadedFiles = $uploadedFiles;
 
         parent::__construct($method, $uri, $headers, $body, $version);
     }
