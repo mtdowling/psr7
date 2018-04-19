@@ -66,6 +66,17 @@ class StreamWrapperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
     }
 
+    public function testStreamCast()
+    {
+        $streams = [
+            StreamWrapper::getResource(Psr7\stream_for('foo')),
+            StreamWrapper::getResource(Psr7\stream_for('bar'))
+        ];
+        $write = null;
+        $except = null;
+        $this->assertEquals(2, stream_select($streams, $streams, $streams, 0));
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */
