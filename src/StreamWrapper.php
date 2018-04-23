@@ -109,6 +109,7 @@ class StreamWrapper
     public function stream_cast($cast_as)
     {
         $clonedStream = clone($this->stream);
+
         return $clonedStream->detach();
     }
 

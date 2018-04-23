@@ -74,7 +74,7 @@ class StreamWrapperTest extends \PHPUnit_Framework_TestCase
         ];
         $write = null;
         $except = null;
-        $this->assertTrue(is_int(stream_select($streams, $streams, $streams, 0)));
+        $this->assertInternalType('integer', stream_select($streams, $write, $except, 0));
     }
 
     /**
