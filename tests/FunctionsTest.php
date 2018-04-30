@@ -676,6 +676,40 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('GuzzleHttp\Psr7\UploadedFile', $files[0]);
 
     }
+
+    public function testModifyServerRequestWithCookies()
+    {
+        $request = (new Psr7\ServerRequest('GET', 'http://example.com/bla'))
+            ->withCookieParams(['name' => 'value']);
+
+        /** @var Psr7\ServerRequest $modifiedRequest */
+        $modifiedRequest = Psr7\modify_request($request, ['set_headers' => ['foo' => 'bar']]);
+
+        $this->assertEquals(['name' => 'value'], $modifiedRequest->getCookieParams());
+    }
+
+
+    public function testModifyServerRequestParsedBody()
+    {
+        $request = (new Psr7\ServerRequest('GET', 'http://example.com/bla'))
+            ->withParsedBody(['name' => 'value']);
+
+        /** @var Psr7\ServerRequest $modifiedRequest */
+        $modifiedRequest = Psr7\modify_request($request, ['set_headers' => ['foo' => 'bar']]);
+
+        $this->assertEquals(['name' => 'value'], $modifiedRequest->getParsedBody());
+    }
+
+    public function testModifyServerRequestQueryParams()
+    {
+        $request = (new Psr7\ServerRequest('GET', 'http://example.com/bla'))
+            ->withQueryParams(['name' => 'value']);
+
+        /** @var Psr7\ServerRequest $modifiedRequest */
+        $modifiedRequest = Psr7\modify_request($request, ['set_headers' => ['foo' => 'bar']]);
+
+        $this->assertEquals(['name' => 'value'], $modifiedRequest->getQueryParams());
+    }
 }
 
 class HasToString

@@ -247,7 +247,12 @@ function modify_request(RequestInterface $request, array $changes)
                 ? $changes['version']
                 : $request->getProtocolVersion(),
             $request->getServerParams()
-        ))->withUploadedFiles($request->getUploadedFiles());
+        ))
+        ->withParsedBody($request->getParsedBody())
+        ->withQueryParams($request->getQueryParams())
+        ->withCookieParams($request->getCookieParams())
+        ->withUploadedFiles($request->getUploadedFiles());
+
     }
 
     return new Request(
