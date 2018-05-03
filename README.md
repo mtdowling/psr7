@@ -606,6 +606,13 @@ Creates a new URI with a specific query string value. Any existing query string 
 provided key are removed and replaced with the given key value pair. A value of null will set the query string
 key without a value, e.g. "key" instead of "key=value".
 
+### `GuzzleHttp\Psr7\Uri::withQueryValues`
+
+`public static function withQueryValues(UriInterface $uri, $keyValueArray): UriInterface`
+
+Creates a new URI with one or more specific query string values. Any existing query string values that exactly
+matches any of the provided keys are removed and replaced with the given key value pair. A value of null will
+set the query string key without a value, e.g. "key" instead of "key=value".
 
 ### `GuzzleHttp\Psr7\Uri::withoutQueryValue`
 
