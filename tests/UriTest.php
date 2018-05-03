@@ -326,6 +326,17 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('', $uri->getQuery());
     }
 
+    public function testWithQueryValues()
+    {
+        $uri = New Uri();
+        $uri = Uri::withQueryValues($uri, [
+            'key1' => 'value1',
+            'key2' => 'value2'
+        ]);
+
+        $this->assertSame('key1=value1&key2=value2', $uri->getQuery());
+    }
+
     public function testWithQueryValueReplacesSameKeys()
     {
         $uri = new Uri();

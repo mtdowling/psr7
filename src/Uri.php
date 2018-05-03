@@ -357,6 +357,29 @@ class Uri implements UriInterface
     }
 
     /**
+     * Creates a new URI with multiple specific query string values.
+     *
+     * Any existing query string values that exactly match the provided key are
+     * removed and replaced with the given key value pair.
+     *
+     * A value of null will set the query string key without a value, e.g. "key"
+     * instead of "key=value".
+     *
+     * @param UriInterface $uri   URI to use as a base.
+     * @param array        $value Associative array of key and values
+     *
+     * @return UriInterface
+     */
+    public static function withQueryValues(UriInterface $uri, $keyValueArray)
+    {
+        foreach ($keyValueArray as $key => $value) {
+            $uri = self::withQueryValue($uri, $key, $value);
+        }
+
+        return $uri;
+    }
+
+    /**
      * Creates a URI from a hash of `parse_url` components.
      *
      * @param array $parts
