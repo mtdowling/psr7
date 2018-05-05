@@ -331,27 +331,9 @@ class Uri implements UriInterface
      */
     public static function withQueryValue(UriInterface $uri, $key, $value)
     {
-        $current = $uri->getQuery();
+        $result = self::filterQueryString($uri, [$key]);
 
-        if ($current === '') {
-            $result = [];
-        } else {
-            $decodedKey = rawurldecode($key);
-            $result = array_filter(explode('&', $current), function ($part) use ($decodedKey) {
-                return rawurldecode(explode('=', $part)[0]) !== $decodedKey;
-            });
-        }
-
-        // Query string separators ("=", "&") within the key or value need to be encoded
-        // (while preventing double-encoding) before setting the query string. All other
-        // chars that need percent-encoding will be encoded by withQuery().
-        $key = strtr($key, self::$replaceQuery);
-
-        if ($value !== null) {
-            $result[] = $key . '=' . strtr($value, self::$replaceQuery);
-        } else {
-            $result[] = $key;
-        }
+        $result[] = self::generateQueryString($key, $value);
 
         return $uri->withQuery(implode('&', $result));
     }
@@ -365,18 +347,20 @@ class Uri implements UriInterface
      * A value of null will set the query string key without a value, e.g. "key"
      * instead of "key=value".
      *
-     * @param UriInterface $uri   URI to use as a base.
-     * @param array        $value Associative array of key and values
+     * @param UriInterface $uri           URI to use as a base.
+     * @param array        $keyValueArray Associative array of key and values
      *
      * @return UriInterface
      */
-    public static function withQueryValues(UriInterface $uri, $keyValueArray)
+    public static function withQueryValues(UriInterface $uri, array $keyValueArray)
     {
+        $result = self::filterQueryString($uri, array_keys($keyValueArray));
+
         foreach ($keyValueArray as $key => $value) {
-            $uri = self::withQueryValue($uri, $key, $value);
+            $result[] = self::generateQueryString($key, $value);
         }
 
-        return $uri;
+        return $uri->withQuery(implode('&', $result));
     }
 
     /**
@@ -641,6 +625,47 @@ class Uri implements UriInterface
         }
 
         return $port;
+    }
+
+    /**
+     * @param UriInterface $uri
+     * @param array        $keys
+     * 
+     * @return array
+     */
+    private function filterQueryString(UriInterface $uri, array $keys)
+    {
+        $current = $uri->getQuery();
+
+        if ($current === '') {
+            return [];
+        }
+
+        $decodedKeys = array_map('rawurldecode', $keys);
+
+        return array_filter(explode('&', $current), function ($part) use ($decodedKeys) {
+            return !in_array(rawurldecode(explode('=', $part)[0]), $decodedKeys);
+        });
+    }
+
+    /**
+     * @param string      $key
+     * @param string|null $value
+     * 
+     * @return string
+     */
+    private function generateQueryString($key, $value)
+    {
+        // Query string separators ("=", "&") within the key or value need to be encoded
+        // (while preventing double-encoding) before setting the query string. All other
+        // chars that need percent-encoding will be encoded by withQuery().
+        $queryString = strtr($key, self::$replaceQuery);
+
+        if ($value !== null) {
+            $queryString .= '=' . strtr($value, self::$replaceQuery);
+        }
+
+        return $queryString;
     }
 
     private function removeDefaultPort()
