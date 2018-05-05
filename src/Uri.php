@@ -301,15 +301,7 @@ class Uri implements UriInterface
      */
     public static function withoutQueryValue(UriInterface $uri, $key)
     {
-        $current = $uri->getQuery();
-        if ($current === '') {
-            return $uri;
-        }
-
-        $decodedKey = rawurldecode($key);
-        $result = array_filter(explode('&', $current), function ($part) use ($decodedKey) {
-            return rawurldecode(explode('=', $part)[0]) !== $decodedKey;
-        });
+        $result = self::getFilteredQueryString($uri, [$key]);
 
         return $uri->withQuery(implode('&', $result));
     }
