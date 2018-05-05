@@ -625,7 +625,7 @@ class Uri implements UriInterface
      * 
      * @return array
      */
-    private function getFilteredQueryString(UriInterface $uri, array $keys)
+    private static function getFilteredQueryString(UriInterface $uri, array $keys)
     {
         $current = $uri->getQuery();
 
@@ -646,7 +646,7 @@ class Uri implements UriInterface
      * 
      * @return string
      */
-    private function generateQueryString($key, $value)
+    private static function generateQueryString($key, $value)
     {
         // Query string separators ("=", "&") within the key or value need to be encoded
         // (while preventing double-encoding) before setting the query string. All other
