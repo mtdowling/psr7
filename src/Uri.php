@@ -331,7 +331,7 @@ class Uri implements UriInterface
      */
     public static function withQueryValue(UriInterface $uri, $key, $value)
     {
-        $result = self::filterQueryString($uri, [$key]);
+        $result = self::getFilteredQueryString($uri, [$key]);
 
         $result[] = self::generateQueryString($key, $value);
 
@@ -354,7 +354,7 @@ class Uri implements UriInterface
      */
     public static function withQueryValues(UriInterface $uri, array $keyValueArray)
     {
-        $result = self::filterQueryString($uri, array_keys($keyValueArray));
+        $result = self::getFilteredQueryString($uri, array_keys($keyValueArray));
 
         foreach ($keyValueArray as $key => $value) {
             $result[] = self::generateQueryString($key, $value);
@@ -633,7 +633,7 @@ class Uri implements UriInterface
      * 
      * @return array
      */
-    private function filterQueryString(UriInterface $uri, array $keys)
+    private function getFilteredQueryString(UriInterface $uri, array $keys)
     {
         $current = $uri->getQuery();
 
