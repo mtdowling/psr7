@@ -5,10 +5,22 @@
     <testsuite>
       <directory>tests</directory>
     </testsuite>
+    <testsuite name="Integration tests">
+      <directory>./vendor/http-interop/http-factory-tests/test</directory>
+    </testsuite>
   </testsuites>
   <filter>
     <whitelist>
       <directory suffix=".php">src</directory>
     </whitelist>
   </filter>
+
+  <php>
+    <const name="REQUEST_FACTORY" value="GuzzleHttp\Psr7\Factory\HttpFactory"/>
+    <const name="RESPONSE_FACTORY" value="GuzzleHttp\Psr7\Factory\HttpFactory"/>
+    <const name="SERVER_REQUEST_FACTORY" value="GuzzleHttp\Psr7\Factory\HttpFactory"/>
+    <const name="STREAM_FACTORY" value="GuzzleHttp\Psr7\Factory\HttpFactory"/>
+    <const name="UPLOADED_FILE_FACTORY" value="GuzzleHttp\Psr7\Factory\HttpFactory"/>
+    <const name="URI_FACTORY" value="GuzzleHttp\Psr7\Factory\HttpFactory"/>
+  </php>
 </phpunit>
