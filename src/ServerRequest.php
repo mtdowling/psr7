@@ -182,19 +182,12 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     private static function extractPortFromHost($host)
     {
-        if (preg_match('/:(\d+)$/', $host, $matches) !== 1) {
-            return [$host, null];
-        }
+        $url = "http://{$host}";
+        $parts = parse_url($url);
+        $host = $parts['host'];
+        $port = isset($parts['port']) ? $parts['port'] : null;
 
-        list($match, $port) = $matches;
-
-        $host = mb_substr(
-            $host,
-            0,
-            mb_strlen($host) - mb_strlen($match)
-        );
-
-        return [$host, (int) $port];
+        return [$host, $port];
     }
 
     /**
