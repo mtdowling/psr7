@@ -69,8 +69,8 @@ function uri_for($uri)
  * - metadata: Array of custom metadata.
  * - size: Size of the stream.
  *
- * @param resource|string|null|int|float|bool|StreamInterface|callable $resource Entity body data
- * @param array                                                        $options  Additional options
+ * @param resource|string|null|int|float|bool|StreamInterface|callable|\Iterator $resource Entity body data
+ * @param array                                                                  $options  Additional options
  *
  * @return StreamInterface
  * @throws \InvalidArgumentException if the $resource arg is not valid.
@@ -516,8 +516,8 @@ function parse_response($message)
  * PHP style arrays into an associative array (e.g., foo[a]=1&foo[b]=2 will
  * be parsed into ['foo[a]' => '1', 'foo[b]' => '2']).
  *
- * @param string      $str         Query string to parse
- * @param bool|string $urlEncoding How the query string is encoded
+ * @param string   $str         Query string to parse
+ * @param int|bool $urlEncoding How the query string is encoded
  *
  * @return array
  */
@@ -533,9 +533,9 @@ function parse_query($str, $urlEncoding = true)
         $decoder = function ($value) {
             return rawurldecode(str_replace('+', ' ', $value));
         };
-    } elseif ($urlEncoding == PHP_QUERY_RFC3986) {
+    } elseif ($urlEncoding === PHP_QUERY_RFC3986) {
         $decoder = 'rawurldecode';
-    } elseif ($urlEncoding == PHP_QUERY_RFC1738) {
+    } elseif ($urlEncoding === PHP_QUERY_RFC1738) {
         $decoder = 'urldecode';
     } else {
         $decoder = function ($str) { return $str; };
@@ -565,10 +565,10 @@ function parse_query($str, $urlEncoding = true)
  * string. This function does not modify the provided keys when an array is
  * encountered (like http_build_query would).
  *
- * @param array     $params   Query string parameters.
- * @param int|false $encoding Set to false to not encode, PHP_QUERY_RFC3986
- *                            to encode using RFC3986, or PHP_QUERY_RFC1738
- *                            to encode using RFC1738.
+ * @param array    $params   Query string parameters.
+ * @param int|bool $encoding Set to false to not encode, PHP_QUERY_RFC3986
+ *                           to encode using RFC3986, or PHP_QUERY_RFC1738
+ *                           to encode using RFC1738.
  * @return string
  */
 function build_query(array $params, $encoding = PHP_QUERY_RFC3986)
@@ -680,6 +680,7 @@ function mimetype_from_extension($extension)
         'mid' => 'audio/midi',
         'midi' => 'audio/midi',
         'mov' => 'video/quicktime',
+        'mkv' => 'video/x-matroska',
         'mp3' => 'audio/mpeg',
         'mp4' => 'video/mp4',
         'mp4a' => 'audio/mp4',
@@ -831,6 +832,41 @@ function _parse_request_uri($path, array $headers)
     $scheme = substr($host, -4) === ':443' ? 'https' : 'http';
 
     return $scheme . '://' . $host . '/' . ltrim($path, '/');
+}
+
+/**
+ * Get a short summary of the message body
+ *
+ * Will return `null` if the response is not printable.
+ *
+ * @param MessageInterface $message    The message to get the body summary
+ * @param int              $truncateAt The maximum allowed size of the summary
+ *
+ * @return null|string
+ */
+function get_message_body_summary(MessageInterface $message, $truncateAt = 120)
+{
+    $body = $message->getBody();
+
+    if (!$body->isSeekable()) {
+        return null;
+    }
+
+    $size = $body->getSize();
+    $summary = $body->read($truncateAt);
+    $body->rewind();
+
+    if ($size > $truncateAt) {
+        $summary .= ' (truncated...)';
+    }
+
+    // Matches any printable character, including unicode characters:
+    // letters, marks, numbers, punctuation, spacing, and separators.
+    if (preg_match('/[^\pL\pM\pN\pP\pS\pZ\n\r\t]/', $summary)) {
+        return null;
+    }
+
+    return $summary;
 }
 
 /** @internal */

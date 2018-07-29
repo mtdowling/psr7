@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Stream;
 /**
  * @covers GuzzleHttp\Psr7\CachingStream
  */
-class CachingStreamTest extends \PHPUnit_Framework_TestCase
+class CachingStreamTest extends BaseTest
 {
     /** @var CachingStream */
     private $body;

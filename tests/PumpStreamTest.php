@@ -5,7 +5,7 @@ use GuzzleHttp\Psr7\LimitStream;
 use GuzzleHttp\Psr7\PumpStream;
 use GuzzleHttp\Psr7;
 
-class PumpStreamTest extends \PHPUnit_Framework_TestCase
+class PumpStreamTest extends BaseTest
 {
     public function testHasMetadataAndSize()
     {

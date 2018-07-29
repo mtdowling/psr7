@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Stream;
 /**
  * @covers GuzzleHttp\Psr7\Stream
  */
-class StreamTest extends \PHPUnit_Framework_TestCase
+class StreamTest extends BaseTest
 {
     public static $isFReadError = false;
 
@@ -117,7 +117,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
         $handle = fopen('php://temp', 'r');
         $stream = new Stream($handle);
         $this->assertSame($handle, $stream->detach());
-        $this->assertTrue(is_resource($handle), 'Stream is not closed');
+        $this->assertInternalType('resource', $handle, 'Stream is not closed');
         $this->assertNull($stream->detach());
 
         $this->assertStreamStateAfterClosedOrDetached($stream);

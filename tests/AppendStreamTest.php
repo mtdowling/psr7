@@ -4,7 +4,7 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7\AppendStream;
 use GuzzleHttp\Psr7;
 
-class AppendStreamTest extends \PHPUnit_Framework_TestCase
+class AppendStreamTest extends BaseTest
 {
     /**
      * @expectedException \InvalidArgumentException
@@ -103,7 +103,7 @@ class AppendStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($a->isWritable());
 
         $this->assertNull($s1->detach());
-        $this->assertTrue(is_resource($handle), 'resource is not closed when detaching');
+        $this->assertInternalType('resource', $handle, 'resource is not closed when detaching');
         fclose($handle);
     }
 

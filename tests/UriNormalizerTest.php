@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\UriNormalizer;
 /**
  * @covers GuzzleHttp\Psr7\UriNormalizer
  */
-class UriNormalizerTest extends \PHPUnit_Framework_TestCase
+class UriNormalizerTest extends BaseTest
 {
     public function testCapitalizePercentEncoding()
     {
@@ -82,7 +82,7 @@ class UriNormalizerTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveDefaultPort()
     {
-        $uri = $this->getMock('Psr\Http\Message\UriInterface');
+        $uri = $this->getMockBuilder('Psr\Http\Message\UriInterface')->getMock();
         $uri->expects($this->any())->method('getScheme')->will($this->returnValue('http'));
         $uri->expects($this->any())->method('getPort')->will($this->returnValue(80));
         $uri->expects($this->once())->method('withPort')->with(null)->will($this->returnValue(new Uri('http://example.org')));

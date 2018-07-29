@@ -10,7 +10,7 @@ use GuzzleHttp\Psr7\NoSeekStream;
 /**
  * @covers GuzzleHttp\Psr7\LimitStream
  */
-class LimitStreamTest extends \PHPUnit_Framework_TestCase
+class LimitStreamTest extends BaseTest
 {
     /** @var LimitStream */
     private $body;

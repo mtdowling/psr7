@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\UriResolver;
 /**
  * @covers GuzzleHttp\Psr7\UriResolver
  */
-class UriResolverTest extends \PHPUnit_Framework_TestCase
+class UriResolverTest extends BaseTest
 {
     const RFC3986_BASE = 'http://a/b/c/d;p?q';
 

@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\FnStream;
 /**
  * @covers GuzzleHttp\Psr7\FnStream
  */
-class FnStreamTest extends \PHPUnit_Framework_TestCase
+class FnStreamTest extends BaseTest
 {
     /**
      * @expectedException \BadMethodCallException
@@ -93,7 +93,7 @@ class FnStreamTest extends \PHPUnit_Framework_TestCase
     {
         $a = new FnStream([]);
         $b = serialize($a);
-        $this->setExpectedException('\LogicException', 'FnStream should never be unserialized');
+        $this->expectException('\LogicException', 'FnStream should never be unserialized');
         unserialize($b);
     }
 }
