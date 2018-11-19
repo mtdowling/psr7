@@ -45,7 +45,7 @@ class Request implements RequestInterface
         $this->setHeaders($headers);
         $this->protocol = $version;
 
-        if (!$this->hasHeader('Host')) {
+        if (!isset($this->headerNames['host'])) {
             $this->updateHostFromUri();
         }
 
