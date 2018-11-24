@@ -93,6 +93,10 @@ class Response implements ResponseInterface
         $version = '1.1',
         $reason = null
     ) {
+        if (!is_int($status)) {
+            throw new \InvalidArgumentException('Status code must be an integer.');
+        }
+
         $this->statusCode = (int) $status;
 
         if ($body !== '' && $body !== null) {

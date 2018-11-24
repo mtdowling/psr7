@@ -249,4 +249,10 @@ class ResponseTest extends BaseTest
             $this->assertSame(['Foo'], $r->getHeader('OWS'));
         }
     }
+
+    public function testResponseInitializedWithInvalidStatusCode()
+    {
+        $this->expectException('InvalidArgumentException');
+        new Response('whatever');
+    }
 }
