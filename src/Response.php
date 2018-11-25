@@ -93,11 +93,15 @@ class Response implements ResponseInterface
         $version = '1.1',
         $reason = null
     ) {
-        if (!is_int($status)) {
-            throw new \InvalidArgumentException('Status code must be an integer.');
+        if (filter_var($status, FILTER_VALIDATE_INT) === false) {
+            throw new \InvalidArgumentException('Status code must be an integer(ish) value.');
         }
 
         $this->statusCode = (int) $status;
+
+        if (!isset(self::$phrases[$this->statusCode])) {
+            throw new \InvalidArgumentException(sprintf('Status code %s is not a valid HTTP Status code.', $this->statusCode));
+        }
 
         if ($body !== '' && $body !== null) {
             $this->stream = stream_for($body);

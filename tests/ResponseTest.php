@@ -250,9 +250,41 @@ class ResponseTest extends BaseTest
         }
     }
 
-    public function testResponseInitializedWithInvalidStatusCode()
+    /**
+     * @dataProvider responseInitializedWithNonIntegerStatusCodeProvider
+     * @param mixed $invalidValues
+     */
+    public function testResponseInitializedWithNonIntegerStatusCodeProvider($invalidValues)
     {
-        $this->expectException('InvalidArgumentException');
-        new Response('whatever');
+        $this->expectException('InvalidArgumentException', 'Status code must be an integer(ish) value.');
+        new Response($invalidValues);
+    }
+
+    public function responseInitializedWithNonIntegerStatusCodeProvider()
+    {
+        return [
+            ['whatever'],
+            ['1.01'],
+            [1.01],
+            [new \stdClass()],
+        ];
+    }
+
+    /**
+     * @dataProvider responseInitializedWithNonExistingStatusCodeProvider
+     * @param mixed $invalidValues
+     */
+    public function testResponseInitializedWithNonExistingStatusCodeProvider($invalidValues)
+    {
+        $this->expectException('InvalidArgumentException', "Status code $invalidValues is not a valid HTTP Status code.");
+        new Response($invalidValues);
+    }
+
+    public function responseInitializedWithNonExistingStatusCodeProvider()
+    {
+        return [
+            [600],
+            [1],
+        ];
     }
 }
