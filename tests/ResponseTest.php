@@ -269,22 +269,4 @@ class ResponseTest extends BaseTest
             [new \stdClass()],
         ];
     }
-
-    /**
-     * @dataProvider responseInitializedWithNonExistingStatusCodeProvider
-     * @param mixed $invalidValues
-     */
-    public function testResponseInitializedWithNonExistingStatusCodeProvider($invalidValues)
-    {
-        $this->expectException('InvalidArgumentException', "Status code $invalidValues is not a valid HTTP Status code.");
-        new Response($invalidValues);
-    }
-
-    public function responseInitializedWithNonExistingStatusCodeProvider()
-    {
-        return [
-            [600],
-            [1],
-        ];
-    }
 }

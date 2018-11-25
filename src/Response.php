@@ -80,7 +80,7 @@ class Response implements ResponseInterface
     private $statusCode = 200;
 
     /**
-     * @param int|string                           $status  Status code
+     * @param int                                  $status  Status code
      * @param array                                $headers Response headers
      * @param string|null|resource|StreamInterface $body    Response body
      * @param string                               $version Protocol version
@@ -94,14 +94,10 @@ class Response implements ResponseInterface
         $reason = null
     ) {
         if (filter_var($status, FILTER_VALIDATE_INT) === false) {
-            throw new \InvalidArgumentException('Status code must be an integer(ish) value.');
+            throw new \InvalidArgumentException('Status code must be an integer value.');
         }
 
         $this->statusCode = (int) $status;
-
-        if (!isset(self::$phrases[$this->statusCode])) {
-            throw new \InvalidArgumentException(sprintf('Status code %s is not a valid HTTP Status code.', $this->statusCode));
-        }
 
         if ($body !== '' && $body !== null) {
             $this->stream = stream_for($body);
