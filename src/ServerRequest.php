@@ -171,7 +171,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         $body = new LazyOpenStream('php://input', 'r+');
         $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? str_replace('HTTP/', '', $_SERVER['SERVER_PROTOCOL']) : '1.1';
 
-        $serverRequest = new ServerRequest($method, $uri, $headers, $body, $protocol, $_SERVER);
+        $serverRequest = new static($method, $uri, $headers, $body, $protocol, $_SERVER);
 
         return $serverRequest
             ->withCookieParams($_COOKIE)
