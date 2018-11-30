@@ -5,6 +5,8 @@ use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
+use Fig\Http\Message;
+use ReflectionClass;
 
 /**
  * PSR-7 request implementation.
@@ -40,7 +42,16 @@ class Request implements RequestInterface
             $uri = new Uri($uri);
         }
 
-        $this->method = strtoupper($method);
+        $upperMethod = strtoupper($method);
+        $allMethods = (new ReflectionClass (Message::class))->getConstants();
+        if (!in_array($upperMethod, $allMethods, true)) {
+            throw new InvalidArgumentException(sprintf(
+                'Unknown HTTP Method: %s.',
+                $method
+            ));
+        }
+
+        $this->method = $upperMethod;
         $this->uri = $uri;
         $this->setHeaders($headers);
         $this->protocol = $version;
