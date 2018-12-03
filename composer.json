@@ -16,12 +16,12 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": "^7.2",
         "psr/http-message": "~1.0",
         "ralouphie/getallheaders": "^2.0.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
+        "phpunit/phpunit": "^6.5.8"
     },
     "provide": {
         "psr/http-message-implementation": "1.0"
