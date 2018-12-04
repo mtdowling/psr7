@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": "^7.2",
         "psr/http-message": "~1.0",
         "ralouphie/getallheaders": "^2.0.5"
     },
