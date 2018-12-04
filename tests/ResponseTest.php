@@ -3,12 +3,14 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\StreamInterface;
 
 /**
- * @covers GuzzleHttp\Psr7\MessageTrait
- * @covers GuzzleHttp\Psr7\Response
+ * @covers \GuzzleHttp\Psr7\MessageTrait
+ * @covers \GuzzleHttp\Psr7\Response
  */
-class ResponseTest extends BaseTest
+class ResponseTest extends TestCase
 {
     public function testDefaultConstructor()
     {
@@ -17,7 +19,7 @@ class ResponseTest extends BaseTest
         $this->assertSame('1.1', $r->getProtocolVersion());
         $this->assertSame('OK', $r->getReasonPhrase());
         $this->assertSame([], $r->getHeaders());
-        $this->assertInstanceOf('Psr\Http\Message\StreamInterface', $r->getBody());
+        $this->assertInstanceOf(StreamInterface::class, $r->getBody());
         $this->assertSame('', (string) $r->getBody());
     }
 
@@ -256,7 +258,8 @@ class ResponseTest extends BaseTest
      */
     public function testResponseInitializedWithNonIntegerStatusCodeProvider($invalidValues)
     {
-        $this->expectException('InvalidArgumentException', 'Status code must be an integer value.');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Status code must be an integer value.');
         new Response($invalidValues);
     }
 

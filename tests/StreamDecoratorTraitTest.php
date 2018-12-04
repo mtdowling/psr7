@@ -1,6 +1,7 @@
 <?php
 namespace GuzzleHttp\Tests\Psr7;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\StreamDecoratorTrait;
@@ -11,9 +12,9 @@ class Str implements StreamInterface
 }
 
 /**
- * @covers GuzzleHttp\Psr7\StreamDecoratorTrait
+ * @covers \GuzzleHttp\Psr7\StreamDecoratorTrait
  */
-class StreamDecoratorTraitTest extends BaseTest
+class StreamDecoratorTraitTest extends TestCase
 {
     /** @var StreamInterface */
     private $a;

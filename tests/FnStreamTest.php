@@ -3,11 +3,12 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\FnStream;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers GuzzleHttp\Psr7\FnStream
+ * @covers \GuzzleHttp\Psr7\FnStream
  */
-class FnStreamTest extends BaseTest
+class FnStreamTest extends TestCase
 {
     /**
      * @expectedException \BadMethodCallException
@@ -93,7 +94,8 @@ class FnStreamTest extends BaseTest
     {
         $a = new FnStream([]);
         $b = serialize($a);
-        $this->expectException('\LogicException', 'FnStream should never be unserialized');
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('FnStream should never be unserialized');
         unserialize($b);
     }
 }

@@ -4,11 +4,12 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers GuzzleHttp\Psr7\Request
+ * @covers \GuzzleHttp\Psr7\Request
  */
-class RequestTest extends BaseTest
+class RequestTest extends TestCase
 {
     public function testRequestUriMayBeString()
     {

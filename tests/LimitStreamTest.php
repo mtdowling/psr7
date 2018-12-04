@@ -6,11 +6,12 @@ use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\Psr7\LimitStream;
 use GuzzleHttp\Psr7\NoSeekStream;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers GuzzleHttp\Psr7\LimitStream
+ * @covers \GuzzleHttp\Psr7\LimitStream
  */
-class LimitStreamTest extends BaseTest
+class LimitStreamTest extends TestCase
 {
     /** @var LimitStream */
     private $body;

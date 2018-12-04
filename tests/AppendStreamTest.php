@@ -3,8 +3,9 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\AppendStream;
 use GuzzleHttp\Psr7;
+use PHPUnit\Framework\TestCase;
 
-class AppendStreamTest extends BaseTest
+class AppendStreamTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

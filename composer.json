@@ -21,7 +21,7 @@
         "ralouphie/getallheaders": "^2.0.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
+        "phpunit/phpunit": "^7.4"
     },
     "provide": {
         "psr/http-message-implementation": "1.0"

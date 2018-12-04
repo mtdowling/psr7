@@ -5,9 +5,9 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\NoSeekStream;
 use GuzzleHttp\Psr7\Stream;
-use Psr\Http\Message\ServerRequestInterface;
+use PHPUnit\Framework\TestCase;
 
-class FunctionsTest extends BaseTest
+class FunctionsTest extends TestCase
 {
     public function testCopiesToString()
     {

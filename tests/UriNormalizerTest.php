@@ -3,11 +3,12 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriNormalizer;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers GuzzleHttp\Psr7\UriNormalizer
+ * @covers \GuzzleHttp\Psr7\UriNormalizer
  */
-class UriNormalizerTest extends BaseTest
+class UriNormalizerTest extends TestCase
 {
     public function testCapitalizePercentEncoding()
     {

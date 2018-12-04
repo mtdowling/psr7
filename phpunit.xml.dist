@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/bootstrap.php"
+<phpunit bootstrap="./tests/bootstrap.php"
+         backupGlobals="true"
+         backupStaticAttributes="false"
+         verbose="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
          colors="true">
-  <testsuites>
-    <testsuite>
-      <directory>tests</directory>
-    </testsuite>
-  </testsuites>
-  <filter>
-    <whitelist>
-      <directory suffix=".php">src</directory>
-    </whitelist>
-  </filter>
+    <testsuites>
+        <testsuite name="AllTests">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
 </phpunit>

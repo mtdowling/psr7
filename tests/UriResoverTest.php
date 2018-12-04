@@ -3,11 +3,12 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriResolver;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers GuzzleHttp\Psr7\UriResolver
+ * @covers \GuzzleHttp\Psr7\UriResolver
  */
-class UriResolverTest extends BaseTest
+class UriResolverTest extends TestCase
 {
     const RFC3986_BASE = 'http://a/b/c/d;p?q';
 

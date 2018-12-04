@@ -2,11 +2,12 @@
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\Uri;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers GuzzleHttp\Psr7\Uri
+ * @covers \GuzzleHttp\Psr7\Uri
  */
-class UriTest extends BaseTest
+class UriTest extends TestCase
 {
     public function testParsesProvidedUri()
     {
@@ -621,7 +622,7 @@ class UriTest extends BaseTest
 
         $uri = $uri->withScheme('');
         $this->assertSame('//example.org//path-not-host.com', (string) $uri); // This is still valid
-        $this->expectException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $uri->withHost(''); // Now it becomes invalid
     }
 

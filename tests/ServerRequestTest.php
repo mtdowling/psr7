@@ -4,11 +4,12 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Psr7\UploadedFile;
 use GuzzleHttp\Psr7\Uri;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers GuzzleHttp\Psr7\ServerRequest
+ * @covers \GuzzleHttp\Psr7\ServerRequest
  */
-class ServerRequestTest extends BaseTest
+class ServerRequestTest extends TestCase
 {
     public function dataNormalizeFiles()
     {
@@ -266,7 +267,8 @@ class ServerRequestTest extends BaseTest
 
     public function testNormalizeFilesRaisesException()
     {
-        $this->expectException('InvalidArgumentException', 'Invalid value in files specification');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid value in files specification');
         ServerRequest::normalizeFiles(['test' => 'something']);
     }
 
