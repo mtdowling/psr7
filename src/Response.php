@@ -93,9 +93,9 @@ class Response implements ResponseInterface
         $version = '1.1',
         $reason = null
     ) {
-        if (filter_var($status, FILTER_VALIDATE_INT) === false) {
-            throw new \InvalidArgumentException('Status code must be an integer value.');
-        }
+        $this->assertStatusCodeIsInteger($status);
+        $status = (int) $status;
+        $this->assertStatusCodeRange($status);
 
         $this->statusCode = (int) $status;
 
@@ -125,12 +125,36 @@ class Response implements ResponseInterface
 
     public function withStatus($code, $reasonPhrase = '')
     {
+        $this->assertStatusCodeIsInteger($code);
+        $code = (int) $code;
+        $this->assertStatusCodeRange($code);
+
         $new = clone $this;
-        $new->statusCode = (int) $code;
+        $new->statusCode = $code;
         if ($reasonPhrase == '' && isset(self::$phrases[$new->statusCode])) {
             $reasonPhrase = self::$phrases[$new->statusCode];
         }
         $new->reasonPhrase = $reasonPhrase;
         return $new;
+    }
+
+    /**
+     * @param int $statusCode
+     */
+    private function assertStatusCodeIsInteger($statusCode)
+    {
+        if (filter_var($statusCode, FILTER_VALIDATE_INT) === false) {
+            throw new \InvalidArgumentException('Status code must be an integer value.');
+        }
+    }
+
+    /**
+     * @param int $statusCode
+     */
+    private function assertStatusCodeRange($statusCode)
+    {
+        if ($statusCode < 100 || $statusCode > 600) {
+            throw new \InvalidArgumentException('Status code must be an integer value between 1xx and 5xx.');
+        }
     }
 }
