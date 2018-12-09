@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 
 /**
+ * @covers GuzzleHttp\Psr7\MessageTrait
  * @covers GuzzleHttp\Psr7\Request
  */
 class RequestTest extends BaseTest
@@ -88,6 +89,35 @@ class RequestTest extends BaseTest
         $this->assertNotSame($r1, $r2);
         $this->assertSame($u2, $r2->getUri());
         $this->assertSame($u1, $r1->getUri());
+    }
+
+    /**
+     * @dataProvider invalidMethodsProvider
+     */
+    public function testConstructWithInvalidMethods($method)
+    {
+        $this->expectException('InvalidArgumentException');
+        new Request($method, '/');
+    }
+
+    /**
+     * @dataProvider invalidMethodsProvider
+     */
+    public function testWithInvalidMethods($method)
+    {
+        $r = new Request('get', '/');
+        $this->expectException('InvalidArgumentException');
+        $r->withMethod($method);
+    }
+
+    public function invalidMethodsProvider()
+    {
+        return [
+            [null],
+            [false],
+            [['foo']],
+            [new \stdClass()],
+        ];
     }
 
     public function testSameInstanceWhenSameUri()

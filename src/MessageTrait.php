@@ -75,7 +75,7 @@ trait MessageTrait
             $value = [$value];
         } else {
             if (count($value) === 0){
-                throw new \InvalidArgumentException('Header value can not be empty.');
+                throw new \InvalidArgumentException('Header value can not be an empty array.');
             }
         }
 
@@ -103,7 +103,7 @@ trait MessageTrait
             $value = [$value];
         } else {
             if (count($value) === 0){
-                throw new \InvalidArgumentException('Header value can not be empty.');
+                throw new \InvalidArgumentException('Header value can not be an empty array.');
             }
         }
 
@@ -162,12 +162,17 @@ trait MessageTrait
     {
         $this->headerNames = $this->headers = [];
         foreach ($headers as $header => $value) {
+            $this->assertHeader($header);
             if (!is_array($value)) {
                 if (!is_string($value)) {
                     throw new \InvalidArgumentException('Header value must be a string or an array of strings.');
                 }
 
                 $value = [$value];
+            } else {
+                if (count($value) === 0){
+                    throw new \InvalidArgumentException('Header value can not be an empty array.');
+                }
             }
 
             $value = $this->trimHeaderValues($value);
@@ -212,7 +217,7 @@ trait MessageTrait
     private function assertHeader($header)
     {
         if (!is_string($header) || $header === '') {
-            throw new \InvalidArgumentException('Header must be a non empty string');
+            throw new \InvalidArgumentException('Header must be a non empty string.');
         }
     }
 }
