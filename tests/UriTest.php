@@ -680,6 +680,13 @@ class UriTest extends BaseTest
             new ExtendedUriTest('http://h:9/')
         );
     }
+
+    public function testSpecialCharsOfUserInfo()
+    {
+        // The `userInfo` must always be URL-encoded.
+        $uri = (new Uri)->withUserInfo('foo@bar.com', 'pass#word');
+        $this->assertSame('foo%40bar.com:pass%23word', $uri->getUserInfo());
+    }
 }
 
 class ExtendedUriTest extends Uri
