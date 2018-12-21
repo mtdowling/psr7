@@ -437,9 +437,9 @@ class Uri implements UriInterface
 
     public function withUserInfo($user, $password = null)
     {
-        $info = $user;
+        $info = rawurlencode($user);
         if ($password != '') {
-            $info .= ':' . $password;
+            $info .= ':' . rawurlencode($password);
         }
 
         if ($this->userInfo === $info) {
