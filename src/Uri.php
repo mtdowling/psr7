@@ -437,9 +437,9 @@ class Uri implements UriInterface
 
     public function withUserInfo($user, $password = null)
     {
-        $info = rawurlencode($user);
-        if ($password != '') {
-            $info .= ':' . rawurlencode($password);
+        $info = $this->filterUserInfoComponent($user);
+        if ($password !== null) {
+            $info .= ':' . $this->filterUserInfoComponent($password);
         }
 
         if ($this->userInfo === $info) {
@@ -574,6 +574,26 @@ class Uri implements UriInterface
         }
 
         return strtolower($scheme);
+    }
+
+    /**
+     * @param string $component
+     *
+     * @return string
+     *
+     * @throws \InvalidArgumentException If the user info is invalid.
+     */
+    private function filterUserInfoComponent($component)
+    {
+        if (!is_string($component)) {
+            throw new \InvalidArgumentException('User info must be a string');
+        }
+
+        return preg_replace_callback(
+            '/(?:[^%' . self::$charUnreserved . self::$charSubDelims . ']+|%(?![A-Fa-f0-9]{2}))/',
+            [$this, 'rawurlencodeMatchZero'],
+            $component
+        );
     }
 
     /**

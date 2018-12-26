@@ -686,6 +686,10 @@ class UriTest extends BaseTest
         // The `userInfo` must always be URL-encoded.
         $uri = (new Uri)->withUserInfo('foo@bar.com', 'pass#word');
         $this->assertSame('foo%40bar.com:pass%23word', $uri->getUserInfo());
+
+        // The `userInfo` can already be URL-encoded: it should not be encoded twice.
+        $uri = (new Uri)->withUserInfo('foo%40bar.com', 'pass%23word');
+        $this->assertSame('foo%40bar.com:pass%23word', $uri->getUserInfo());
     }
 }
 
