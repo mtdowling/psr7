@@ -138,9 +138,6 @@ class Response implements ResponseInterface
         return $new;
     }
 
-    /**
-     * @param int $statusCode
-     */
     private function assertStatusCodeIsInteger($statusCode)
     {
         if (filter_var($statusCode, FILTER_VALIDATE_INT) === false) {
@@ -148,9 +145,6 @@ class Response implements ResponseInterface
         }
     }
 
-    /**
-     * @param int $statusCode
-     */
     private function assertStatusCodeRange($statusCode)
     {
         if ($statusCode < 100 || $statusCode >= 600) {

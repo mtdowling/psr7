@@ -142,9 +142,6 @@ class Request implements RequestInterface
         $this->headers = [$header => [$host]] + $this->headers;
     }
 
-    /**
-     * @param string $method
-     */
     private function assertMethod($method)
     {
         if (!is_string($method) || $method === '') {

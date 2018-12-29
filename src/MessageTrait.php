@@ -211,9 +211,6 @@ trait MessageTrait
         }, $values);
     }
 
-    /**
-     * @param string $header
-     */
     private function assertHeader($header)
     {
         if (!is_string($header) || $header === '') {
