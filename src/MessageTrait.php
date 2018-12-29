@@ -67,19 +67,7 @@ trait MessageTrait
     public function withHeader($header, $value)
     {
         $this->assertHeader($header);
-        if (!is_array($value)) {
-            if (!is_string($value)) {
-                throw new \InvalidArgumentException('Header value must be a string or an array of strings.');
-            }
-
-            $value = [$value];
-        } else {
-            if (count($value) === 0){
-                throw new \InvalidArgumentException('Header value can not be an empty array.');
-            }
-        }
-
-        $value = $this->trimHeaderValues($value);
+        $value = $this->normalizeHeaderValue($value);
         $normalized = strtolower($header);
 
         $new = clone $this;
@@ -95,19 +83,7 @@ trait MessageTrait
     public function withAddedHeader($header, $value)
     {
         $this->assertHeader($header);
-        if (!is_array($value)) {
-            if (!is_string($value)) {
-                throw new \InvalidArgumentException('Header value must be a string or an array of strings.');
-            }
-
-            $value = [$value];
-        } else {
-            if (count($value) === 0){
-                throw new \InvalidArgumentException('Header value can not be an empty array.');
-            }
-        }
-
-        $value = $this->trimHeaderValues($value);
+        $value = $this->normalizeHeaderValue($value);
         $normalized = strtolower($header);
 
         $new = clone $this;
@@ -163,19 +139,7 @@ trait MessageTrait
         $this->headerNames = $this->headers = [];
         foreach ($headers as $header => $value) {
             $this->assertHeader($header);
-            if (!is_array($value)) {
-                if (!is_string($value)) {
-                    throw new \InvalidArgumentException('Header value must be a string or an array of strings.');
-                }
-
-                $value = [$value];
-            } else {
-                if (count($value) === 0){
-                    throw new \InvalidArgumentException('Header value can not be an empty array.');
-                }
-            }
-
-            $value = $this->trimHeaderValues($value);
+            $value = $this->normalizeHeaderValue($value);
             $normalized = strtolower($header);
             if (isset($this->headerNames[$normalized])) {
                 $header = $this->headerNames[$normalized];
@@ -185,6 +149,23 @@ trait MessageTrait
                 $this->headers[$header] = $value;
             }
         }
+    }
+
+    private function normalizeHeaderValue($value)
+    {
+        if (!is_array($value)) {
+            if (!is_string($value)) {
+                throw new \InvalidArgumentException('Header value must be a string or an array of strings.');
+            }
+
+            return $this->trimHeaderValues([$value]);
+        }
+
+        if (count($value) === 0) {
+            throw new \InvalidArgumentException('Header value can not be an empty array.');
+        }
+
+        return $this->trimHeaderValues($value);
     }
 
     /**
