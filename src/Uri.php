@@ -462,7 +462,7 @@ class Uri implements UriInterface
         }
 
         $new = clone $this;
-        $new->host = $host;
+        $new->host = $host; // Should be Exception
         $new->validateState();
 
         return $new;
