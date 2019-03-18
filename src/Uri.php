@@ -41,9 +41,6 @@ class Uri implements UriInterface
     /** @var string Uri scheme. */
     private $scheme = '';
 
-    /** @var string Uri user info. */
-    private $userInfo = '';
-
     /** @var string Uri host. */
     private $host = '';
 
@@ -58,6 +55,12 @@ class Uri implements UriInterface
 
     /** @var string Uri fragment. */
     private $fragment = '';
+
+    /** @var string Uri user param. */
+    private $user = '';
+
+    /** @var string Uri pass param. */
+    private $pass = null;
 
     /**
      * @param string $uri URI to parse
@@ -378,8 +381,8 @@ class Uri implements UriInterface
     public function getAuthority()
     {
         $authority = $this->host;
-        if ($this->userInfo !== '') {
-            $authority = $this->userInfo . '@' . $authority;
+        if ($this->user !== '') {
+            $authority = $this->getUserInfo() . '@' . $authority;
         }
 
         if ($this->port !== null) {
@@ -391,7 +394,22 @@ class Uri implements UriInterface
 
     public function getUserInfo()
     {
-        return $this->userInfo;
+        $passStr = '';
+        if ($this->pass !== null) {
+            $passStr = ':' . $this->pass;
+        }
+
+        return $this->user . $passStr;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function getPass()
+    {
+        return $this->pass;
     }
 
     public function getHost()
@@ -437,17 +455,18 @@ class Uri implements UriInterface
 
     public function withUserInfo($user, $password = null)
     {
-        $info = $this->filterUserInfoComponent($user);
-        if ($password !== null) {
-            $info .= ':' . $this->filterUserInfoComponent($password);
-        }
+        $newUser = $this->filterUserInfoComponent($user);
+        $newPass = $password !== null ? $this->filterUserInfoComponent($password) : null;
 
-        if ($this->userInfo === $info) {
+        $newInfo = $newUser . ($newPass !== null ? ':' . $newPass: '');
+
+        if ($this->getUserInfo() === $newInfo) {
             return $this;
         }
 
         $new = clone $this;
-        $new->userInfo = $info;
+        $new->user = $newUser;
+        $new->pass = $newPass;
         $new->validateState();
 
         return $new;
@@ -537,7 +556,7 @@ class Uri implements UriInterface
         $this->scheme = isset($parts['scheme'])
             ? $this->filterScheme($parts['scheme'])
             : '';
-        $this->userInfo = isset($parts['user'])
+        $this->user = isset($parts['user'])
             ? $this->filterUserInfoComponent($parts['user'])
             : '';
         $this->host = isset($parts['host'])
@@ -556,7 +575,7 @@ class Uri implements UriInterface
             ? $this->filterQueryAndFragment($parts['fragment'])
             : '';
         if (isset($parts['pass'])) {
-            $this->userInfo .= ':' . $this->filterUserInfoComponent($parts['pass']);
+            $this->pass = $this->filterUserInfoComponent($parts['pass']);
         }
 
         $this->removeDefaultPort();
@@ -640,7 +659,7 @@ class Uri implements UriInterface
     /**
      * @param UriInterface $uri
      * @param array        $keys
-     * 
+     *
      * @return array
      */
     private static function getFilteredQueryString(UriInterface $uri, array $keys)
@@ -661,7 +680,7 @@ class Uri implements UriInterface
     /**
      * @param string      $key
      * @param string|null $value
-     * 
+     *
      * @return string
      */
     private static function generateQueryString($key, $value)
