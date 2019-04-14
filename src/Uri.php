@@ -66,7 +66,7 @@ class Uri implements UriInterface
     {
         // weak type check to also accept null until we can add scalar type hints
         if ($uri != '') {
-            $parts = parse_url($uri);
+            $parts = self::parse($uri);
             if ($parts === false) {
                 throw new \InvalidArgumentException("Unable to parse URI: $uri");
             }
@@ -611,7 +611,8 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Host must be a string');
         }
 
-        return strtolower($host);
+        // strtolower() simply breaks internationalized domain names
+        return function_exists('mb_strtolower') ? mb_strtolower($host) : $host;
     }
 
     /**
@@ -640,7 +641,7 @@ class Uri implements UriInterface
     /**
      * @param UriInterface $uri
      * @param array        $keys
-     * 
+     *
      * @return array
      */
     private static function getFilteredQueryString(UriInterface $uri, array $keys)
@@ -661,7 +662,7 @@ class Uri implements UriInterface
     /**
      * @param string      $key
      * @param string|null $value
-     * 
+     *
      * @return string
      */
     private static function generateQueryString($key, $value)
@@ -756,5 +757,40 @@ class Uri implements UriInterface
             $this->path = '/'. $this->path;
             //throw new \InvalidArgumentException('The path of a URI with an authority must start with a slash "/" or be empty');
         }
+    }
+
+    /**
+     * UTF-8 aware \parse_url() replacement.
+     *
+     * The internal function produces broken output for non ASCII domain names (IDN)
+     * when used with locales other than "C".
+     *
+     * On the other hand, cURL understands IDN correctly only when UTF-8 locale is
+     * configured ("C.UTF-8", "en_US.UTF-8", etc.).
+     *
+     * @see https://bugs.php.net/bug.php?id=52923
+     * @see https://www.php.net/manual/en/function.parse-url.php#114817
+     * @see https://curl.haxx.se/libcurl/c/CURLOPT_URL.html#ENCODING
+     *
+     * @return array|false
+     * @internal
+     */
+    private static function parse($url, $component = -1)
+    {
+        $encodedUrl = preg_replace_callback(
+            '%[^:/@?&=#]+%usD',
+            static function ($matches) {
+                return urlencode($matches[0]);
+            },
+            $url
+        );
+
+        $result = parse_url($encodedUrl, $component);
+
+        if ($result === false) {
+            return false;
+        }
+
+        return is_array($result) ? array_map('urldecode', $result) : urldecode($result);
     }
 }

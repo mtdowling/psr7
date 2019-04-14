@@ -841,7 +841,7 @@ function _parse_request_uri($path, array $headers)
 }
 
 /**
- * Get a short summary of the message body
+ * Get a short summary of the message body.
  *
  * Will return `null` if the response is not printable.
  *

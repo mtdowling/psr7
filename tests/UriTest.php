@@ -697,6 +697,12 @@ class UriTest extends BaseTest
         $uri = (new Uri)->withUserInfo('foo%40bar.com', 'pass%23word');
         $this->assertSame('foo%40bar.com:pass%23word', $uri->getUserInfo());
     }
+
+    public function testInternationalizedDomainName()
+    {
+        $uri = new Uri('https://яндекс.рф');
+        $this->assertSame('яндекс.рф', $uri->getHost());
+    }
 }
 
 class ExtendedUriTest extends Uri
