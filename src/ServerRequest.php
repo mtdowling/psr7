@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
+use League\Uri\Http;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Message\StreamInterface;
@@ -202,7 +203,7 @@ class ServerRequest extends Request implements ServerRequestInterface
      */
     public static function getUriFromGlobals()
     {
-        $uri = new Uri('');
+        $uri = Http::createFromString();
 
         $uri = $uri->withScheme(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http');
 

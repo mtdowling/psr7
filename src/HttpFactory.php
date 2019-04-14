@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Psr7;
 
+use League\Uri\Http;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
@@ -119,6 +120,6 @@ final class HttpFactory implements
      */
     public function createUri(string $uri = ''): UriInterface
     {
-        return new Uri($uri);
+        return Http::createFromString($uri);
     }
 }

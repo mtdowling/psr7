@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
+use League\Uri\Http;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
@@ -41,7 +42,7 @@ class Request implements RequestInterface
     ) {
         $this->assertMethod($method);
         if (!($uri instanceof UriInterface)) {
-            $uri = new Uri($uri);
+            $uri = Http::createFromString($uri);
         }
 
         $this->method = strtoupper($method);

@@ -1,6 +1,7 @@
 <?php
 namespace GuzzleHttp\Psr7;
 
+use League\Uri\Http;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -56,7 +57,7 @@ function uri_for($uri)
     if ($uri instanceof UriInterface) {
         return $uri;
     } elseif (is_string($uri)) {
-        return new Uri($uri);
+        return Http::createFromString($uri);
     }
 
     throw new \InvalidArgumentException('URI must be a string or UriInterface');
@@ -841,7 +842,7 @@ function _parse_request_uri($path, array $headers)
 }
 
 /**
- * Get a short summary of the message body
+ * Get a short summary of the message body.
  *
  * Will return `null` if the response is not printable.
  *

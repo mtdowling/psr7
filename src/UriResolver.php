@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Psr7;
 
+use League\Uri\Http;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -102,7 +103,7 @@ final class UriResolver
             }
         }
 
-        return new Uri(Uri::composeComponents(
+        return Http::createFromString(Uri::composeComponents(
             $base->getScheme(),
             $targetAuthority,
             $targetPath,
@@ -121,16 +122,16 @@ final class UriResolver
      * One use-case is to use the current request URI as base URI and then generate relative links in your documents
      * to reduce the document size or offer self-contained downloadable document archives.
      *
-     *    $base = new Uri('http://example.com/a/b/');
-     *    echo UriResolver::relativize($base, new Uri('http://example.com/a/b/c'));  // prints 'c'.
-     *    echo UriResolver::relativize($base, new Uri('http://example.com/a/x/y'));  // prints '../x/y'.
-     *    echo UriResolver::relativize($base, new Uri('http://example.com/a/b/?q')); // prints '?q'.
-     *    echo UriResolver::relativize($base, new Uri('http://example.org/a/b/'));   // prints '//example.org/a/b/'.
+     *    $base = uri_for('http://example.com/a/b/');
+     *    echo UriResolver::relativize($base, uri_for('http://example.com/a/b/c'));  // prints 'c'.
+     *    echo UriResolver::relativize($base, uri_for('http://example.com/a/x/y'));  // prints '../x/y'.
+     *    echo UriResolver::relativize($base, uri_for('http://example.com/a/b/?q')); // prints '?q'.
+     *    echo UriResolver::relativize($base, uri_for('http://example.org/a/b/'));   // prints '//example.org/a/b/'.
      *
      * This method also accepts a target that is already relative and will try to relativize it further. Only a
      * relative-path reference will be returned as-is.
      *
-     *    echo UriResolver::relativize($base, new Uri('/a/b/c'));  // prints 'c' as well
+     *    echo UriResolver::relativize($base, uri_for('/a/b/c'));  // prints 'c' as well
      *
      * @param UriInterface $base   Base URI
      * @param UriInterface $target Target URI
