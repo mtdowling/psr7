@@ -117,7 +117,7 @@ class UriTest extends BaseTest
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid port: 100000. Must be between 1 and 65535
+     * @expectedExceptionMessage Invalid port: 100000. Must be between 0 and 65535
      */
     public function testPortMustBeValid()
     {
@@ -126,11 +126,11 @@ class UriTest extends BaseTest
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid port: 0. Must be between 1 and 65535
+     * @expectedExceptionMessage Invalid port: -1. Must be between 0 and 65535
      */
-    public function testWithPortCannotBeZero()
+    public function testWithPortCannotBeNegative()
     {
-        (new Uri())->withPort(0);
+        (new Uri())->withPort(-1);
     }
 
     /**
