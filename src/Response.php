@@ -97,7 +97,7 @@ class Response implements ResponseInterface
         $status = (int) $status;
         $this->assertStatusCodeRange($status);
 
-        $this->statusCode = (int) $status;
+        $this->statusCode = $status;
 
         if ($body !== '' && $body !== null) {
             $this->stream = stream_for($body);

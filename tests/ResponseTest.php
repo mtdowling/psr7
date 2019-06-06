@@ -237,6 +237,12 @@ class ResponseTest extends BaseTest
         $this->assertSame($r, $r->withoutHeader('foo'));
     }
 
+    public function testPassNumericHeaderNameInConstructor()
+    {
+        $r = new Response(200, ['Location' => 'foo', '123' => 'bar']);
+        $this->assertSame('bar', $r->getHeaderLine('123'));
+    }
+
     /**
      * @dataProvider invalidHeaderProvider
      */
@@ -250,11 +256,9 @@ class ResponseTest extends BaseTest
     {
         return [
             ['foo', [], 'Header value can not be an empty array.'],
-            ['', '', 'Header must be a non empty string.'],
-            ['foo', false, 'Header value must be a string or an array of strings.'],
-            [false, 'foo', 'Header must be a non empty string.'],
-            ['foo', new \stdClass(), 'Header value must be a string or an array of strings.'],
-            ['foo', new \ArrayObject(), 'Header value must be a string or an array of strings.'],
+            ['', '', 'Header name can not be empty.'],
+            ['foo', false, 'Header value must be a string or numeric but boolean provided'],
+            ['foo', new \stdClass(),  'Header value must be a string or numeric but stdClass provided.'],
         ];
     }
 
@@ -270,16 +274,11 @@ class ResponseTest extends BaseTest
 
     public function invalidWithHeaderProvider()
     {
-        return [
-            [[], 'foo', 'Header must be a non empty string.'],
-            ['foo', [], 'Header value can not be an empty array.'],
-            ['', '', 'Header must be a non empty string.'],
-            ['foo', false, 'Header value must be a string or an array of strings.'],
-            [false, 'foo', 'Header must be a non empty string.'],
-            ['foo', new \stdClass(), 'Header value must be a string or an array of strings.'],
-            ['foo', new \ArrayObject(), 'Header value must be a string or an array of strings.'],
-            [new \stdClass(), 'foo', 'Header must be a non empty string.'],
-        ];
+        return array_merge($this->invalidHeaderProvider(), [
+            [[], 'foo', 'Header name must be a string but array provided.'],
+            [false, 'foo', 'Header name must be a string but boolean provided.'],
+            [new \stdClass(), 'foo', 'Header name must be a string but stdClass provided.'],
+        ]);
     }
 
     public function testHeaderValuesAreTrimmed()
