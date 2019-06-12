@@ -767,7 +767,7 @@ function _parse_message($message)
 
     $message = ltrim($message, "\r\n");
 
-    $messageParts = preg_split("/\r?\n\r?\n/", $message, 2);
+    $messageParts = preg_split("/\r?\n\r?\n?/", $message, 2);
 
     if ($messageParts === false || count($messageParts) !== 2) {
         throw new \InvalidArgumentException('Invalid message: Missing header delimiter');
