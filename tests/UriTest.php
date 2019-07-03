@@ -687,6 +687,15 @@ class UriTest extends BaseTest
         );
     }
 
+    public function testWithEmptyUserInfo()
+    {
+        $uri = (new Uri('http://example.org/path'))->withUserInfo('', '');
+        $this->assertSame('http://example.org/path', (string)$uri);
+
+        $uri = (new Uri('http://example.org/path'))->withUserInfo('');
+        $this->assertSame('http://example.org/path', (string)$uri);
+    }
+
     public function testSpecialCharsOfUserInfo()
     {
         // The `userInfo` must always be URL-encoded.
