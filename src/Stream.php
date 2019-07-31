@@ -87,7 +87,7 @@ class Stream implements StreamInterface
             throw new \RuntimeException('Stream is detached');
         }
 
-        $contents = stream_get_contents($this->stream);
+        $contents = stream_get_contents($this->stream, -1, 0);
 
         if ($contents === false) {
             throw new \RuntimeException('Unable to read stream contents');
