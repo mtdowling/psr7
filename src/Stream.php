@@ -73,8 +73,10 @@ class Stream implements StreamInterface
     public function __toString()
     {
         try {
-            $this->seek(0);
-            return (string) stream_get_contents($this->stream);
+            if ($this->isSeekable()) {
+                $this->seek(0);
+            }
+            return $this->getContents();
         } catch (\Throwable $e) {
             trigger_error(sprintf('%s::__toString exception: %s', self::class, (string) $e), E_USER_ERROR);
             return '';
@@ -191,7 +193,7 @@ class Stream implements StreamInterface
     public function seek($offset, $whence = SEEK_SET)
     {
         $whence = (int) $whence;
-        
+
         if (!isset($this->stream)) {
             throw new \RuntimeException('Stream is detached');
         }
