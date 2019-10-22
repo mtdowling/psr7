@@ -6,13 +6,12 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Uri;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * @covers GuzzleHttp\Psr7\MessageTrait
- * @covers GuzzleHttp\Psr7\Request
+ * @covers \GuzzleHttp\Psr7\MessageTrait
+ * @covers \GuzzleHttp\Psr7\Request
  */
 class RequestTest extends TestCase
 {
@@ -24,7 +23,7 @@ class RequestTest extends TestCase
 
     public function testRequestUriMayBeUri()
     {
-        $uri = new Uri('/');
+        $uri = Psr7\uri_for('/');
         $r = new Request('GET', $uri);
         $this->assertSame($uri, $r->getUri());
     }
@@ -87,7 +86,7 @@ class RequestTest extends TestCase
     {
         $r1 = new Request('GET', '/');
         $u1 = $r1->getUri();
-        $u2 = new Uri('http://www.example.com');
+        $u2 = Psr7\uri_for('http://www.example.com');
         $r2 = $r1->withUri($u2);
         $this->assertNotSame($r1, $r2);
         $this->assertSame($u2, $r2->getUri());
@@ -189,7 +188,7 @@ class RequestTest extends TestCase
     {
         $r = new Request('GET', 'http://foo.com/baz?bar=bam', ['Host' => 'a.com']);
         $this->assertEquals(['Host' => ['a.com']], $r->getHeaders());
-        $r2 = $r->withUri(new Uri('http://www.foo.com/bar'), true);
+        $r2 = $r->withUri(Psr7\uri_for('http://www.foo.com/bar'), true);
         $this->assertEquals('a.com', $r2->getHeaderLine('Host'));
     }
 
@@ -197,7 +196,7 @@ class RequestTest extends TestCase
     {
         $r = (new Request('GET', 'http://foo.com/baz?bar=bam'))->withoutHeader('Host');
         $this->assertEquals([], $r->getHeaders());
-        $r2 = $r->withUri(new Uri('http://www.baz.com/bar'), true);
+        $r2 = $r->withUri(Psr7\uri_for('http://www.baz.com/bar'), true);
         $this->assertSame('www.baz.com', $r2->getHeaderLine('Host'));
     }
 
@@ -205,7 +204,7 @@ class RequestTest extends TestCase
     {
         $r = new Request('GET', 'http://foo.com/baz?bar=bam');
         $this->assertEquals(['Host' => ['foo.com']], $r->getHeaders());
-        $r2 = $r->withUri(new Uri('http://www.baz.com/bar'));
+        $r2 = $r->withUri(Psr7\uri_for('http://www.baz.com/bar'));
         $this->assertEquals('www.baz.com', $r2->getHeaderLine('Host'));
     }
 
@@ -228,7 +227,7 @@ class RequestTest extends TestCase
     public function testAddsPortToHeaderAndReplacePreviousPort()
     {
         $r = new Request('GET', 'http://foo.com:8124/bar');
-        $r = $r->withUri(new Uri('http://foo.com:8125/bar'));
+        $r = $r->withUri(Psr7\uri_for('http://foo.com:8125/bar'));
         $this->assertEquals('foo.com:8125', $r->getHeaderLine('host'));
     }
 }

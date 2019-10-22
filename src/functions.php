@@ -43,7 +43,7 @@ function str(MessageInterface $message)
 /**
  * Returns a UriInterface for the given value.
  *
- * This function accepts a string or {@see Psr\Http\Message\UriInterface} and
+ * This function accepts a string or {@see \Psr\Http\Message\UriInterface} and
  * returns a UriInterface for the given value. If the value is already a
  * `UriInterface`, it is returned as-is.
  *
@@ -52,7 +52,7 @@ function str(MessageInterface $message)
  * @return UriInterface
  * @throws \InvalidArgumentException
  */
-function uri_for($uri)
+function uri_for($uri): UriInterface
 {
     if ($uri instanceof UriInterface) {
         return $uri;
@@ -842,7 +842,7 @@ function _parse_request_uri($path, array $headers)
 }
 
 /**
- * Get a short summary of the message body.
+ * Get a short summary of the message body
  *
  * Will return `null` if the response is not printable.
  *

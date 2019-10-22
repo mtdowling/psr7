@@ -6,11 +6,11 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Psr7\UploadedFile;
-use GuzzleHttp\Psr7\Uri;
+use GuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers GuzzleHttp\Psr7\ServerRequest
+ * @covers \GuzzleHttp\Psr7\ServerRequest
  */
 class ServerRequestTest extends TestCase
 {
@@ -358,7 +358,7 @@ class ServerRequestTest extends TestCase
     {
         $_SERVER = $serverParams;
 
-        $this->assertEquals(new Uri($expected), ServerRequest::getUriFromGlobals());
+        $this->assertEquals(Psr7\uri_for($expected), ServerRequest::getUriFromGlobals());
     }
 
     public function testFromGlobals()
@@ -426,7 +426,7 @@ class ServerRequestTest extends TestCase
         $this->assertEquals($_GET, $server->getQueryParams());
 
         $this->assertEquals(
-            new Uri('https://www.example.org/blog/article.php?id=10&user=foo'),
+            Psr7\uri_for('https://www.example.org/blog/article.php?id=10&user=foo'),
             $server->getUri()
         );
 
