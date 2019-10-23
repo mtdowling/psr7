@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7\Uri;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\UriResolver;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\UriInterface;
 
 /**
- * @covers GuzzleHttp\Psr7\UriResolver
+ * @covers \GuzzleHttp\Psr7\UriResolver
  */
 class UriResolverTest extends TestCase
 {
@@ -21,8 +21,8 @@ class UriResolverTest extends TestCase
      */
     public function testResolveUri($base, $rel, $expectedTarget)
     {
-        $baseUri = new Uri($base);
-        $targetUri = UriResolver::resolve($baseUri, new Uri($rel));
+        $baseUri = Psr7\uri_for($base);
+        $targetUri = UriResolver::resolve($baseUri, Psr7\uri_for($rel));
 
         $this->assertInstanceOf(UriInterface::class, $targetUri);
         $this->assertSame($expectedTarget, (string) $targetUri);
@@ -37,8 +37,8 @@ class UriResolverTest extends TestCase
      */
     public function testRelativizeUri($base, $expectedRelativeReference, $target)
     {
-        $baseUri = new Uri($base);
-        $relativeUri = UriResolver::relativize($baseUri, new Uri($target));
+        $baseUri = Psr7\uri_for($base);
+        $relativeUri = UriResolver::relativize($baseUri, Psr7\uri_for($target));
 
         $this->assertInstanceOf(UriInterface::class, $relativeUri);
         // There are test-cases with too many dot-segments and relative references that are equal like "." == "./".
@@ -58,8 +58,8 @@ class UriResolverTest extends TestCase
      */
     public function testRelativizeUriWithUniqueTests($base, $target, $expectedRelativeReference)
     {
-        $baseUri = new Uri($base);
-        $targetUri = new Uri($target);
+        $baseUri = Psr7\uri_for($base);
+        $targetUri = Psr7\uri_for($target);
         $relativeUri = UriResolver::relativize($baseUri, $targetUri);
 
         $this->assertInstanceOf(UriInterface::class, $relativeUri);

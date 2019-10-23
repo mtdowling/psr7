@@ -8,8 +8,10 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\NoSeekStream;
 use GuzzleHttp\Psr7\Stream;
+use League\Uri\Http;
 use Psr\Http\Message\ServerRequestInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\UriInterface;
 
 class FunctionsTest extends TestCase
 {
@@ -459,10 +461,10 @@ class FunctionsTest extends TestCase
 
     public function testCreatesUriForValue()
     {
-        $this->assertInstanceOf(Psr7\Uri::class, Psr7\uri_for('/foo'));
+        $this->assertInstanceOf(UriInterface::class, Psr7\uri_for('/foo'));
         $this->assertInstanceOf(
-            Psr7\Uri::class,
-            Psr7\uri_for(new Psr7\Uri('/foo'))
+            UriInterface::class,
+            Psr7\uri_for(Http::createFromString('/foo'))
         );
     }
 
@@ -671,7 +673,7 @@ class FunctionsTest extends TestCase
     {
         $r1 = new Psr7\Request('GET', 'http://foo.com');
         $r2 = Psr7\modify_request($r1, [
-            'uri' => new Psr7\Uri('http://www.foo.com'),
+            'uri' => Psr7\uri_for('http://www.foo.com'),
         ]);
         $this->assertEquals('http://www.foo.com', (string)$r2->getUri());
         $this->assertEquals('www.foo.com', (string)$r2->getHeaderLine('host'));
@@ -681,7 +683,7 @@ class FunctionsTest extends TestCase
     {
         $r1 = new Psr7\Request('GET', 'http://foo.com:8000');
         $r2 = Psr7\modify_request($r1, [
-            'uri' => new Psr7\Uri('http://www.foo.com:8000'),
+            'uri' => Psr7\uri_for('http://www.foo.com:8000'),
         ]);
         $this->assertEquals('http://www.foo.com:8000', (string)$r2->getUri());
         $this->assertEquals('www.foo.com:8000', (string)$r2->getHeaderLine('host'));

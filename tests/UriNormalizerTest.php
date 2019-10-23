@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
-use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriNormalizer;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\UriInterface;
