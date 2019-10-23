@@ -611,8 +611,8 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Host must be a string');
         }
 
-        // strtolower() simply breaks internationalized domain names
-        return function_exists('mb_strtolower') ? mb_strtolower($host) : $host;
+        // strtolower() simply breaks internationalized domain names (depends on the locale selected)
+        return function_exists('mb_strtolower') ? mb_strtolower($host, 'UTF-8') : $host;
     }
 
     /**
