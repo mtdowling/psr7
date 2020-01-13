@@ -519,6 +519,15 @@ Determines the mimetype of a file by looking at its extension.
 Maps a file extensions to a mimetype.
 
 
+## `function get_message_body_summary`
+
+`function get_message_body_summary(MessageInterface $message, $truncateAt = 120)`
+
+Get a short summary of the message body.
+
+Will return `null` if the response is not printable.
+
+
 # Additional URI Methods
 
 Aside from the standard `Psr\Http\Message\UriInterface` implementation in form of the `GuzzleHttp\Psr7\Uri` class,

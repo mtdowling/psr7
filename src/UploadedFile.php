@@ -172,7 +172,7 @@ class UploadedFile implements UploadedFileInterface
                 ? rename($this->file, $targetPath)
                 : move_uploaded_file($this->file, $targetPath);
         } else {
-            copy_to_stream(
+            Utils::copyToStream(
                 $this->getStream(),
                 new LazyOpenStream($targetPath, 'w')
             );

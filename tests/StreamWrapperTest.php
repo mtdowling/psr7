@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\StreamWrapper;
+use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 
@@ -16,7 +16,7 @@ class StreamWrapperTest extends TestCase
 {
     public function testResource()
     {
-        $stream = Psr7\stream_for('foo');
+        $stream = Utils::streamFor('foo');
         $handle = StreamWrapper::getResource($stream);
         self::assertSame('foo', fread($handle, 3));
         self::assertSame(3, ftell($handle));
@@ -63,7 +63,7 @@ class StreamWrapperTest extends TestCase
 
     public function testStreamContext()
     {
-        $stream = Psr7\stream_for('foo');
+        $stream = Utils::streamFor('foo');
 
         self::assertEquals('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
     }
@@ -71,8 +71,8 @@ class StreamWrapperTest extends TestCase
     public function testStreamCast()
     {
         $streams = [
-            StreamWrapper::getResource(Psr7\stream_for('foo')),
-            StreamWrapper::getResource(Psr7\stream_for('bar'))
+            StreamWrapper::getResource(Utils::streamFor('foo')),
+            StreamWrapper::getResource(Utils::streamFor('bar'))
         ];
         $write = null;
         $except = null;
@@ -159,7 +159,7 @@ class StreamWrapperTest extends TestCase
      */
     public function testXmlReaderWithStream()
     {
-        $stream = Psr7\stream_for('<?xml version="1.0" encoding="utf-8"?><foo />');
+        $stream = Utils::streamFor('<?xml version="1.0" encoding="utf-8"?><foo />');
 
         StreamWrapper::register();
         libxml_set_streams_context(StreamWrapper::createStreamContext($stream));
@@ -175,7 +175,7 @@ class StreamWrapperTest extends TestCase
      */
     public function testXmlWriterWithStream()
     {
-        $stream = Psr7\stream_for(fopen('php://memory', 'wb'));
+        $stream = Utils::streamFor(fopen('php://memory', 'wb'));
 
         StreamWrapper::register();
         libxml_set_streams_context(StreamWrapper::createStreamContext($stream));

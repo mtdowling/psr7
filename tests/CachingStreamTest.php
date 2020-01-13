@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\CachingStream;
+use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,7 +22,7 @@ class CachingStreamTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->decorated = Psr7\stream_for('testing');
+        $this->decorated = Utils::streamFor('testing');
         $this->body = new CachingStream($this->decorated);
     }
 
@@ -33,7 +34,7 @@ class CachingStreamTest extends TestCase
 
     public function testUsesRemoteSizeIfPossible()
     {
-        $body = Psr7\stream_for('test');
+        $body = Utils::streamFor('test');
         $caching = new CachingStream($body);
         self::assertEquals(4, $caching->getSize());
     }
@@ -48,7 +49,7 @@ class CachingStreamTest extends TestCase
 
     public function testCanSeekNearEndWithSeekEnd()
     {
-        $baseStream = Psr7\stream_for(implode('', range('a', 'z')));
+        $baseStream = Utils::streamFor(implode('', range('a', 'z')));
         $cached = new CachingStream($baseStream);
         $cached->seek(-1, SEEK_END);
         self::assertEquals(25, $baseStream->tell());
@@ -58,7 +59,7 @@ class CachingStreamTest extends TestCase
 
     public function testCanSeekToEndWithSeekEnd()
     {
-        $baseStream = Psr7\stream_for(implode('', range('a', 'z')));
+        $baseStream = Utils::streamFor(implode('', range('a', 'z')));
         $cached = new CachingStream($baseStream);
         $cached->seek(0, SEEK_END);
         self::assertEquals(26, $baseStream->tell());
@@ -68,8 +69,8 @@ class CachingStreamTest extends TestCase
 
     public function testCanUseSeekEndWithUnknownSize()
     {
-        $baseStream = Psr7\stream_for('testing');
-        $decorated = Psr7\FnStream::decorate($baseStream, [
+        $baseStream = Utils::streamFor('testing');
+        $decorated = FnStream::decorate($baseStream, [
             'getSize' => function () {
                 return null;
             }
@@ -81,7 +82,7 @@ class CachingStreamTest extends TestCase
 
     public function testRewindUsesSeek()
     {
-        $a = Psr7\stream_for('foo');
+        $a = Utils::streamFor('foo');
         $d = $this->getMockBuilder(CachingStream::class)
             ->setMethods(['seek'])
             ->setConstructorArgs([$a])
@@ -143,7 +144,7 @@ class CachingStreamTest extends TestCase
 
     public function testSkipsOverwrittenBytes()
     {
-        $decorated = Psr7\stream_for(
+        $decorated = Utils::streamFor(
             implode("\n", array_map(function ($n) {
                 return str_pad((string)$n, 4, '0', STR_PAD_LEFT);
             }, range(0, 25)))
@@ -151,23 +152,23 @@ class CachingStreamTest extends TestCase
 
         $body = new CachingStream($decorated);
 
-        self::assertEquals("0000\n", Psr7\readline($body));
-        self::assertEquals("0001\n", Psr7\readline($body));
+        self::assertEquals("0000\n", Utils::readline($body));
+        self::assertEquals("0001\n", Utils::readline($body));
         // Write over part of the body yet to be read, so skip some bytes
         self::assertEquals(5, $body->write("TEST\n"));
         // Read, which skips bytes, then reads
-        self::assertEquals("0003\n", Psr7\readline($body));
-        self::assertEquals("0004\n", Psr7\readline($body));
-        self::assertEquals("0005\n", Psr7\readline($body));
+        self::assertEquals("0003\n", Utils::readline($body));
+        self::assertEquals("0004\n", Utils::readline($body));
+        self::assertEquals("0005\n", Utils::readline($body));
 
         // Overwrite part of the cached body (so don't skip any bytes)
         $body->seek(5);
         self::assertEquals(5, $body->write("ABCD\n"));
-        self::assertEquals("TEST\n", Psr7\readline($body));
-        self::assertEquals("0003\n", Psr7\readline($body));
-        self::assertEquals("0004\n", Psr7\readline($body));
-        self::assertEquals("0005\n", Psr7\readline($body));
-        self::assertEquals("0006\n", Psr7\readline($body));
+        self::assertEquals("TEST\n", Utils::readline($body));
+        self::assertEquals("0003\n", Utils::readline($body));
+        self::assertEquals("0004\n", Utils::readline($body));
+        self::assertEquals("0005\n", Utils::readline($body));
+        self::assertEquals("0006\n", Utils::readline($body));
         self::assertEquals(5, $body->write("1234\n"));
 
         // Seek to 0 and ensure the overwritten bit is replaced
@@ -181,7 +182,7 @@ class CachingStreamTest extends TestCase
     public function testClosesBothStreams()
     {
         $s = fopen('php://temp', 'r');
-        $a = Psr7\stream_for($s);
+        $a = Utils::streamFor($s);
         $d = new CachingStream($a);
         $d->close();
         self::assertFalse(is_resource($s));

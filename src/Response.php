@@ -102,7 +102,7 @@ class Response implements ResponseInterface
         $this->statusCode = $status;
 
         if ($body !== '' && $body !== null) {
-            $this->stream = stream_for($body);
+            $this->stream = Utils::streamFor($body);
         }
 
         $this->setHeaders($headers);

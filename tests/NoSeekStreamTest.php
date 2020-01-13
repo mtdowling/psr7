@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\NoSeekStream;
+use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 
@@ -30,7 +31,7 @@ class NoSeekStreamTest extends TestCase
 
     public function testToStringDoesNotSeek()
     {
-        $s = \GuzzleHttp\Psr7\stream_for('foo');
+        $s = Utils::streamFor('foo');
         $s->seek(1);
         $wrapped = new NoSeekStream($s);
         self::assertEquals('oo', (string) $wrapped);

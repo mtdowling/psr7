@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
 
 class MultipartStreamTest extends TestCase
@@ -100,19 +101,19 @@ class MultipartStreamTest extends TestCase
 
     public function testSerializesFiles()
     {
-        $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), [
+        $f1 = FnStream::decorate(Utils::streamFor('foo'), [
             'getMetadata' => function () {
                 return '/foo/bar.txt';
             }
         ]);
 
-        $f2 = Psr7\FnStream::decorate(Psr7\stream_for('baz'), [
+        $f2 = FnStream::decorate(Utils::streamFor('baz'), [
             'getMetadata' => function () {
                 return '/foo/baz.jpg';
             }
         ]);
 
-        $f3 = Psr7\FnStream::decorate(Psr7\stream_for('bar'), [
+        $f3 = FnStream::decorate(Utils::streamFor('bar'), [
             'getMetadata' => function () {
                 return '/foo/bar.gif';
             }
@@ -161,7 +162,7 @@ EOT;
 
     public function testSerializesFilesWithCustomHeaders()
     {
-        $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), [
+        $f1 = FnStream::decorate(Utils::streamFor('foo'), [
             'getMetadata' => function () {
                 return '/foo/bar.txt';
             }
@@ -195,13 +196,13 @@ EOT;
 
     public function testSerializesFilesWithCustomHeadersAndMultipleValues()
     {
-        $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), [
+        $f1 = FnStream::decorate(Utils::streamFor('foo'), [
             'getMetadata' => function () {
                 return '/foo/bar.txt';
             }
         ]);
 
-        $f2 = Psr7\FnStream::decorate(Psr7\stream_for('baz'), [
+        $f2 = FnStream::decorate(Utils::streamFor('baz'), [
             'getMetadata' => function () {
                 return '/foo/baz.jpg';
             }

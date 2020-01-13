@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 
@@ -36,7 +37,7 @@ class ResponseTest extends TestCase
     public function testConstructorDoesNotReadStreamBody()
     {
         $streamIsRead = false;
-        $body = Psr7\FnStream::decorate(Psr7\stream_for(''), [
+        $body = FnStream::decorate(Utils::streamFor(''), [
             '__toString' => function () use (&$streamIsRead) {
                 $streamIsRead = true;
                 return '';
@@ -142,7 +143,7 @@ class ResponseTest extends TestCase
 
     public function testWithBody()
     {
-        $b = Psr7\stream_for('0');
+        $b = Utils::streamFor('0');
         $r = (new Response())->withBody($b);
         self::assertInstanceOf(StreamInterface::class, $r->getBody());
         self::assertSame('0', (string) $r->getBody());

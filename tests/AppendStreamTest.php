@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\AppendStream;
+use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 
@@ -57,9 +57,9 @@ class AppendStreamTest extends TestCase
     public function testSeeksToPositionByReading()
     {
         $a = new AppendStream([
-            Psr7\stream_for('foo'),
-            Psr7\stream_for('bar'),
-            Psr7\stream_for('baz'),
+            Utils::streamFor('foo'),
+            Utils::streamFor('bar'),
+            Utils::streamFor('baz'),
         ]);
 
         $a->seek(3);
@@ -88,8 +88,8 @@ class AppendStreamTest extends TestCase
     {
         $handle = fopen('php://temp', 'r');
 
-        $s1 = Psr7\stream_for($handle);
-        $s2 = Psr7\stream_for('bar');
+        $s1 = Utils::streamFor($handle);
+        $s2 = Utils::streamFor('bar');
         $a = new AppendStream([$s1, $s2]);
 
         $a->detach();
@@ -110,8 +110,8 @@ class AppendStreamTest extends TestCase
     {
         $handle = fopen('php://temp', 'r');
 
-        $s1 = Psr7\stream_for($handle);
-        $s2 = Psr7\stream_for('bar');
+        $s1 = Utils::streamFor($handle);
+        $s2 = Utils::streamFor('bar');
         $a = new AppendStream([$s1, $s2]);
 
         $a->close();
@@ -128,7 +128,7 @@ class AppendStreamTest extends TestCase
 
     public function testIsNotWritable()
     {
-        $a = new AppendStream([Psr7\stream_for('foo')]);
+        $a = new AppendStream([Utils::streamFor('foo')]);
         self::assertFalse($a->isWritable());
         self::assertTrue($a->isSeekable());
         self::assertTrue($a->isReadable());
@@ -146,9 +146,9 @@ class AppendStreamTest extends TestCase
     public function testCanReadFromMultipleStreams()
     {
         $a = new AppendStream([
-            Psr7\stream_for('foo'),
-            Psr7\stream_for('bar'),
-            Psr7\stream_for('baz'),
+            Utils::streamFor('foo'),
+            Utils::streamFor('bar'),
+            Utils::streamFor('baz'),
         ]);
         self::assertFalse($a->eof());
         self::assertSame(0, $a->tell());
@@ -164,8 +164,8 @@ class AppendStreamTest extends TestCase
     public function testCanDetermineSizeFromMultipleStreams()
     {
         $a = new AppendStream([
-            Psr7\stream_for('foo'),
-            Psr7\stream_for('bar')
+            Utils::streamFor('foo'),
+            Utils::streamFor('bar')
         ]);
         self::assertEquals(6, $a->getSize());
 

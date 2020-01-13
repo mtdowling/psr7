@@ -54,7 +54,7 @@ class PumpStream implements StreamInterface
     public function __toString()
     {
         try {
-            return copy_to_string($this);
+            return Utils::copyToString($this);
         } catch (\Throwable $e) {
             trigger_error(sprintf('%s::__toString exception: %s', self::class, (string) $e), E_USER_ERROR);
             return '';
