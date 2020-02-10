@@ -45,7 +45,7 @@
         "phpunit/phpunit": "^8.1"
     },
     "suggest": {
-        "zendframework/zend-httphandlerrunner": "Emit PSR-7 responses"
+        "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
     },
     "extra": {
         "branch-alias": {
