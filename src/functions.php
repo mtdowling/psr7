@@ -307,22 +307,16 @@ function rewind_body(MessageInterface $message)
  */
 function try_fopen($filename, $mode)
 {
-    $ex = null;
-    set_error_handler(function (int $errno, string $errstr) use ($filename, $mode, &$ex) {
-        $ex = new \RuntimeException(sprintf(
+    $handle = @fopen($filename, $mode);
+
+    if ($handle === false) {
+        $lastError = error_get_last();
+        throw new \RuntimeException(sprintf(
             'Unable to open %s using mode %s: %s',
             $filename,
             $mode,
-            $errstr
+            $lastError !== null ? $lastError['message'] : 'Unknown error'
         ));
-    });
-
-    $handle = fopen($filename, $mode);
-    restore_error_handler();
-
-    if ($ex) {
-        /** @var $ex \RuntimeException */
-        throw $ex;
     }
 
     return $handle;

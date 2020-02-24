@@ -1111,11 +1111,6 @@ parameters:
 			path: src/functions.php
 
 		-
-			message: "#^Function GuzzleHttp\\\\Psr7\\\\try_fopen\\(\\) should return resource but returns resource\\|false\\.$#"
-			count: 1
-			path: src/functions.php
-
-		-
 			message: "#^Function GuzzleHttp\\\\Psr7\\\\copy_to_stream\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: src/functions.php
