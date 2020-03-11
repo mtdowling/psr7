@@ -131,12 +131,11 @@ class Request implements RequestInterface
             $host .= ':' . $port;
         }
 
-        if (isset($this->headerNames['host'])) {
-            $header = $this->headerNames['host'];
-        } else {
-            $header = 'Host';
+        if (!isset($this->headerNames['host'])) {
             $this->headerNames['host'] = 'Host';
         }
+
+        $header = $this->headerNames['host'];
         // Ensure Host is the first header.
         // See: http://tools.ietf.org/html/rfc7230#section-5.4
         $this->headers = [$header => [$host]] + $this->headers;
