@@ -318,7 +318,7 @@ function try_fopen($filename, $mode)
     restore_error_handler();
 
     if ($ex) {
-        /** @var $ex \RuntimeException */
+        /* @var $ex \RuntimeException */
         throw $ex;
     }
 
