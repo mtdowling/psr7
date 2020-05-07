@@ -245,8 +245,10 @@ function modify_request(RequestInterface $request, array $changes)
         $uri = $uri->withQuery($changes['query']);
     }
 
+    $class = get_class($request);
+
     if ($request instanceof ServerRequestInterface) {
-        return (new ServerRequest(
+        return (new $class(
             isset($changes['method']) ? $changes['method'] : $request->getMethod(),
             $uri,
             $headers,
@@ -262,7 +264,7 @@ function modify_request(RequestInterface $request, array $changes)
         ->withUploadedFiles($request->getUploadedFiles());
     }
 
-    return new Request(
+    return new $class(
         isset($changes['method']) ? $changes['method'] : $request->getMethod(),
         $uri,
         $headers,
