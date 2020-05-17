@@ -10,25 +10,25 @@ use PHPUnit\Framework\TestCase;
 
 class MultipartStreamTest extends TestCase
 {
-    public function testCreatesDefaultBoundary()
+    public function testCreatesDefaultBoundary(): void
     {
         $b = new MultipartStream();
         self::assertNotEmpty($b->getBoundary());
     }
 
-    public function testCanProvideBoundary()
+    public function testCanProvideBoundary(): void
     {
         $b = new MultipartStream([], 'foo');
         self::assertEquals('foo', $b->getBoundary());
     }
 
-    public function testIsNotWritable()
+    public function testIsNotWritable(): void
     {
         $b = new MultipartStream();
         self::assertFalse($b->isWritable());
     }
 
-    public function testCanCreateEmptyStream()
+    public function testCanCreateEmptyStream(): void
     {
         $b = new MultipartStream();
         $boundary = $b->getBoundary();
@@ -36,19 +36,19 @@ class MultipartStreamTest extends TestCase
         self::assertSame(strlen($boundary) + 6, $b->getSize());
     }
 
-    public function testValidatesFilesArrayElement()
+    public function testValidatesFilesArrayElement(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new MultipartStream([['foo' => 'bar']]);
     }
 
-    public function testEnsuresFileHasName()
+    public function testEnsuresFileHasName(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new MultipartStream([['contents' => 'bar']]);
     }
 
-    public function testSerializesFields()
+    public function testSerializesFields(): void
     {
         $b = new MultipartStream([
             [
@@ -68,7 +68,7 @@ class MultipartStreamTest extends TestCase
         );
     }
 
-    public function testSerializesNonStringFields()
+    public function testSerializesNonStringFields(): void
     {
         $b = new MultipartStream([
             [
@@ -98,7 +98,7 @@ class MultipartStreamTest extends TestCase
         );
     }
 
-    public function testSerializesFiles()
+    public function testSerializesFiles(): void
     {
         $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), [
             'getMetadata' => function () {
@@ -159,7 +159,7 @@ EOT;
         self::assertEquals($expected, str_replace("\r", '', $b));
     }
 
-    public function testSerializesFilesWithCustomHeaders()
+    public function testSerializesFilesWithCustomHeaders(): void
     {
         $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), [
             'getMetadata' => function () {
@@ -193,7 +193,7 @@ EOT;
         self::assertEquals($expected, str_replace("\r", '', $b));
     }
 
-    public function testSerializesFilesWithCustomHeadersAndMultipleValues()
+    public function testSerializesFilesWithCustomHeadersAndMultipleValues(): void
     {
         $f1 = Psr7\FnStream::decorate(Psr7\stream_for('foo'), [
             'getMetadata' => function () {

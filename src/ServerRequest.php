@@ -205,7 +205,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
         $hasPort = false;
         if (isset($_SERVER['HTTP_HOST'])) {
-            list($host, $port) = self::extractHostAndPortFromAuthority($_SERVER['HTTP_HOST']);
+            [$host, $port] = self::extractHostAndPortFromAuthority($_SERVER['HTTP_HOST']);
             if ($host !== null) {
                 $uri = $uri->withHost($host);
             }

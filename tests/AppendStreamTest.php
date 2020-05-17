@@ -11,7 +11,7 @@ use Psr\Http\Message\StreamInterface;
 
 class AppendStreamTest extends TestCase
 {
-    public function testValidatesStreamsAreReadable()
+    public function testValidatesStreamsAreReadable(): void
     {
         $a = new AppendStream();
         $s = $this->createMock(StreamInterface::class);
@@ -23,7 +23,7 @@ class AppendStreamTest extends TestCase
         $a->addStream($s);
     }
 
-    public function testValidatesSeekType()
+    public function testValidatesSeekType(): void
     {
         $a = new AppendStream();
         $this->expectException(\RuntimeException::class);
@@ -31,7 +31,7 @@ class AppendStreamTest extends TestCase
         $a->seek(100, SEEK_CUR);
     }
 
-    public function testTriesToRewindOnSeek()
+    public function testTriesToRewindOnSeek(): void
     {
         $a = new AppendStream();
         $s = $this->createMock(StreamInterface::class);
@@ -50,7 +50,7 @@ class AppendStreamTest extends TestCase
         $a->seek(10);
     }
 
-    public function testSeeksToPositionByReading()
+    public function testSeeksToPositionByReading(): void
     {
         $a = new AppendStream([
             Psr7\stream_for('foo'),
@@ -67,7 +67,7 @@ class AppendStreamTest extends TestCase
         self::assertEquals('baz', $a->read(3));
     }
 
-    public function testDetachWithoutStreams()
+    public function testDetachWithoutStreams(): void
     {
         $s = new AppendStream();
         $s->detach();
@@ -80,7 +80,7 @@ class AppendStreamTest extends TestCase
         self::assertFalse($s->isWritable());
     }
 
-    public function testDetachesEachStream()
+    public function testDetachesEachStream(): void
     {
         $handle = fopen('php://temp', 'r');
 
@@ -102,7 +102,7 @@ class AppendStreamTest extends TestCase
         fclose($handle);
     }
 
-    public function testClosesEachStream()
+    public function testClosesEachStream(): void
     {
         $handle = fopen('php://temp', 'r');
 
@@ -122,7 +122,7 @@ class AppendStreamTest extends TestCase
         self::assertFalse(is_resource($handle));
     }
 
-    public function testIsNotWritable()
+    public function testIsNotWritable(): void
     {
         $a = new AppendStream([Psr7\stream_for('foo')]);
         self::assertFalse($a->isWritable());
@@ -133,13 +133,13 @@ class AppendStreamTest extends TestCase
         $a->write('foo');
     }
 
-    public function testDoesNotNeedStreams()
+    public function testDoesNotNeedStreams(): void
     {
         $a = new AppendStream();
         self::assertEquals('', (string) $a);
     }
 
-    public function testCanReadFromMultipleStreams()
+    public function testCanReadFromMultipleStreams(): void
     {
         $a = new AppendStream([
             Psr7\stream_for('foo'),
@@ -157,7 +157,7 @@ class AppendStreamTest extends TestCase
         self::assertEquals('foobarbaz', (string) $a);
     }
 
-    public function testCanDetermineSizeFromMultipleStreams()
+    public function testCanDetermineSizeFromMultipleStreams(): void
     {
         $a = new AppendStream([
             Psr7\stream_for('foo'),
@@ -179,7 +179,7 @@ class AppendStreamTest extends TestCase
     /**
      * @requires PHP < 7.4
      */
-    public function testCatchesExceptionsWhenCastingToString()
+    public function testCatchesExceptionsWhenCastingToString(): void
     {
         $s = $this->createMock(StreamInterface::class);
         $s->expects(self::once())
@@ -198,7 +198,7 @@ class AppendStreamTest extends TestCase
         self::assertFalse($a->eof());
 
         $errors = [];
-        set_error_handler(function (int $errorNumber, string $errorMessage) use (&$errors) {
+        set_error_handler(function (int $errorNumber, string $errorMessage) use (&$errors): void {
             $errors[] = ['number' => $errorNumber, 'message' => $errorMessage];
         });
         (string) $a;
@@ -210,7 +210,7 @@ class AppendStreamTest extends TestCase
         self::assertStringStartsWith('GuzzleHttp\Psr7\AppendStream::__toString exception:', $errors[0]['message']);
     }
 
-    public function testReturnsEmptyMetadata()
+    public function testReturnsEmptyMetadata(): void
     {
         $s = new AppendStream();
         self::assertEquals([], $s->getMetadata());

@@ -27,7 +27,7 @@ class LazyOpenStreamTest extends TestCase
         }
     }
 
-    public function testOpensLazily()
+    public function testOpensLazily(): void
     {
         $l = new LazyOpenStream($this->fname, 'w+');
         $l->write('foo');
@@ -37,7 +37,7 @@ class LazyOpenStreamTest extends TestCase
         self::assertEquals('foo', (string) $l);
     }
 
-    public function testProxiesToFile()
+    public function testProxiesToFile(): void
     {
         file_put_contents($this->fname, 'foo');
         $l = new LazyOpenStream($this->fname, 'r');
@@ -55,7 +55,7 @@ class LazyOpenStreamTest extends TestCase
         $l->close();
     }
 
-    public function testDetachesUnderlyingStream()
+    public function testDetachesUnderlyingStream(): void
     {
         file_put_contents($this->fname, 'foo');
         $l = new LazyOpenStream($this->fname, 'r');

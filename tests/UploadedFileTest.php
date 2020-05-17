@@ -46,14 +46,14 @@ class UploadedFileTest extends TestCase
     /**
      * @dataProvider invalidStreams
      */
-    public function testRaisesExceptionOnInvalidStreamOrFile($streamOrFile)
+    public function testRaisesExceptionOnInvalidStreamOrFile($streamOrFile): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
         new UploadedFile($streamOrFile, 0, UPLOAD_ERR_OK);
     }
 
-    public function testGetStreamReturnsOriginalStreamObject()
+    public function testGetStreamReturnsOriginalStreamObject(): void
     {
         $stream = new Stream(fopen('php://temp', 'r'));
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
@@ -61,7 +61,7 @@ class UploadedFileTest extends TestCase
         self::assertSame($stream, $upload->getStream());
     }
 
-    public function testGetStreamReturnsWrappedPhpStream()
+    public function testGetStreamReturnsWrappedPhpStream(): void
     {
         $stream = fopen('php://temp', 'wb+');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
@@ -70,7 +70,7 @@ class UploadedFileTest extends TestCase
         self::assertSame($stream, $uploadStream);
     }
 
-    public function testGetStreamReturnsStreamForFile()
+    public function testGetStreamReturnsStreamForFile(): void
     {
         $this->cleanup[] = $stream = tempnam(sys_get_temp_dir(), 'stream_file');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
@@ -81,7 +81,7 @@ class UploadedFileTest extends TestCase
         self::assertSame($stream, $r->getValue($uploadStream));
     }
 
-    public function testSuccessful()
+    public function testSuccessful(): void
     {
         $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
         $upload = new UploadedFile($stream, $stream->getSize(), UPLOAD_ERR_OK, 'filename.txt', 'text/plain');
@@ -113,7 +113,7 @@ class UploadedFileTest extends TestCase
     /**
      * @dataProvider invalidMovePaths
      */
-    public function testMoveRaisesExceptionForInvalidPath($path)
+    public function testMoveRaisesExceptionForInvalidPath($path): void
     {
         $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
@@ -123,7 +123,7 @@ class UploadedFileTest extends TestCase
         $upload->moveTo($path);
     }
 
-    public function testMoveCannotBeCalledMoreThanOnce()
+    public function testMoveCannotBeCalledMoreThanOnce(): void
     {
         $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
@@ -137,7 +137,7 @@ class UploadedFileTest extends TestCase
         $upload->moveTo($to);
     }
 
-    public function testCannotRetrieveStreamAfterMove()
+    public function testCannotRetrieveStreamAfterMove(): void
     {
         $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
@@ -167,7 +167,7 @@ class UploadedFileTest extends TestCase
     /**
      * @dataProvider nonOkErrorStatus
      */
-    public function testConstructorDoesNotRaiseExceptionForInvalidStreamWhenErrorStatusPresent($status)
+    public function testConstructorDoesNotRaiseExceptionForInvalidStreamWhenErrorStatusPresent($status): void
     {
         $uploadedFile = new UploadedFile('not ok', 0, $status);
         self::assertSame($status, $uploadedFile->getError());
@@ -176,7 +176,7 @@ class UploadedFileTest extends TestCase
     /**
      * @dataProvider nonOkErrorStatus
      */
-    public function testMoveToRaisesExceptionWhenErrorStatusPresent($status)
+    public function testMoveToRaisesExceptionWhenErrorStatusPresent($status): void
     {
         $uploadedFile = new UploadedFile('not ok', 0, $status);
         $this->expectException(\RuntimeException::class);
@@ -187,7 +187,7 @@ class UploadedFileTest extends TestCase
     /**
      * @dataProvider nonOkErrorStatus
      */
-    public function testGetStreamRaisesExceptionWhenErrorStatusPresent($status)
+    public function testGetStreamRaisesExceptionWhenErrorStatusPresent($status): void
     {
         $uploadedFile = new UploadedFile('not ok', 0, $status);
         $this->expectException(\RuntimeException::class);
@@ -195,7 +195,7 @@ class UploadedFileTest extends TestCase
         $uploadedFile->getStream();
     }
 
-    public function testMoveToCreatesStreamIfOnlyAFilenameWasProvided()
+    public function testMoveToCreatesStreamIfOnlyAFilenameWasProvided(): void
     {
         $this->cleanup[] = $from = tempnam(sys_get_temp_dir(), 'copy_from');
         $this->cleanup[] = $to = tempnam(sys_get_temp_dir(), 'copy_to');
