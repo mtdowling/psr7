@@ -380,7 +380,7 @@ class ResponseTest extends TestCase
     public function testConstructResponseWithInvalidRangeStatusCode($invalidValues)
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Status code must be an integer value between 1xx and 5xx.');
+        $this->expectExceptionMessage('Status code must be an integer value between 1xx and 9xx.');
         new Response($invalidValues);
     }
 
