@@ -149,8 +149,8 @@ class Response implements ResponseInterface
 
     private function assertStatusCodeRange(int $statusCode)
     {
-        if ($statusCode < 100 || $statusCode >= 600) {
-            throw new \InvalidArgumentException('Status code must be an integer value between 1xx and 5xx.');
+        if ($statusCode < 100 || $statusCode > 999) {
+            throw new \InvalidArgumentException('Status code must be an integer value between 1xx and 9xx.');
         }
     }
 }
