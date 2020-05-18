@@ -5,7 +5,7 @@ $config = PhpCsFixer\Config::create()
     ->setRules([
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'concat_space' => ['spacing'=>'one'],
+        'concat_space' => ['spacing' => 'one'],
         'declare_strict_types' => false,
         'final_static_access' => true,
         'function_to_constant' => ['functions' => ['php_sapi_name']],
