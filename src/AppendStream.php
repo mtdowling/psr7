@@ -11,7 +11,7 @@ use Psr\Http\Message\StreamInterface;
  *
  * This is a read-only stream decorator.
  */
-class AppendStream implements StreamInterface
+final class AppendStream implements StreamInterface
 {
     /** @var StreamInterface[] Streams being decorated */
     private $streams = [];

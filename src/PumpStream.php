@@ -16,7 +16,7 @@ use Psr\Http\Message\StreamInterface;
  * the read() function of the PumpStream. The provided callable MUST return
  * false when there is no more data to read.
  */
-class PumpStream implements StreamInterface
+final class PumpStream implements StreamInterface
 {
     /** @var callable|null */
     private $source;

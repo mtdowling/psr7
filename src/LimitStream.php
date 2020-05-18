@@ -9,7 +9,7 @@ use Psr\Http\Message\StreamInterface;
 /**
  * Decorator used to return only a subset of a stream
  */
-class LimitStream implements StreamInterface
+final class LimitStream implements StreamInterface
 {
     use StreamDecoratorTrait;
 

@@ -10,7 +10,7 @@ use Psr\Http\Message\StreamInterface;
  * Stream decorator that begins dropping data once the size of the underlying
  * stream becomes too full.
  */
-class DroppingStream implements StreamInterface
+final class DroppingStream implements StreamInterface
 {
     use StreamDecoratorTrait;
 

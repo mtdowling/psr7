@@ -11,7 +11,7 @@ use Psr\Http\Message\StreamInterface;
  *
  * @see https://www.php.net/streamwrapper
  */
-class StreamWrapper
+final class StreamWrapper
 {
     /** @var resource */
     public $context;
