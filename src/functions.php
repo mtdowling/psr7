@@ -241,8 +241,7 @@ function modify_request(RequestInterface $request, array $changes): RequestInter
             $uri,
             $headers,
             $changes['body'] ?? $request->getBody(),
-            $changes['version']
-                ?? $request->getProtocolVersion(),
+            $changes['version'] ?? $request->getProtocolVersion(),
             $request->getServerParams()
         ))
         ->withParsedBody($request->getParsedBody())
@@ -256,8 +255,7 @@ function modify_request(RequestInterface $request, array $changes): RequestInter
         $uri,
         $headers,
         $changes['body'] ?? $request->getBody(),
-        $changes['version']
-            ?? $request->getProtocolVersion()
+        $changes['version'] ?? $request->getProtocolVersion()
     );
 }
 
@@ -296,13 +294,14 @@ function rewind_body(MessageInterface $message): void
 function try_fopen(string $filename, string $mode)
 {
     $ex = null;
-    set_error_handler(function (int $errno, string $errstr) use ($filename, $mode, &$ex): void {
+    set_error_handler(static function (int $errno, string $errstr) use ($filename, $mode, &$ex): bool {
         $ex = new \RuntimeException(sprintf(
             'Unable to open %s using mode %s: %s',
             $filename,
             $mode,
             $errstr
         ));
+        return false;
     });
 
     /** @var resource $handle */
@@ -720,8 +719,7 @@ function mimetype_from_extension(string $extension): ?string
 
     $extension = strtolower($extension);
 
-    return $mimetypes[$extension]
-        ?? null;
+    return $mimetypes[$extension] ?? null;
 }
 
 /**

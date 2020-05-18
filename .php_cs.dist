@@ -28,7 +28,7 @@ $config = PhpCsFixer\Config::create()
         'php_unit_no_expectation_annotation' => ['target' => 'newest'],
         'php_unit_ordered_covers' => true,
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
-        'phpdoc_align' => ['align'=>'vertical'],
+        'phpdoc_align' => ['align' => 'vertical'],
         'phpdoc_no_useless_inheritdoc' => true,
         'phpdoc_scalar' => true,
         'phpdoc_separation' => true,

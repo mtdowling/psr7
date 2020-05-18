@@ -198,8 +198,9 @@ class AppendStreamTest extends TestCase
         self::assertFalse($a->eof());
 
         $errors = [];
-        set_error_handler(function (int $errorNumber, string $errorMessage) use (&$errors): void {
+        set_error_handler(static function (int $errorNumber, string $errorMessage) use (&$errors): bool {
             $errors[] = ['number' => $errorNumber, 'message' => $errorMessage];
+            return false;
         });
         (string) $a;
 
