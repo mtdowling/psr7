@@ -31,7 +31,7 @@ class NoSeekStreamTest extends TestCase
         $s = \GuzzleHttp\Psr7\stream_for('foo');
         $s->seek(1);
         $wrapped = new NoSeekStream($s);
-        self::assertEquals('oo', (string) $wrapped);
+        self::assertSame('oo', (string) $wrapped);
 
         $wrapped->close();
     }

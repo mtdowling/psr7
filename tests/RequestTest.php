@@ -19,7 +19,7 @@ class RequestTest extends TestCase
     public function testRequestUriMayBeString(): void
     {
         $r = new Request('GET', '/');
-        self::assertEquals('/', (string) $r->getUri());
+        self::assertSame('/', (string) $r->getUri());
     }
 
     public function testRequestUriMayBeUri(): void
@@ -39,7 +39,7 @@ class RequestTest extends TestCase
     {
         $r = new Request('GET', '/', [], 'baz');
         self::assertInstanceOf(StreamInterface::class, $r->getBody());
-        self::assertEquals('baz', (string) $r->getBody());
+        self::assertSame('baz', (string) $r->getBody());
     }
 
     public function testNullBody(): void
@@ -74,13 +74,13 @@ class RequestTest extends TestCase
     public function testCapitalizesMethod(): void
     {
         $r = new Request('get', '/');
-        self::assertEquals('GET', $r->getMethod());
+        self::assertSame('GET', $r->getMethod());
     }
 
     public function testCapitalizesWithMethod(): void
     {
         $r = new Request('GET', '/');
-        self::assertEquals('PUT', $r->withMethod('put')->getMethod());
+        self::assertSame('PUT', $r->withMethod('put')->getMethod());
     }
 
     public function testWithUri(): void
@@ -134,8 +134,8 @@ class RequestTest extends TestCase
     {
         $r1 = new Request('GET', '/');
         $r2 = $r1->withRequestTarget('*');
-        self::assertEquals('*', $r2->getRequestTarget());
-        self::assertEquals('/', $r1->getRequestTarget());
+        self::assertSame('*', $r2->getRequestTarget());
+        self::assertSame('/', $r1->getRequestTarget());
     }
 
     public function testRequestTargetDoesNotAllowSpaces(): void
@@ -148,29 +148,29 @@ class RequestTest extends TestCase
     public function testRequestTargetDefaultsToSlash(): void
     {
         $r1 = new Request('GET', '');
-        self::assertEquals('/', $r1->getRequestTarget());
+        self::assertSame('/', $r1->getRequestTarget());
         $r2 = new Request('GET', '*');
-        self::assertEquals('*', $r2->getRequestTarget());
+        self::assertSame('*', $r2->getRequestTarget());
         $r3 = new Request('GET', 'http://foo.com/bar baz/');
-        self::assertEquals('/bar%20baz/', $r3->getRequestTarget());
+        self::assertSame('/bar%20baz/', $r3->getRequestTarget());
     }
 
     public function testBuildsRequestTarget(): void
     {
         $r1 = new Request('GET', 'http://foo.com/baz?bar=bam');
-        self::assertEquals('/baz?bar=bam', $r1->getRequestTarget());
+        self::assertSame('/baz?bar=bam', $r1->getRequestTarget());
     }
 
     public function testBuildsRequestTargetWithFalseyQuery(): void
     {
         $r1 = new Request('GET', 'http://foo.com/baz?0');
-        self::assertEquals('/baz?0', $r1->getRequestTarget());
+        self::assertSame('/baz?0', $r1->getRequestTarget());
     }
 
     public function testHostIsAddedFirst(): void
     {
         $r = new Request('GET', 'http://foo.com/baz?bar=bam', ['Foo' => 'Bar']);
-        self::assertEquals([
+        self::assertSame([
             'Host' => ['foo.com'],
             'Foo'  => ['Bar']
         ], $r->getHeaders());
@@ -181,8 +181,8 @@ class RequestTest extends TestCase
         $r = new Request('GET', 'http://foo.com/baz?bar=bam', [
             'Foo' => ['a', 'b', 'c']
         ]);
-        self::assertEquals('a, b, c', $r->getHeaderLine('Foo'));
-        self::assertEquals('', $r->getHeaderLine('Bar'));
+        self::assertSame('a, b, c', $r->getHeaderLine('Foo'));
+        self::assertSame('', $r->getHeaderLine('Bar'));
     }
 
     /**
@@ -250,15 +250,15 @@ class RequestTest extends TestCase
     public function testHostIsNotOverwrittenWhenPreservingHost(): void
     {
         $r = new Request('GET', 'http://foo.com/baz?bar=bam', ['Host' => 'a.com']);
-        self::assertEquals(['Host' => ['a.com']], $r->getHeaders());
+        self::assertSame(['Host' => ['a.com']], $r->getHeaders());
         $r2 = $r->withUri(new Uri('http://www.foo.com/bar'), true);
-        self::assertEquals('a.com', $r2->getHeaderLine('Host'));
+        self::assertSame('a.com', $r2->getHeaderLine('Host'));
     }
 
     public function testWithUriSetsHostIfNotSet(): void
     {
         $r = (new Request('GET', 'http://foo.com/baz?bar=bam'))->withoutHeader('Host');
-        self::assertEquals([], $r->getHeaders());
+        self::assertSame([], $r->getHeaders());
         $r2 = $r->withUri(new Uri('http://www.baz.com/bar'), true);
         self::assertSame('www.baz.com', $r2->getHeaderLine('Host'));
     }
@@ -266,9 +266,9 @@ class RequestTest extends TestCase
     public function testOverridesHostWithUri(): void
     {
         $r = new Request('GET', 'http://foo.com/baz?bar=bam');
-        self::assertEquals(['Host' => ['foo.com']], $r->getHeaders());
+        self::assertSame(['Host' => ['foo.com']], $r->getHeaders());
         $r2 = $r->withUri(new Uri('http://www.baz.com/bar'));
-        self::assertEquals('www.baz.com', $r2->getHeaderLine('Host'));
+        self::assertSame('www.baz.com', $r2->getHeaderLine('Host'));
     }
 
     public function testAggregatesHeaders(): void
@@ -277,20 +277,20 @@ class RequestTest extends TestCase
             'ZOO' => 'zoobar',
             'zoo' => ['foobar', 'zoobar']
         ]);
-        self::assertEquals(['ZOO' => ['zoobar', 'foobar', 'zoobar']], $r->getHeaders());
-        self::assertEquals('zoobar, foobar, zoobar', $r->getHeaderLine('zoo'));
+        self::assertSame(['ZOO' => ['zoobar', 'foobar', 'zoobar']], $r->getHeaders());
+        self::assertSame('zoobar, foobar, zoobar', $r->getHeaderLine('zoo'));
     }
 
     public function testAddsPortToHeader(): void
     {
         $r = new Request('GET', 'http://foo.com:8124/bar');
-        self::assertEquals('foo.com:8124', $r->getHeaderLine('host'));
+        self::assertSame('foo.com:8124', $r->getHeaderLine('host'));
     }
 
     public function testAddsPortToHeaderAndReplacePreviousPort(): void
     {
         $r = new Request('GET', 'http://foo.com:8124/bar');
         $r = $r->withUri(new Uri('http://foo.com:8125/bar'));
-        self::assertEquals('foo.com:8125', $r->getHeaderLine('host'));
+        self::assertSame('foo.com:8125', $r->getHeaderLine('host'));
     }
 }

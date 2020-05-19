@@ -15,9 +15,9 @@ class BufferStreamTest extends TestCase
         self::assertTrue($b->isReadable());
         self::assertTrue($b->isWritable());
         self::assertFalse($b->isSeekable());
-        self::assertEquals(null, $b->getMetadata('foo'));
-        self::assertEquals(10, $b->getMetadata('hwm'));
-        self::assertEquals([], $b->getMetadata());
+        self::assertNull($b->getMetadata('foo'));
+        self::assertSame(10, $b->getMetadata('hwm'));
+        self::assertSame([], $b->getMetadata());
     }
 
     public function testRemovesReadDataFromBuffer(): void

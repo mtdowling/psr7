@@ -33,8 +33,8 @@ class LazyOpenStreamTest extends TestCase
         $l->write('foo');
         self::assertIsArray($l->getMetadata());
         self::assertFileExists($this->fname);
-        self::assertEquals('foo', file_get_contents($this->fname));
-        self::assertEquals('foo', (string) $l);
+        self::assertSame('foo', file_get_contents($this->fname));
+        self::assertSame('foo', (string) $l);
     }
 
     public function testProxiesToFile(): void
@@ -62,7 +62,7 @@ class LazyOpenStreamTest extends TestCase
         $r = $l->detach();
         self::assertIsResource($r);
         fseek($r, 0);
-        self::assertEquals('foo', stream_get_contents($r));
+        self::assertSame('foo', stream_get_contents($r));
         fclose($r);
     }
 }

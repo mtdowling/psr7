@@ -17,11 +17,11 @@ class FunctionsTest extends TestCase
     public function testCopiesToString(): void
     {
         $s = Psr7\stream_for('foobaz');
-        self::assertEquals('foobaz', Psr7\copy_to_string($s));
+        self::assertSame('foobaz', Psr7\copy_to_string($s));
         $s->seek(0);
-        self::assertEquals('foo', Psr7\copy_to_string($s, 3));
-        self::assertEquals('baz', Psr7\copy_to_string($s, 3));
-        self::assertEquals('', Psr7\copy_to_string($s));
+        self::assertSame('foo', Psr7\copy_to_string($s, 3));
+        self::assertSame('baz', Psr7\copy_to_string($s, 3));
+        self::assertSame('', Psr7\copy_to_string($s));
     }
 
     public function testCopiesToStringStopsWhenReadFails(): void
@@ -33,7 +33,7 @@ class FunctionsTest extends TestCase
             },
         ]);
         $result = Psr7\copy_to_string($s1);
-        self::assertEquals('', $result);
+        self::assertSame('', $result);
     }
 
     public function testCopiesToStream(): void
@@ -41,13 +41,13 @@ class FunctionsTest extends TestCase
         $s1 = Psr7\stream_for('foobaz');
         $s2 = Psr7\stream_for('');
         Psr7\copy_to_stream($s1, $s2);
-        self::assertEquals('foobaz', (string)$s2);
+        self::assertSame('foobaz', (string)$s2);
         $s2 = Psr7\stream_for('');
         $s1->seek(0);
         Psr7\copy_to_stream($s1, $s2, 3);
-        self::assertEquals('foo', (string)$s2);
+        self::assertSame('foo', (string)$s2);
         Psr7\copy_to_stream($s1, $s2, 3);
-        self::assertEquals('foobaz', (string)$s2);
+        self::assertSame('foobaz', (string)$s2);
     }
 
     public function testStopsCopyToStreamWhenWriteFails(): void
@@ -60,7 +60,7 @@ class FunctionsTest extends TestCase
             },
         ]);
         Psr7\copy_to_stream($s1, $s2);
-        self::assertEquals('', (string)$s2);
+        self::assertSame('', (string)$s2);
     }
 
     public function testStopsCopyToSteamWhenWriteFailsWithMaxLen(): void
@@ -73,7 +73,7 @@ class FunctionsTest extends TestCase
             },
         ]);
         Psr7\copy_to_stream($s1, $s2, 10);
-        self::assertEquals('', (string)$s2);
+        self::assertSame('', (string)$s2);
     }
 
     public function testCopyToStreamReadsInChunksInsteadOfAllInMemory(): void
@@ -113,9 +113,9 @@ class FunctionsTest extends TestCase
     public function testReadsLines(): void
     {
         $s = Psr7\stream_for("foo\nbaz\nbar");
-        self::assertEquals("foo\n", Psr7\readline($s));
-        self::assertEquals("baz\n", Psr7\readline($s));
-        self::assertEquals('bar', Psr7\readline($s));
+        self::assertSame("foo\n", Psr7\readline($s));
+        self::assertSame("baz\n", Psr7\readline($s));
+        self::assertSame('bar', Psr7\readline($s));
     }
 
     public function testReadsLinesUpToMaxLength(): void

@@ -28,9 +28,9 @@ class StreamTest extends TestCase
         self::assertTrue($stream->isReadable());
         self::assertTrue($stream->isWritable());
         self::assertTrue($stream->isSeekable());
-        self::assertEquals('php://temp', $stream->getMetadata('uri'));
+        self::assertSame('php://temp', $stream->getMetadata('uri'));
         self::assertIsArray($stream->getMetadata());
-        self::assertEquals(4, $stream->getSize());
+        self::assertSame(4, $stream->getSize());
         self::assertFalse($stream->eof());
         $stream->close();
     }
@@ -43,9 +43,9 @@ class StreamTest extends TestCase
         self::assertTrue($stream->isReadable());
         self::assertTrue($stream->isWritable());
         self::assertTrue($stream->isSeekable());
-        self::assertEquals('php://temp', $stream->getMetadata('uri'));
+        self::assertSame('php://temp', $stream->getMetadata('uri'));
         self::assertIsArray($stream->getMetadata());
-        self::assertEquals(4, $stream->getSize());
+        self::assertSame(4, $stream->getSize());
         self::assertFalse($stream->eof());
         $stream->close();
     }
@@ -63,8 +63,8 @@ class StreamTest extends TestCase
         $handle = fopen('php://temp', 'w+');
         fwrite($handle, 'data');
         $stream = new Stream($handle);
-        self::assertEquals('data', (string) $stream);
-        self::assertEquals('data', (string) $stream);
+        self::assertSame('data', (string) $stream);
+        self::assertSame('data', (string) $stream);
         $stream->close();
     }
 

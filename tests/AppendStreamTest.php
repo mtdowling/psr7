@@ -59,12 +59,12 @@ class AppendStreamTest extends TestCase
         ]);
 
         $a->seek(3);
-        self::assertEquals(3, $a->tell());
-        self::assertEquals('bar', $a->read(3));
+        self::assertSame(3, $a->tell());
+        self::assertSame('bar', $a->read(3));
 
         $a->seek(6);
-        self::assertEquals(6, $a->tell());
-        self::assertEquals('baz', $a->read(3));
+        self::assertSame(6, $a->tell());
+        self::assertSame('baz', $a->read(3));
     }
 
     public function testDetachWithoutStreams(): void
@@ -136,7 +136,7 @@ class AppendStreamTest extends TestCase
     public function testDoesNotNeedStreams(): void
     {
         $a = new AppendStream();
-        self::assertEquals('', (string) $a);
+        self::assertSame('', (string) $a);
     }
 
     public function testCanReadFromMultipleStreams(): void
@@ -148,13 +148,13 @@ class AppendStreamTest extends TestCase
         ]);
         self::assertFalse($a->eof());
         self::assertSame(0, $a->tell());
-        self::assertEquals('foo', $a->read(3));
-        self::assertEquals('bar', $a->read(3));
-        self::assertEquals('baz', $a->read(3));
+        self::assertSame('foo', $a->read(3));
+        self::assertSame('bar', $a->read(3));
+        self::assertSame('baz', $a->read(3));
         self::assertSame('', $a->read(1));
         self::assertTrue($a->eof());
         self::assertSame(9, $a->tell());
-        self::assertEquals('foobarbaz', (string) $a);
+        self::assertSame('foobarbaz', (string) $a);
     }
 
     public function testCanDetermineSizeFromMultipleStreams(): void
@@ -163,7 +163,7 @@ class AppendStreamTest extends TestCase
             Psr7\stream_for('foo'),
             Psr7\stream_for('bar')
         ]);
-        self::assertEquals(6, $a->getSize());
+        self::assertSame(6, $a->getSize());
 
         $s = $this->createMock(StreamInterface::class);
         $s->expects(self::once())
@@ -200,7 +200,7 @@ class AppendStreamTest extends TestCase
         $errors = [];
         set_error_handler(static function (int $errorNumber, string $errorMessage) use (&$errors): bool {
             $errors[] = ['number' => $errorNumber, 'message' => $errorMessage];
-            return false;
+            return true;
         });
         (string) $a;
 
@@ -214,7 +214,7 @@ class AppendStreamTest extends TestCase
     public function testReturnsEmptyMetadata(): void
     {
         $s = new AppendStream();
-        self::assertEquals([], $s->getMetadata());
+        self::assertSame([], $s->getMetadata());
         self::assertNull($s->getMetadata('foo'));
     }
 }

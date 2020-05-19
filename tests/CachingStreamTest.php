@@ -94,15 +94,15 @@ class CachingStreamTest extends TestCase
 
     public function testCanSeekToReadBytes(): void
     {
-        self::assertEquals('te', $this->body->read(2));
+        self::assertSame('te', $this->body->read(2));
         $this->body->seek(0);
-        self::assertEquals('test', $this->body->read(4));
-        self::assertEquals(4, $this->body->tell());
+        self::assertSame('test', $this->body->read(4));
+        self::assertSame(4, $this->body->tell());
         $this->body->seek(2);
-        self::assertEquals(2, $this->body->tell());
+        self::assertSame(2, $this->body->tell());
         $this->body->seek(2, SEEK_CUR);
-        self::assertEquals(4, $this->body->tell());
-        self::assertEquals('ing', $this->body->read(3));
+        self::assertSame(4, $this->body->tell());
+        self::assertSame('ing', $this->body->read(3));
     }
 
     public function testCanSeekToReadBytesWithPartialBodyReturned(): void
