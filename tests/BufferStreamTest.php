@@ -23,12 +23,12 @@ class BufferStreamTest extends TestCase
     public function testRemovesReadDataFromBuffer(): void
     {
         $b = new BufferStream();
-        self::assertEquals(3, $b->write('foo'));
-        self::assertEquals(3, $b->getSize());
+        self::assertSame(3, $b->write('foo'));
+        self::assertSame(3, $b->getSize());
         self::assertFalse($b->eof());
-        self::assertEquals('foo', $b->read(10));
+        self::assertSame('foo', $b->read(10));
         self::assertTrue($b->eof());
-        self::assertEquals('', $b->read(10));
+        self::assertSame('', $b->read(10));
     }
 
     public function testCanCastToStringOrGetContents(): void
@@ -36,9 +36,9 @@ class BufferStreamTest extends TestCase
         $b = new BufferStream();
         $b->write('foo');
         $b->write('baz');
-        self::assertEquals('foo', $b->read(3));
+        self::assertSame('foo', $b->read(3));
         $b->write('bar');
-        self::assertEquals('bazbar', (string) $b);
+        self::assertSame('bazbar', (string) $b);
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Cannot determine the position of a BufferStream');
         $b->tell();
@@ -50,16 +50,16 @@ class BufferStreamTest extends TestCase
         $b->write('foo');
         $b->detach();
         self::assertTrue($b->eof());
-        self::assertEquals(3, $b->write('abc'));
-        self::assertEquals('abc', $b->read(10));
+        self::assertSame(3, $b->write('abc'));
+        self::assertSame('abc', $b->read(10));
     }
 
     public function testExceedingHighwaterMarkReturnsFalseButStillBuffers(): void
     {
         $b = new BufferStream(5);
-        self::assertEquals(3, $b->write('hi '));
+        self::assertSame(3, $b->write('hi '));
         self::assertSame(0, $b->write('hello'));
-        self::assertEquals('hi hello', (string) $b);
-        self::assertEquals(4, $b->write('test'));
+        self::assertSame('hi hello', (string) $b);
+        self::assertSame(4, $b->write('test'));
     }
 }

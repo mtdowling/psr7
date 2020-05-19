@@ -28,20 +28,7 @@ class StreamWrapperTest extends TestCase
 
         $stBlksize  = defined('PHP_WINDOWS_VERSION_BUILD') ? -1 : 0;
 
-        self::assertEquals([
-            'dev'     => 0,
-            'ino'     => 0,
-            'mode'    => 33206,
-            'nlink'   => 0,
-            'uid'     => 0,
-            'gid'     => 0,
-            'rdev'    => 0,
-            'size'    => 6,
-            'atime'   => 0,
-            'mtime'   => 0,
-            'ctime'   => 0,
-            'blksize' => $stBlksize,
-            'blocks'  => $stBlksize,
+        self::assertSame([
             0         => 0,
             1         => 0,
             2         => 33206,
@@ -55,6 +42,19 @@ class StreamWrapperTest extends TestCase
             10        => 0,
             11        => $stBlksize,
             12        => $stBlksize,
+            'dev'     => 0,
+            'ino'     => 0,
+            'mode'    => 33206,
+            'nlink'   => 0,
+            'uid'     => 0,
+            'gid'     => 0,
+            'rdev'    => 0,
+            'size'    => 6,
+            'atime'   => 0,
+            'mtime'   => 0,
+            'ctime'   => 0,
+            'blksize' => $stBlksize,
+            'blocks'  => $stBlksize,
         ], fstat($handle));
 
         self::assertTrue(fclose($handle));
@@ -65,7 +65,7 @@ class StreamWrapperTest extends TestCase
     {
         $stream = Psr7\stream_for('foo');
 
-        self::assertEquals('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
+        self::assertSame('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
     }
 
     public function testStreamCast(): void
@@ -119,21 +119,8 @@ class StreamWrapperTest extends TestCase
 
         $stBlksize  = defined('PHP_WINDOWS_VERSION_BUILD') ? -1 : 0;
 
-        self::assertEquals(
+        self::assertSame(
             [
-                'dev'     => 0,
-                'ino'     => 0,
-                'mode'    => 0,
-                'nlink'   => 0,
-                'uid'     => 0,
-                'gid'     => 0,
-                'rdev'    => 0,
-                'size'    => 0,
-                'atime'   => 0,
-                'mtime'   => 0,
-                'ctime'   => 0,
-                'blksize' => $stBlksize,
-                'blocks'  => $stBlksize,
                 0         => 0,
                 1         => 0,
                 2         => 0,
@@ -147,6 +134,19 @@ class StreamWrapperTest extends TestCase
                 10        => 0,
                 11        => $stBlksize,
                 12        => $stBlksize,
+                'dev'     => 0,
+                'ino'     => 0,
+                'mode'    => 0,
+                'nlink'   => 0,
+                'uid'     => 0,
+                'gid'     => 0,
+                'rdev'    => 0,
+                'size'    => 0,
+                'atime'   => 0,
+                'mtime'   => 0,
+                'ctime'   => 0,
+                'blksize' => $stBlksize,
+                'blocks'  => $stBlksize,
             ],
             stat('guzzle://stream')
         );
@@ -165,7 +165,7 @@ class StreamWrapperTest extends TestCase
 
         self::assertTrue($reader->open('guzzle://stream'));
         self::assertTrue($reader->read());
-        self::assertEquals('foo', $reader->name);
+        self::assertSame('foo', $reader->name);
     }
 
     /**

@@ -14,16 +14,16 @@ class DroppingStreamTest extends TestCase
     {
         $stream = new BufferStream();
         $drop = new DroppingStream($stream, 5);
-        self::assertEquals(3, $drop->write('hel'));
-        self::assertEquals(2, $drop->write('lo'));
-        self::assertEquals(5, $drop->getSize());
-        self::assertEquals('hello', $drop->read(5));
-        self::assertEquals(0, $drop->getSize());
+        self::assertSame(3, $drop->write('hel'));
+        self::assertSame(2, $drop->write('lo'));
+        self::assertSame(5, $drop->getSize());
+        self::assertSame('hello', $drop->read(5));
+        self::assertSame(0, $drop->getSize());
         $drop->write('12345678910');
-        self::assertEquals(5, $stream->getSize());
-        self::assertEquals(5, $drop->getSize());
-        self::assertEquals('12345', (string) $drop);
-        self::assertEquals(0, $drop->getSize());
+        self::assertSame(5, $stream->getSize());
+        self::assertSame(5, $drop->getSize());
+        self::assertSame('12345', (string) $drop);
+        self::assertSame(0, $drop->getSize());
         $drop->write('hello');
         self::assertSame(0, $drop->write('test'));
     }

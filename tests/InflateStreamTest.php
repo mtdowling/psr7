@@ -19,7 +19,7 @@ class InflateStreamTest extends TestCase
         $content = gzencode('test');
         $a = Psr7\stream_for($content);
         $b = new InflateStream($a);
-        self::assertEquals('test', (string) $b);
+        self::assertSame('test', (string) $b);
     }
 
     public function testInflatesStreamsRfc1952WithFilename(): void
@@ -27,7 +27,7 @@ class InflateStreamTest extends TestCase
         $content = $this->getGzipStringWithFilename('test');
         $a = Psr7\stream_for($content);
         $b = new InflateStream($a);
-        self::assertEquals('test', (string) $b);
+        self::assertSame('test', (string) $b);
     }
 
     public function testInflatesRfc1950Streams(): void
@@ -35,7 +35,7 @@ class InflateStreamTest extends TestCase
         $content = gzcompress('test');
         $a = Psr7\stream_for($content);
         $b = new InflateStream($a);
-        self::assertEquals('test', (string) $b);
+        self::assertSame('test', (string) $b);
     }
 
     public function testInflatesRfc1952StreamsWithExtraFlags(): void
@@ -62,7 +62,7 @@ class InflateStreamTest extends TestCase
 
         $a = Psr7\stream_for($header . $content);
         $b = new InflateStream($a);
-        self::assertEquals('test', (string) $b);
+        self::assertSame('test', (string) $b);
     }
 
     public function testInflatesStreamsPreserveSeekable(): void
@@ -72,12 +72,12 @@ class InflateStreamTest extends TestCase
 
         $seekableInflate = new InflateStream($seekable);
         self::assertTrue($seekableInflate->isSeekable());
-        self::assertEquals('test', (string) $seekableInflate);
+        self::assertSame('test', (string) $seekableInflate);
 
         $nonSeekable = new NoSeekStream(Psr7\stream_for($content));
         $nonSeekableInflate = new InflateStream($nonSeekable);
         self::assertFalse($nonSeekableInflate->isSeekable());
-        self::assertEquals('test', (string) $nonSeekableInflate);
+        self::assertSame('test', (string) $nonSeekableInflate);
     }
 
     private function getGzipStringWithFilename($original_string)

@@ -91,10 +91,10 @@ class StreamTest extends TestCase
         $handle = fopen('php://temp', 'w+');
         fwrite($handle, 'data');
         $stream = new Stream($handle);
-        self::assertEquals('', $stream->getContents());
+        self::assertSame('', $stream->getContents());
         $stream->seek(0);
-        self::assertEquals('data', $stream->getContents());
-        self::assertEquals('', $stream->getContents());
+        self::assertSame('data', $stream->getContents());
+        self::assertSame('', $stream->getContents());
         $stream->close();
     }
 
@@ -115,21 +115,21 @@ class StreamTest extends TestCase
         $size = filesize(__FILE__);
         $handle = fopen(__FILE__, 'r');
         $stream = new Stream($handle);
-        self::assertEquals($size, $stream->getSize());
+        self::assertSame($size, $stream->getSize());
         // Load from cache
-        self::assertEquals($size, $stream->getSize());
+        self::assertSame($size, $stream->getSize());
         $stream->close();
     }
 
     public function testEnsuresSizeIsConsistent(): void
     {
         $h = fopen('php://temp', 'w+');
-        self::assertEquals(3, fwrite($h, 'foo'));
+        self::assertSame(3, fwrite($h, 'foo'));
         $stream = new Stream($h);
-        self::assertEquals(3, $stream->getSize());
-        self::assertEquals(4, $stream->write('test'));
-        self::assertEquals(7, $stream->getSize());
-        self::assertEquals(7, $stream->getSize());
+        self::assertSame(3, $stream->getSize());
+        self::assertSame(4, $stream->write('test'));
+        self::assertSame(7, $stream->getSize());
+        self::assertSame(7, $stream->getSize());
         $stream->close();
     }
 
@@ -137,11 +137,11 @@ class StreamTest extends TestCase
     {
         $handle = fopen('php://temp', 'w+');
         $stream = new Stream($handle);
-        self::assertEquals(0, $stream->tell());
+        self::assertSame(0, $stream->tell());
         $stream->write('foo');
-        self::assertEquals(3, $stream->tell());
+        self::assertSame(3, $stream->tell());
         $stream->seek(1);
-        self::assertEquals(1, $stream->tell());
+        self::assertSame(1, $stream->tell());
         self::assertSame(ftell($handle), $stream->tell());
         $stream->close();
     }

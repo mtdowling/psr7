@@ -19,9 +19,9 @@ class PumpStreamTest extends TestCase
             'size'     => 100
         ]);
 
-        self::assertEquals('bar', $p->getMetadata('foo'));
-        self::assertEquals(['foo' => 'bar'], $p->getMetadata());
-        self::assertEquals(100, $p->getSize());
+        self::assertSame('bar', $p->getMetadata('foo'));
+        self::assertSame(['foo' => 'bar'], $p->getMetadata());
+        self::assertSame(100, $p->getSize());
     }
 
     public function testCanReadFromCallable(): void
@@ -29,10 +29,10 @@ class PumpStreamTest extends TestCase
         $p = Psr7\stream_for(function ($size) {
             return 'a';
         });
-        self::assertEquals('a', $p->read(1));
-        self::assertEquals(1, $p->tell());
-        self::assertEquals('aaaaa', $p->read(5));
-        self::assertEquals(6, $p->tell());
+        self::assertSame('a', $p->read(1));
+        self::assertSame(1, $p->tell());
+        self::assertSame('aaaaa', $p->read(5));
+        self::assertSame(6, $p->tell());
     }
 
     public function testStoresExcessDataInBuffer(): void
@@ -42,11 +42,11 @@ class PumpStreamTest extends TestCase
             $called[] = $size;
             return 'abcdef';
         });
-        self::assertEquals('a', $p->read(1));
-        self::assertEquals('b', $p->read(1));
-        self::assertEquals('cdef', $p->read(4));
-        self::assertEquals('abcdefabc', $p->read(9));
-        self::assertEquals([1, 9, 3], $called);
+        self::assertSame('a', $p->read(1));
+        self::assertSame('b', $p->read(1));
+        self::assertSame('cdef', $p->read(4));
+        self::assertSame('abcdefabc', $p->read(9));
+        self::assertSame([1, 9, 3], $called);
     }
 
     public function testInifiniteStreamWrappedInLimitStream(): void
@@ -55,7 +55,7 @@ class PumpStreamTest extends TestCase
             return 'a';
         });
         $s = new LimitStream($p, 5);
-        self::assertEquals('aaaaa', (string) $s);
+        self::assertSame('aaaaa', (string) $s);
     }
 
     public function testDescribesCapabilities(): void
@@ -66,10 +66,10 @@ class PumpStreamTest extends TestCase
         self::assertFalse($p->isSeekable());
         self::assertFalse($p->isWritable());
         self::assertNull($p->getSize());
-        self::assertEquals('', $p->getContents());
-        self::assertEquals('', (string) $p);
+        self::assertSame('', $p->getContents());
+        self::assertSame('', (string) $p);
         $p->close();
-        self::assertEquals('', $p->read(10));
+        self::assertSame('', $p->read(10));
         self::assertTrue($p->eof());
 
         try {

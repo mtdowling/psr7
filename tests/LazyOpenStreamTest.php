@@ -41,16 +41,16 @@ class LazyOpenStreamTest extends TestCase
     {
         file_put_contents($this->fname, 'foo');
         $l = new LazyOpenStream($this->fname, 'r');
-        self::assertEquals('foo', $l->read(4));
+        self::assertSame('foo', $l->read(4));
         self::assertTrue($l->eof());
-        self::assertEquals(3, $l->tell());
+        self::assertSame(3, $l->tell());
         self::assertTrue($l->isReadable());
         self::assertTrue($l->isSeekable());
         self::assertFalse($l->isWritable());
         $l->seek(1);
-        self::assertEquals('oo', $l->getContents());
-        self::assertEquals('foo', (string) $l);
-        self::assertEquals(3, $l->getSize());
+        self::assertSame('oo', $l->getContents());
+        self::assertSame('foo', (string) $l);
+        self::assertSame(3, $l->getSize());
         self::assertIsArray($l->getMetadata());
         $l->close();
     }
