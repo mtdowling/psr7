@@ -5,6 +5,7 @@
     backupGlobals="true"
     bootstrap="vendor/autoload.php"
     colors="true"
+    failOnWarning="true"
 >
     <testsuites>
         <testsuite name="Guzzle PSR-7 Test Suite">
