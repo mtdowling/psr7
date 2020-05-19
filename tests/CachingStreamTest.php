@@ -83,9 +83,9 @@ class CachingStreamTest extends TestCase
     {
         $a = Psr7\stream_for('foo');
         $d = new CachingStream($a);
-        $this->assertSame('foo', $d->read(3));
+        self::assertSame('foo', $d->read(3));
         $d->rewind();
-        $this->assertSame('foo', $d->read(3));
+        self::assertSame('foo', $d->read(3));
     }
 
     public function testCanSeekToReadBytes()
