@@ -79,17 +79,13 @@ class CachingStreamTest extends TestCase
         self::assertEquals('g', $cached->read(1));
     }
 
-    public function testRewindUsesSeek()
+    public function testRewind()
     {
         $a = Psr7\stream_for('foo');
-        $d = $this->getMockBuilder(CachingStream::class)
-            ->onlyMethods(['seek'])
-            ->setConstructorArgs([$a])
-            ->getMock();
-        $d->expects(self::once())
-            ->method('seek')
-            ->with(0);
+        $d = new CachingStream($a);
+        $this->assertSame('foo', $d->read(3));
         $d->rewind();
+        $this->assertSame('foo', $d->read(3));
     }
 
     public function testCanSeekToReadBytes()
