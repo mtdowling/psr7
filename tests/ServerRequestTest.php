@@ -412,9 +412,9 @@ class ServerRequestTest extends TestCase
         $server = ServerRequest::fromGlobals();
 
         self::assertSame('POST', $server->getMethod());
-        self::assertSame([
-            'Content-Type' => ['text/plain'],
+        self::assertEquals([
             'Host' => ['www.example.org'],
+            'Content-Type' => ['text/plain'],
             'Accept' => ['text/html'],
             'Referrer' => ['https://example.com'],
             'User-Agent' => ['My User Agent'],

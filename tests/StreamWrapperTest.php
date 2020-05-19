@@ -28,20 +28,7 @@ class StreamWrapperTest extends TestCase
 
         $stBlksize  = defined('PHP_WINDOWS_VERSION_BUILD') ? -1 : 0;
 
-        self::assertSame([
-            0         => 0,
-            1         => 0,
-            2         => 33206,
-            3         => 0,
-            4         => 0,
-            5         => 0,
-            6         => 0,
-            7         => 6,
-            8         => 0,
-            9         => 0,
-            10        => 0,
-            11        => $stBlksize,
-            12        => $stBlksize,
+        self::assertEquals([
             'dev'     => 0,
             'ino'     => 0,
             'mode'    => 33206,
@@ -55,6 +42,19 @@ class StreamWrapperTest extends TestCase
             'ctime'   => 0,
             'blksize' => $stBlksize,
             'blocks'  => $stBlksize,
+            0         => 0,
+            1         => 0,
+            2         => 33206,
+            3         => 0,
+            4         => 0,
+            5         => 0,
+            6         => 0,
+            7         => 6,
+            8         => 0,
+            9         => 0,
+            10        => 0,
+            11        => $stBlksize,
+            12        => $stBlksize,
         ], fstat($handle));
 
         self::assertTrue(fclose($handle));
@@ -119,21 +119,8 @@ class StreamWrapperTest extends TestCase
 
         $stBlksize  = defined('PHP_WINDOWS_VERSION_BUILD') ? -1 : 0;
 
-        self::assertSame(
+        self::assertEquals(
             [
-                0         => 0,
-                1         => 0,
-                2         => 0,
-                3         => 0,
-                4         => 0,
-                5         => 0,
-                6         => 0,
-                7         => 0,
-                8         => 0,
-                9         => 0,
-                10        => 0,
-                11        => $stBlksize,
-                12        => $stBlksize,
                 'dev'     => 0,
                 'ino'     => 0,
                 'mode'    => 0,
@@ -147,6 +134,19 @@ class StreamWrapperTest extends TestCase
                 'ctime'   => 0,
                 'blksize' => $stBlksize,
                 'blocks'  => $stBlksize,
+                0         => 0,
+                1         => 0,
+                2         => 0,
+                3         => 0,
+                4         => 0,
+                5         => 0,
+                6         => 0,
+                7         => 0,
+                8         => 0,
+                9         => 0,
+                10        => 0,
+                11        => $stBlksize,
+                12        => $stBlksize,
             ],
             stat('guzzle://stream')
         );
