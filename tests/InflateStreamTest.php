@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class InflateStreamTest extends TestCase
 {
-    public function testInflatesRfc1952Streams()
+    public function testInflatesRfc1952Streams(): void
     {
         $content = gzencode('test');
         $a = Psr7\stream_for($content);
@@ -22,7 +22,7 @@ class InflateStreamTest extends TestCase
         self::assertEquals('test', (string) $b);
     }
 
-    public function testInflatesStreamsRfc1952WithFilename()
+    public function testInflatesStreamsRfc1952WithFilename(): void
     {
         $content = $this->getGzipStringWithFilename('test');
         $a = Psr7\stream_for($content);
@@ -30,7 +30,7 @@ class InflateStreamTest extends TestCase
         self::assertEquals('test', (string) $b);
     }
 
-    public function testInflatesRfc1950Streams()
+    public function testInflatesRfc1950Streams(): void
     {
         $content = gzcompress('test');
         $a = Psr7\stream_for($content);
@@ -38,7 +38,7 @@ class InflateStreamTest extends TestCase
         self::assertEquals('test', (string) $b);
     }
 
-    public function testInflatesRfc1952StreamsWithExtraFlags()
+    public function testInflatesRfc1952StreamsWithExtraFlags(): void
     {
         $content = gzdeflate('test'); // RFC 1951. Raw deflate. No header.
 
@@ -65,7 +65,7 @@ class InflateStreamTest extends TestCase
         self::assertEquals('test', (string) $b);
     }
 
-    public function testInflatesStreamsPreserveSeekable()
+    public function testInflatesStreamsPreserveSeekable(): void
     {
         $content = gzencode('test');
         $seekable = Psr7\stream_for($content);

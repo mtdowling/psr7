@@ -14,7 +14,7 @@ use Psr\Http\Message\UriInterface;
  */
 class UriNormalizerTest extends TestCase
 {
-    public function testCapitalizePercentEncoding()
+    public function testCapitalizePercentEncoding(): void
     {
         $actualEncoding = 'a%c2%7A%5eb%25%fa%fA%Fa';
         $expectEncoding = 'a%C2%7A%5Eb%25%FA%FA%FA';
@@ -31,7 +31,7 @@ class UriNormalizerTest extends TestCase
     /**
      * @dataProvider getUnreservedCharacters
      */
-    public function testDecodeUnreservedCharacters(string $char)
+    public function testDecodeUnreservedCharacters(string $char): void
     {
         $percentEncoded = '%' . bin2hex($char);
         // Add encoded reserved characters to test that those are not decoded and include the percent-encoded
@@ -59,7 +59,7 @@ class UriNormalizerTest extends TestCase
     /**
      * @dataProvider getEmptyPathTestCases
      */
-    public function testConvertEmptyPath($uri, $expected)
+    public function testConvertEmptyPath($uri, $expected): void
     {
         $normalizedUri = UriNormalizer::normalize(new Uri($uri), UriNormalizer::CONVERT_EMPTY_PATH);
 
@@ -76,7 +76,7 @@ class UriNormalizerTest extends TestCase
         ];
     }
 
-    public function testRemoveDefaultHost()
+    public function testRemoveDefaultHost(): void
     {
         $uri = new Uri('file://localhost/myfile');
         $normalizedUri = UriNormalizer::normalize($uri, UriNormalizer::REMOVE_DEFAULT_HOST);
@@ -85,7 +85,7 @@ class UriNormalizerTest extends TestCase
         self::assertSame('file:///myfile', (string) $normalizedUri);
     }
 
-    public function testRemoveDefaultPort()
+    public function testRemoveDefaultPort(): void
     {
         $uri = $this->createMock(UriInterface::class);
         $uri->expects(self::any())->method('getScheme')->willReturn('http');
@@ -98,7 +98,7 @@ class UriNormalizerTest extends TestCase
         self::assertNull($normalizedUri->getPort());
     }
 
-    public function testRemoveDotSegments()
+    public function testRemoveDotSegments(): void
     {
         $uri = new Uri('http://example.org/../a/b/../c/./d.html');
         $normalizedUri = UriNormalizer::normalize($uri, UriNormalizer::REMOVE_DOT_SEGMENTS);
@@ -107,7 +107,7 @@ class UriNormalizerTest extends TestCase
         self::assertSame('http://example.org/a/c/d.html', (string) $normalizedUri);
     }
 
-    public function testRemoveDotSegmentsOfAbsolutePathReference()
+    public function testRemoveDotSegmentsOfAbsolutePathReference(): void
     {
         $uri = new Uri('/../a/b/../c/./d.html');
         $normalizedUri = UriNormalizer::normalize($uri, UriNormalizer::REMOVE_DOT_SEGMENTS);
@@ -116,7 +116,7 @@ class UriNormalizerTest extends TestCase
         self::assertSame('/a/c/d.html', (string) $normalizedUri);
     }
 
-    public function testRemoveDotSegmentsOfRelativePathReference()
+    public function testRemoveDotSegmentsOfRelativePathReference(): void
     {
         $uri = new Uri('../c/./d.html');
         $normalizedUri = UriNormalizer::normalize($uri, UriNormalizer::REMOVE_DOT_SEGMENTS);
@@ -125,7 +125,7 @@ class UriNormalizerTest extends TestCase
         self::assertSame('../c/./d.html', (string) $normalizedUri);
     }
 
-    public function testRemoveDuplicateSlashes()
+    public function testRemoveDuplicateSlashes(): void
     {
         $uri = new Uri('http://example.org//foo///bar/bam.html');
         $normalizedUri = UriNormalizer::normalize($uri, UriNormalizer::REMOVE_DUPLICATE_SLASHES);
@@ -134,7 +134,7 @@ class UriNormalizerTest extends TestCase
         self::assertSame('http://example.org/foo/bar/bam.html', (string) $normalizedUri);
     }
 
-    public function testSortQueryParameters()
+    public function testSortQueryParameters(): void
     {
         $uri = new Uri('?lang=en&article=fred');
         $normalizedUri = UriNormalizer::normalize($uri, UriNormalizer::SORT_QUERY_PARAMETERS);
@@ -143,7 +143,7 @@ class UriNormalizerTest extends TestCase
         self::assertSame('?article=fred&lang=en', (string) $normalizedUri);
     }
 
-    public function testSortQueryParametersWithSameKeys()
+    public function testSortQueryParametersWithSameKeys(): void
     {
         $uri = new Uri('?a=b&b=c&a=a&a&b=a&b=b&a=d&a=c');
         $normalizedUri = UriNormalizer::normalize($uri, UriNormalizer::SORT_QUERY_PARAMETERS);
@@ -155,7 +155,7 @@ class UriNormalizerTest extends TestCase
     /**
      * @dataProvider getEquivalentTestCases
      */
-    public function testIsEquivalent(string $uri1, string $uri2, bool $expected)
+    public function testIsEquivalent(string $uri1, string $uri2, bool $expected): void
     {
         $equivalent = UriNormalizer::isEquivalent(new Uri($uri1), new Uri($uri2));
 

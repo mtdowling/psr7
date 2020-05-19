@@ -19,7 +19,7 @@ class UriResolverTest extends TestCase
     /**
      * @dataProvider getResolveTestCases
      */
-    public function testResolveUri(string $base, string $rel, string $expectedTarget)
+    public function testResolveUri(string $base, string $rel, string $expectedTarget): void
     {
         $baseUri = new Uri($base);
         $targetUri = UriResolver::resolve($baseUri, new Uri($rel));
@@ -35,7 +35,7 @@ class UriResolverTest extends TestCase
     /**
      * @dataProvider getResolveTestCases
      */
-    public function testRelativizeUri(string $base, string $expectedRelativeReference, string $target)
+    public function testRelativizeUri(string $base, string $expectedRelativeReference, string $target): void
     {
         $baseUri = new Uri($base);
         $relativeUri = UriResolver::relativize($baseUri, new Uri($target));
@@ -56,7 +56,7 @@ class UriResolverTest extends TestCase
     /**
      * @dataProvider getRelativizeTestCases
      */
-    public function testRelativizeUriWithUniqueTests(string $base, string $target, string $expectedRelativeReference)
+    public function testRelativizeUriWithUniqueTests(string $base, string $target, string $expectedRelativeReference): void
     {
         $baseUri = new Uri($base);
         $targetUri = new Uri($target);

@@ -28,7 +28,7 @@ class LimitStreamTest extends TestCase
         $this->body = new LimitStream($this->decorated, 10, 3);
     }
 
-    public function testReturnsSubset()
+    public function testReturnsSubset(): void
     {
         $body = new LimitStream(Psr7\stream_for('foo'), -1, 1);
         self::assertEquals('oo', (string) $body);
@@ -40,34 +40,34 @@ class LimitStreamTest extends TestCase
         self::assertTrue($body->eof());
     }
 
-    public function testReturnsSubsetWhenCastToString()
+    public function testReturnsSubsetWhenCastToString(): void
     {
         $body = Psr7\stream_for('foo_baz_bar');
         $limited = new LimitStream($body, 3, 4);
         self::assertEquals('baz', (string) $limited);
     }
 
-    public function testReturnsSubsetOfEmptyBodyWhenCastToString()
+    public function testReturnsSubsetOfEmptyBodyWhenCastToString(): void
     {
         $body = Psr7\stream_for('01234567891234');
         $limited = new LimitStream($body, 0, 10);
         self::assertEquals('', (string) $limited);
     }
 
-    public function testReturnsSpecificSubsetOBodyWhenCastToString()
+    public function testReturnsSpecificSubsetOBodyWhenCastToString(): void
     {
         $body = Psr7\stream_for('0123456789abcdef');
         $limited = new LimitStream($body, 3, 10);
         self::assertEquals('abc', (string) $limited);
     }
 
-    public function testSeeksWhenConstructed()
+    public function testSeeksWhenConstructed(): void
     {
         self::assertEquals(0, $this->body->tell());
         self::assertEquals(3, $this->decorated->tell());
     }
 
-    public function testAllowsBoundedSeek()
+    public function testAllowsBoundedSeek(): void
     {
         $this->body->seek(100);
         self::assertEquals(10, $this->body->tell());
@@ -93,7 +93,7 @@ class LimitStreamTest extends TestCase
         }
     }
 
-    public function testReadsOnlySubsetOfData()
+    public function testReadsOnlySubsetOfData(): void
     {
         $data = $this->body->read(100);
         self::assertEquals(10, strlen($data));
@@ -105,7 +105,7 @@ class LimitStreamTest extends TestCase
         self::assertNotSame($data, $newData);
     }
 
-    public function testThrowsWhenCurrentGreaterThanOffsetSeek()
+    public function testThrowsWhenCurrentGreaterThanOffsetSeek(): void
     {
         $a = Psr7\stream_for('foo_bar');
         $b = new NoSeekStream($a);
@@ -116,7 +116,7 @@ class LimitStreamTest extends TestCase
         $c->setOffset(2);
     }
 
-    public function testCanGetContentsWithoutSeeking()
+    public function testCanGetContentsWithoutSeeking(): void
     {
         $a = Psr7\stream_for('foo_bar');
         $b = new NoSeekStream($a);
@@ -124,25 +124,25 @@ class LimitStreamTest extends TestCase
         self::assertEquals('foo_bar', $c->getContents());
     }
 
-    public function testClaimsConsumedWhenReadLimitIsReached()
+    public function testClaimsConsumedWhenReadLimitIsReached(): void
     {
         self::assertFalse($this->body->eof());
         $this->body->read(1000);
         self::assertTrue($this->body->eof());
     }
 
-    public function testContentLengthIsBounded()
+    public function testContentLengthIsBounded(): void
     {
         self::assertEquals(10, $this->body->getSize());
     }
 
-    public function testGetContentsIsBasedOnSubset()
+    public function testGetContentsIsBasedOnSubset(): void
     {
         $body = new LimitStream(Psr7\stream_for('foobazbar'), 3, 3);
         self::assertEquals('baz', $body->getContents());
     }
 
-    public function testReturnsNullIfSizeCannotBeDetermined()
+    public function testReturnsNullIfSizeCannotBeDetermined(): void
     {
         $a = new FnStream([
             'getSize' => function () {
@@ -156,7 +156,7 @@ class LimitStreamTest extends TestCase
         self::assertNull($b->getSize());
     }
 
-    public function testLengthLessOffsetWhenNoLimitSize()
+    public function testLengthLessOffsetWhenNoLimitSize(): void
     {
         $a = Psr7\stream_for('foo_bar');
         $b = new LimitStream($a, -1, 4);

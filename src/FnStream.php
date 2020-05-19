@@ -41,7 +41,7 @@ final class FnStream implements StreamInterface
      *
      * @throws \BadMethodCallException
      */
-    public function __get(string $name)
+    public function __get(string $name): void
     {
         throw new \BadMethodCallException(str_replace('_fn_', '', $name)
             . '() is not implemented in the FnStream');

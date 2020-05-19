@@ -38,7 +38,7 @@ class UploadedFile implements UploadedFileInterface
     private $error;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $file;
 

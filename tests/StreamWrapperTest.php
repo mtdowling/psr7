@@ -14,7 +14,7 @@ use Psr\Http\Message\StreamInterface;
  */
 class StreamWrapperTest extends TestCase
 {
-    public function testResource()
+    public function testResource(): void
     {
         $stream = Psr7\stream_for('foo');
         $handle = StreamWrapper::getResource($stream);
@@ -61,14 +61,14 @@ class StreamWrapperTest extends TestCase
         self::assertSame('foobar', (string) $stream);
     }
 
-    public function testStreamContext()
+    public function testStreamContext(): void
     {
         $stream = Psr7\stream_for('foo');
 
         self::assertEquals('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
     }
 
-    public function testStreamCast()
+    public function testStreamCast(): void
     {
         $streams = [
             StreamWrapper::getResource(Psr7\stream_for('foo')),
@@ -79,7 +79,7 @@ class StreamWrapperTest extends TestCase
         self::assertIsInt(stream_select($streams, $write, $except, 0));
     }
 
-    public function testValidatesStream()
+    public function testValidatesStream(): void
     {
         $stream = $this->createMock(StreamInterface::class);
         $stream->expects(self::once())
@@ -93,13 +93,13 @@ class StreamWrapperTest extends TestCase
         StreamWrapper::getResource($stream);
     }
 
-    public function testReturnsFalseWhenStreamDoesNotExist()
+    public function testReturnsFalseWhenStreamDoesNotExist(): void
     {
         $this->expectException(\PHPUnit\Framework\Error\Warning::class);
         fopen('guzzle://foo', 'r');
     }
 
-    public function testCanOpenReadonlyStream()
+    public function testCanOpenReadonlyStream(): void
     {
         $stream = $this->createMock(StreamInterface::class);
         $stream->expects(self::once())
@@ -113,7 +113,7 @@ class StreamWrapperTest extends TestCase
         fclose($r);
     }
 
-    public function testUrlStat()
+    public function testUrlStat(): void
     {
         StreamWrapper::register();
 
@@ -155,7 +155,7 @@ class StreamWrapperTest extends TestCase
     /**
      * @requires extension xmlreader
      */
-    public function testXmlReaderWithStream()
+    public function testXmlReaderWithStream(): void
     {
         $stream = Psr7\stream_for('<?xml version="1.0" encoding="utf-8"?><foo />');
 
@@ -171,7 +171,7 @@ class StreamWrapperTest extends TestCase
     /**
      * @requires extension xmlreader
      */
-    public function testXmlWriterWithStream()
+    public function testXmlWriterWithStream(): void
     {
         $stream = Psr7\stream_for(fopen('php://memory', 'wb'));
 

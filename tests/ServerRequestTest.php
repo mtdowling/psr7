@@ -261,14 +261,14 @@ class ServerRequestTest extends TestCase
     /**
      * @dataProvider dataNormalizeFiles
      */
-    public function testNormalizeFiles($files, $expected)
+    public function testNormalizeFiles($files, $expected): void
     {
         $result = ServerRequest::normalizeFiles($files);
 
         self::assertEquals($expected, $result);
     }
 
-    public function testNormalizeFilesRaisesException()
+    public function testNormalizeFilesRaisesException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid value in files specification');
@@ -354,14 +354,14 @@ class ServerRequestTest extends TestCase
     /**
      * @dataProvider dataGetUriFromGlobals
      */
-    public function testGetUriFromGlobals($expected, $serverParams)
+    public function testGetUriFromGlobals($expected, $serverParams): void
     {
         $_SERVER = $serverParams;
 
         self::assertEquals(new Uri($expected), ServerRequest::getUriFromGlobals());
     }
 
-    public function testFromGlobals()
+    public function testFromGlobals(): void
     {
         $_SERVER = [
             'REQUEST_URI' => '/blog/article.php?id=10&user=foo',
@@ -443,7 +443,7 @@ class ServerRequestTest extends TestCase
         self::assertEquals($expectedFiles, $server->getUploadedFiles());
     }
 
-    public function testUploadedFiles()
+    public function testUploadedFiles(): void
     {
         $request1 = new ServerRequest('GET', '/');
 
@@ -458,7 +458,7 @@ class ServerRequestTest extends TestCase
         self::assertSame($files, $request2->getUploadedFiles());
     }
 
-    public function testServerParams()
+    public function testServerParams(): void
     {
         $params = ['name' => 'value'];
 
@@ -466,7 +466,7 @@ class ServerRequestTest extends TestCase
         self::assertSame($params, $request->getServerParams());
     }
 
-    public function testCookieParams()
+    public function testCookieParams(): void
     {
         $request1 = new ServerRequest('GET', '/');
 
@@ -479,7 +479,7 @@ class ServerRequestTest extends TestCase
         self::assertSame($params, $request2->getCookieParams());
     }
 
-    public function testQueryParams()
+    public function testQueryParams(): void
     {
         $request1 = new ServerRequest('GET', '/');
 
@@ -492,7 +492,7 @@ class ServerRequestTest extends TestCase
         self::assertSame($params, $request2->getQueryParams());
     }
 
-    public function testParsedBody()
+    public function testParsedBody(): void
     {
         $request1 = new ServerRequest('GET', '/');
 
@@ -505,7 +505,7 @@ class ServerRequestTest extends TestCase
         self::assertSame($params, $request2->getParsedBody());
     }
 
-    public function testAttributes()
+    public function testAttributes(): void
     {
         $request1 = new ServerRequest('GET', '/');
 
@@ -533,7 +533,7 @@ class ServerRequestTest extends TestCase
         self::assertSame(['name' => 'value'], $request4->getAttributes());
     }
 
-    public function testNullAttribute()
+    public function testNullAttribute(): void
     {
         $request = (new ServerRequest('GET', '/'))->withAttribute('name', null);
 

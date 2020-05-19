@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:__get\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
 			message: "#^Access to an undefined property GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:\\$_fn_#"
 			count: 15
 			path: src/FnStream.php

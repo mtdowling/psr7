@@ -94,7 +94,7 @@ final class MultipartStream implements StreamInterface
             }
         }
 
-        list($body, $headers) = $this->createElement(
+        [$body, $headers] = $this->createElement(
             $element['name'],
             $element['contents'],
             $element['filename'] ?? null,

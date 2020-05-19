@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class DroppingStreamTest extends TestCase
 {
-    public function testBeginsDroppingWhenSizeExceeded()
+    public function testBeginsDroppingWhenSizeExceeded(): void
     {
         $stream = new BufferStream();
         $drop = new DroppingStream($stream, 5);

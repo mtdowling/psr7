@@ -72,7 +72,7 @@ function uri_for($uri): UriInterface
  * - metadata: Array of custom metadata.
  * - size: Size of the stream.
  *
- * @param resource|string|null|int|float|bool|StreamInterface|callable|\Iterator $resource Entity body data
+ * @param resource|string|int|float|bool|StreamInterface|callable|\Iterator|null $resource Entity body data
  * @param array{size?: int, metadata?: array}                                    $options  Additional options
  *
  * @throws \InvalidArgumentException if the $resource arg is not valid.
@@ -237,13 +237,11 @@ function modify_request(RequestInterface $request, array $changes): RequestInter
 
     if ($request instanceof ServerRequestInterface) {
         return (new ServerRequest(
-            isset($changes['method']) ? $changes['method'] : $request->getMethod(),
+            $changes['method'] ?? $request->getMethod(),
             $uri,
             $headers,
-            isset($changes['body']) ? $changes['body'] : $request->getBody(),
-            isset($changes['version'])
-                ? $changes['version']
-                : $request->getProtocolVersion(),
+            $changes['body'] ?? $request->getBody(),
+            $changes['version'] ?? $request->getProtocolVersion(),
             $request->getServerParams()
         ))
         ->withParsedBody($request->getParsedBody())
@@ -253,13 +251,11 @@ function modify_request(RequestInterface $request, array $changes): RequestInter
     }
 
     return new Request(
-        isset($changes['method']) ? $changes['method'] : $request->getMethod(),
+        $changes['method'] ?? $request->getMethod(),
         $uri,
         $headers,
-        isset($changes['body']) ? $changes['body'] : $request->getBody(),
-        isset($changes['version'])
-            ? $changes['version']
-            : $request->getProtocolVersion()
+        $changes['body'] ?? $request->getBody(),
+        $changes['version'] ?? $request->getProtocolVersion()
     );
 }
 
@@ -298,13 +294,14 @@ function rewind_body(MessageInterface $message): void
 function try_fopen(string $filename, string $mode)
 {
     $ex = null;
-    set_error_handler(function (int $errno, string $errstr) use ($filename, $mode, &$ex) {
+    set_error_handler(static function (int $errno, string $errstr) use ($filename, $mode, &$ex): bool {
         $ex = new \RuntimeException(sprintf(
             'Unable to open %s using mode %s: %s',
             $filename,
             $mode,
             $errstr
         ));
+        return false;
     });
 
     /** @var resource $handle */
@@ -494,7 +491,7 @@ function parse_response(string $message): ResponseInterface
         $data['headers'],
         $data['body'],
         explode('/', $parts[0])[1],
-        isset($parts[2]) ? $parts[2] : null
+        $parts[2] ?? null
     );
 }
 
@@ -722,9 +719,7 @@ function mimetype_from_extension(string $extension): ?string
 
     $extension = strtolower($extension);
 
-    return isset($mimetypes[$extension])
-        ? $mimetypes[$extension]
-        : null;
+    return $mimetypes[$extension] ?? null;
 }
 
 /**
@@ -752,7 +747,7 @@ function _parse_message(string $message): array
         throw new \InvalidArgumentException('Invalid message: Missing header delimiter');
     }
 
-    list($rawHeaders, $body) = $messageParts;
+    [$rawHeaders, $body] = $messageParts;
     $rawHeaders .= "\r\n"; // Put back the delimiter we split previously
     $headerParts = preg_split("/\r?\n/", $rawHeaders, 2);
 
@@ -760,7 +755,7 @@ function _parse_message(string $message): array
         throw new \InvalidArgumentException('Invalid message: Missing status line');
     }
 
-    list($startLine, $rawHeaders) = $headerParts;
+    [$startLine, $rawHeaders] = $headerParts;
 
     if (preg_match("/(?:^HTTP\/|^[A-Z]+ \S+ HTTP\/)(\d+(?:\.\d+)?)/i", $startLine, $matches) && $matches[1] === '1.0') {
         // Header folding is deprecated for HTTP/1.1, but allowed in HTTP/1.0
