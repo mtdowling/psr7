@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 class UriTemplateTest extends TestCase
 {
-    public function templateProvider():array
+    public function templateProvider(): array
     {
         $params = [
             'var'   => 'value',
@@ -118,13 +118,13 @@ class UriTemplateTest extends TestCase
     /**
      * @dataProvider templateProvider
      */
-    public function testExpandsUriTemplates($template, $expansion, $params)
+    public function testExpandsUriTemplates(string $template, string $expansion, array $params): void
     {
         $uri = new UriTemplate();
         self::assertSame($expansion, $uri->expand($template, $params));
     }
 
-    public function expressionProvider()
+    public function expressionProvider(): array
     {
         return [
             [
@@ -161,7 +161,7 @@ class UriTemplateTest extends TestCase
     /**
      * @dataProvider expressionProvider
      */
-    public function testParsesExpressions($exp, $data)
+    public function testParsesExpressions(string $exp, array $data): void
     {
         $template = new UriTemplate();
 
@@ -177,7 +177,7 @@ class UriTemplateTest extends TestCase
     /**
      * @ticket https://github.com/guzzle/guzzle/issues/90
      */
-    public function testAllowsNestedArrayExpansion()
+    public function testAllowsNestedArrayExpansion(): void
     {
         $template = new UriTemplate();
 

@@ -73,7 +73,10 @@ class UriTemplate
         '%3D'
     ];
 
-    public function expand($template, array $variables)
+    /**
+     * @return string|string[]|null
+     */
+    public function expand(string $template, array $variables)
     {
         if (false === strpos($template, '{')) {
             return $template;
@@ -96,7 +99,7 @@ class UriTemplate
      *
      * @return array Returns an associative array of parts
      */
-    private function parseExpression($expression)
+    private function parseExpression(string $expression)
     {
         $result = [];
 
@@ -252,10 +255,8 @@ class UriTemplate
      * template.
      *
      * @param array $array Array to check
-     *
-     * @return bool
      */
-    private function isAssoc(array $array)
+    private function isAssoc(array $array): bool
     {
         return $array && array_keys($array)[0] !== 0;
     }
