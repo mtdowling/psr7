@@ -42,7 +42,7 @@
     "require-dev": {
         "ergebnis/composer-normalize": "^2.0",
         "http-interop/http-factory-tests": "dev-master",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5 || ^9.1"
     },
     "suggest": {
         "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
