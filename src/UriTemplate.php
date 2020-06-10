@@ -9,11 +9,8 @@ namespace GuzzleHttp\Psr7;
  *
  * @link http://tools.ietf.org/html/rfc6570
  */
-class UriTemplate
+final class UriTemplate
 {
-    /** @var string URI template */
-    private $template;
-
     /** @var array Variables to use in the template expansion */
     private $variables;
 
@@ -51,7 +48,7 @@ class UriTemplate
         '='
     ];
 
-    /** @var array Percent encoded delimiters */
+    /** @var array<int, string> Percent encoded delimiters */
     private static $delimsPct = [
         '%3A',
         '%2F',
@@ -74,6 +71,7 @@ class UriTemplate
     ];
 
     /**
+     * @param mixed[] $variables
      * @return string|string[]|null
      */
     public function expand(string $template, array $variables)
@@ -82,13 +80,12 @@ class UriTemplate
             return $template;
         }
 
-        $this->template = $template;
         $this->variables = $variables;
 
         return preg_replace_callback(
             '/\{([^\}]+)\}/',
             [$this, 'expandMatch'],
-            $this->template
+            $template
         );
     }
 
@@ -97,9 +94,9 @@ class UriTemplate
      *
      * @param string $expression Expression to parse
      *
-     * @return array Returns an associative array of parts
+     * @return string[] Returns an associative array of parts
      */
-    private function parseExpression(string $expression)
+    private function parseExpression(string $expression): array
     {
         $result = [];
 
@@ -133,11 +130,11 @@ class UriTemplate
     /**
      * Process an expansion
      *
-     * @param array $matches Matches met in the preg_replace_callback
+     * @param string[] $matches Matches met in the preg_replace_callback
      *
      * @return string Returns the replacement string
      */
-    private function expandMatch(array $matches)
+    private function expandMatch(array $matches): string
     {
         static $rfc1738to3986 = ['+' => '%20', '%7e' => '~'];
 
@@ -264,8 +261,6 @@ class UriTemplate
     /**
      * Removes percent encoding on reserved characters (used with + and #
      * modifiers).
-     *
-     * @param string $string String to fix
      */
     private function decodeReserved(string $string): string
     {
