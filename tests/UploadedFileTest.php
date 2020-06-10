@@ -86,14 +86,14 @@ class UploadedFileTest extends TestCase
         $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
         $upload = new UploadedFile($stream, $stream->getSize(), UPLOAD_ERR_OK, 'filename.txt', 'text/plain');
 
-        self::assertEquals($stream->getSize(), $upload->getSize());
-        self::assertEquals('filename.txt', $upload->getClientFilename());
-        self::assertEquals('text/plain', $upload->getClientMediaType());
+        self::assertSame($stream->getSize(), $upload->getSize());
+        self::assertSame('filename.txt', $upload->getClientFilename());
+        self::assertSame('text/plain', $upload->getClientMediaType());
 
         $this->cleanup[] = $to = tempnam(sys_get_temp_dir(), 'successful');
         $upload->moveTo($to);
         self::assertFileExists($to);
-        self::assertEquals($stream->__toString(), file_get_contents($to));
+        self::assertSame($stream->__toString(), file_get_contents($to));
     }
 
     public function invalidMovePaths(): iterable

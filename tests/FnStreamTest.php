@@ -24,12 +24,12 @@ class FnStreamTest extends TestCase
     {
         $s = new FnStream([
             'read' => function ($len) {
-                $this->assertEquals(3, $len);
+                $this->assertSame(3, $len);
                 return 'foo';
             }
         ]);
 
-        self::assertEquals('foo', $s->read(3));
+        self::assertSame('foo', $s->read(3));
     }
 
     public function testCanCloseOnDestruct(): void
@@ -55,24 +55,24 @@ class FnStreamTest extends TestCase
     {
         $a = Psr7\stream_for('foo');
         $b = FnStream::decorate($a, []);
-        self::assertEquals(3, $b->getSize());
-        self::assertEquals($b->isWritable(), true);
-        self::assertEquals($b->isReadable(), true);
-        self::assertEquals($b->isSeekable(), true);
-        self::assertEquals($b->read(3), 'foo');
-        self::assertEquals($b->tell(), 3);
-        self::assertEquals($a->tell(), 3);
+        self::assertSame(3, $b->getSize());
+        self::assertSame($b->isWritable(), true);
+        self::assertSame($b->isReadable(), true);
+        self::assertSame($b->isSeekable(), true);
+        self::assertSame($b->read(3), 'foo');
+        self::assertSame($b->tell(), 3);
+        self::assertSame($a->tell(), 3);
         self::assertSame('', $a->read(1));
-        self::assertEquals($b->eof(), true);
-        self::assertEquals($a->eof(), true);
+        self::assertSame($b->eof(), true);
+        self::assertSame($a->eof(), true);
         $b->seek(0);
-        self::assertEquals('foo', (string) $b);
+        self::assertSame('foo', (string) $b);
         $b->seek(0);
-        self::assertEquals('foo', $b->getContents());
-        self::assertEquals($a->getMetadata(), $b->getMetadata());
+        self::assertSame('foo', $b->getContents());
+        self::assertSame($a->getMetadata(), $b->getMetadata());
         $b->seek(0, SEEK_END);
         $b->write('bar');
-        self::assertEquals('foobar', (string) $b);
+        self::assertSame('foobar', (string) $b);
         self::assertIsResource($b->detach());
         $b->close();
     }
@@ -87,7 +87,7 @@ class FnStreamTest extends TestCase
                 return $a->read($len);
             }
         ]);
-        self::assertEquals('foo', $b->read(3));
+        self::assertSame('foo', $b->read(3));
         self::assertTrue($called);
     }
 

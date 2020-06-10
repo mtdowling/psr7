@@ -55,45 +55,45 @@ class StreamDecoratorTraitTest extends TestCase
 
     public function testToString(): void
     {
-        self::assertEquals('foo', (string) $this->b);
+        self::assertSame('foo', (string) $this->b);
     }
 
     public function testHasSize(): void
     {
-        self::assertEquals(3, $this->b->getSize());
+        self::assertSame(3, $this->b->getSize());
     }
 
     public function testReads(): void
     {
-        self::assertEquals('foo', $this->b->read(10));
+        self::assertSame('foo', $this->b->read(10));
     }
 
     public function testCheckMethods(): void
     {
-        self::assertEquals($this->a->isReadable(), $this->b->isReadable());
-        self::assertEquals($this->a->isWritable(), $this->b->isWritable());
-        self::assertEquals($this->a->isSeekable(), $this->b->isSeekable());
+        self::assertSame($this->a->isReadable(), $this->b->isReadable());
+        self::assertSame($this->a->isWritable(), $this->b->isWritable());
+        self::assertSame($this->a->isSeekable(), $this->b->isSeekable());
     }
 
     public function testSeeksAndTells(): void
     {
         $this->b->seek(1);
-        self::assertEquals(1, $this->a->tell());
-        self::assertEquals(1, $this->b->tell());
+        self::assertSame(1, $this->a->tell());
+        self::assertSame(1, $this->b->tell());
         $this->b->seek(0);
-        self::assertEquals(0, $this->a->tell());
-        self::assertEquals(0, $this->b->tell());
+        self::assertSame(0, $this->a->tell());
+        self::assertSame(0, $this->b->tell());
         $this->b->seek(0, SEEK_END);
-        self::assertEquals(3, $this->a->tell());
-        self::assertEquals(3, $this->b->tell());
+        self::assertSame(3, $this->a->tell());
+        self::assertSame(3, $this->b->tell());
     }
 
     public function testGetsContents(): void
     {
-        self::assertEquals('foo', $this->b->getContents());
-        self::assertEquals('', $this->b->getContents());
+        self::assertSame('foo', $this->b->getContents());
+        self::assertSame('', $this->b->getContents());
         $this->b->seek(1);
-        self::assertEquals('oo', $this->b->getContents());
+        self::assertSame('oo', $this->b->getContents());
     }
 
     public function testCloses(): void
@@ -118,7 +118,7 @@ class StreamDecoratorTraitTest extends TestCase
     {
         $this->b->seek(0, SEEK_END);
         $this->b->write('foo');
-        self::assertEquals('foofoo', (string) $this->a);
+        self::assertSame('foofoo', (string) $this->a);
     }
 
     public function testThrowsWithInvalidGetter(): void

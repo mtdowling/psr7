@@ -35,15 +35,15 @@ class CachingStreamTest extends TestCase
     {
         $body = Psr7\stream_for('test');
         $caching = new CachingStream($body);
-        self::assertEquals(4, $caching->getSize());
+        self::assertSame(4, $caching->getSize());
     }
 
     public function testReadsUntilCachedToByte(): void
     {
         $this->body->seek(5);
-        self::assertEquals('n', $this->body->read(1));
+        self::assertSame('n', $this->body->read(1));
         $this->body->seek(0);
-        self::assertEquals('t', $this->body->read(1));
+        self::assertSame('t', $this->body->read(1));
     }
 
     public function testCanSeekNearEndWithSeekEnd(): void
@@ -51,9 +51,9 @@ class CachingStreamTest extends TestCase
         $baseStream = Psr7\stream_for(implode('', range('a', 'z')));
         $cached = new CachingStream($baseStream);
         $cached->seek(-1, SEEK_END);
-        self::assertEquals(25, $baseStream->tell());
-        self::assertEquals('z', $cached->read(1));
-        self::assertEquals(26, $cached->getSize());
+        self::assertSame(25, $baseStream->tell());
+        self::assertSame('z', $cached->read(1));
+        self::assertSame(26, $cached->getSize());
     }
 
     public function testCanSeekToEndWithSeekEnd(): void
@@ -61,9 +61,9 @@ class CachingStreamTest extends TestCase
         $baseStream = Psr7\stream_for(implode('', range('a', 'z')));
         $cached = new CachingStream($baseStream);
         $cached->seek(0, SEEK_END);
-        self::assertEquals(26, $baseStream->tell());
-        self::assertEquals('', $cached->read(1));
-        self::assertEquals(26, $cached->getSize());
+        self::assertSame(26, $baseStream->tell());
+        self::assertSame('', $cached->read(1));
+        self::assertSame(26, $cached->getSize());
     }
 
     public function testCanUseSeekEndWithUnknownSize(): void
@@ -76,7 +76,7 @@ class CachingStreamTest extends TestCase
         ]);
         $cached = new CachingStream($decorated);
         $cached->seek(-1, SEEK_END);
-        self::assertEquals('g', $cached->read(1));
+        self::assertSame('g', $cached->read(1));
     }
 
     public function testRewind(): void
@@ -120,12 +120,12 @@ class CachingStreamTest extends TestCase
 
         $this->body = new CachingStream($this->decorated);
 
-        self::assertEquals(0, $this->body->tell());
+        self::assertSame(0, $this->body->tell());
         $this->body->seek(4, SEEK_SET);
-        self::assertEquals(4, $this->body->tell());
+        self::assertSame(4, $this->body->tell());
 
         $this->body->seek(0);
-        self::assertEquals('test', $this->body->read(4));
+        self::assertSame('test', $this->body->read(4));
     }
 
     public function testWritesToBufferStream(): void
@@ -133,7 +133,7 @@ class CachingStreamTest extends TestCase
         $this->body->read(2);
         $this->body->write('hi');
         $this->body->seek(0);
-        self::assertEquals('tehiing', (string) $this->body);
+        self::assertSame('tehiing', (string) $this->body);
     }
 
     public function testSkipsOverwrittenBytes(): void
@@ -146,28 +146,28 @@ class CachingStreamTest extends TestCase
 
         $body = new CachingStream($decorated);
 
-        self::assertEquals("0000\n", Psr7\readline($body));
-        self::assertEquals("0001\n", Psr7\readline($body));
+        self::assertSame("0000\n", Psr7\readline($body));
+        self::assertSame("0001\n", Psr7\readline($body));
         // Write over part of the body yet to be read, so skip some bytes
-        self::assertEquals(5, $body->write("TEST\n"));
+        self::assertSame(5, $body->write("TEST\n"));
         // Read, which skips bytes, then reads
-        self::assertEquals("0003\n", Psr7\readline($body));
-        self::assertEquals("0004\n", Psr7\readline($body));
-        self::assertEquals("0005\n", Psr7\readline($body));
+        self::assertSame("0003\n", Psr7\readline($body));
+        self::assertSame("0004\n", Psr7\readline($body));
+        self::assertSame("0005\n", Psr7\readline($body));
 
         // Overwrite part of the cached body (so don't skip any bytes)
         $body->seek(5);
-        self::assertEquals(5, $body->write("ABCD\n"));
-        self::assertEquals("TEST\n", Psr7\readline($body));
-        self::assertEquals("0003\n", Psr7\readline($body));
-        self::assertEquals("0004\n", Psr7\readline($body));
-        self::assertEquals("0005\n", Psr7\readline($body));
-        self::assertEquals("0006\n", Psr7\readline($body));
-        self::assertEquals(5, $body->write("1234\n"));
+        self::assertSame(5, $body->write("ABCD\n"));
+        self::assertSame("TEST\n", Psr7\readline($body));
+        self::assertSame("0003\n", Psr7\readline($body));
+        self::assertSame("0004\n", Psr7\readline($body));
+        self::assertSame("0005\n", Psr7\readline($body));
+        self::assertSame("0006\n", Psr7\readline($body));
+        self::assertSame(5, $body->write("1234\n"));
 
         // Seek to 0 and ensure the overwritten bit is replaced
         $body->seek(0);
-        self::assertEquals("0000\nABCD\nTEST\n0003\n0004\n0005\n0006\n1234\n0008\n0009\n", $body->read(50));
+        self::assertSame("0000\nABCD\nTEST\n0003\n0004\n0005\n0006\n1234\n0008\n0009\n", $body->read(50));
 
         // Ensure that casting it to a string does not include the bit that was overwritten
         self::assertStringContainsString("0000\nABCD\nTEST\n0003\n0004\n0005\n0006\n1234\n0008\n0009\n", (string) $body);

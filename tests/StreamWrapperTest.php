@@ -65,7 +65,7 @@ class StreamWrapperTest extends TestCase
     {
         $stream = Psr7\stream_for('foo');
 
-        self::assertEquals('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
+        self::assertSame('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
     }
 
     public function testStreamCast(): void
@@ -165,7 +165,7 @@ class StreamWrapperTest extends TestCase
 
         self::assertTrue($reader->open('guzzle://stream'));
         self::assertTrue($reader->read());
-        self::assertEquals('foo', $reader->name);
+        self::assertSame('foo', $reader->name);
     }
 
     /**

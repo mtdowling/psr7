@@ -421,9 +421,9 @@ class ServerRequestTest extends TestCase
         ], $server->getHeaders());
         self::assertSame('', (string) $server->getBody());
         self::assertSame('1.1', $server->getProtocolVersion());
-        self::assertEquals($_COOKIE, $server->getCookieParams());
-        self::assertEquals($_POST, $server->getParsedBody());
-        self::assertEquals($_GET, $server->getQueryParams());
+        self::assertSame($_COOKIE, $server->getCookieParams());
+        self::assertSame($_POST, $server->getParsedBody());
+        self::assertSame($_GET, $server->getQueryParams());
 
         self::assertEquals(
             new Uri('https://www.example.org/blog/article.php?id=10&user=foo'),
@@ -529,7 +529,7 @@ class ServerRequestTest extends TestCase
 
         self::assertSame('value', $request2->getAttribute('name'));
         self::assertSame(['name' => 'value'], $request2->getAttributes());
-        self::assertEquals(['name' => 'value', 'other' => 'otherValue'], $request3->getAttributes());
+        self::assertSame(['name' => 'value', 'other' => 'otherValue'], $request3->getAttributes());
         self::assertSame(['name' => 'value'], $request4->getAttributes());
     }
 
