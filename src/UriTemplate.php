@@ -94,7 +94,7 @@ final class UriTemplate
      *
      * @param string $expression Expression to parse
      *
-     * @return string[] Returns an associative array of parts
+     * @return array<string, mixed> Returns an associative array of parts
      */
     private function parseExpression(string $expression): array
     {
@@ -131,7 +131,6 @@ final class UriTemplate
      * Process an expansion
      *
      * @param string[] $matches Matches met in the preg_replace_callback
-     *
      * @return string Returns the replacement string
      */
     private function expandMatch(array $matches): string
