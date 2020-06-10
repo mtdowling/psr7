@@ -72,6 +72,7 @@ final class UriTemplate
 
     /**
      * @param mixed[] $variables
+     *
      * @return string|string[]|null
      */
     public function expand(string $template, array $variables)
@@ -131,6 +132,7 @@ final class UriTemplate
      * Process an expansion
      *
      * @param string[] $matches Matches met in the preg_replace_callback
+     *
      * @return string Returns the replacement string
      */
     private function expandMatch(array $matches): string
