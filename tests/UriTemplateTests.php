@@ -120,8 +120,7 @@ class UriTemplateTest extends TestCase
      */
     public function testExpandsUriTemplates(string $template, string $expansion, array $params): void
     {
-        $uri = new UriTemplate();
-        self::assertSame($expansion, $uri->expand($template, $params));
+        self::assertSame($expansion, UriTemplate::expand($template, $params));
     }
 
     public function expressionProvider(): array
@@ -179,9 +178,7 @@ class UriTemplateTest extends TestCase
      */
     public function testAllowsNestedArrayExpansion(): void
     {
-        $template = new UriTemplate();
-
-        $result = $template->expand('http://example.com{+path}{/segments}{?query,data*,foo*}', [
+        $result = UriTemplate::expand('http://example.com{+path}{/segments}{?query,data*,foo*}', [
             'path'     => '/foo/bar',
             'segments' => ['one', 'two'],
             'query'    => 'test',

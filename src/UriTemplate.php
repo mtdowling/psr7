@@ -11,9 +11,6 @@ namespace GuzzleHttp\Psr7;
  */
 final class UriTemplate
 {
-    /** @var array Variables to use in the template expansion */
-    private $variables;
-
     /** @var array Hash for quick operator lookups */
     private static $operatorHash = [
         '' => ['prefix' => '', 'joiner' => ',', 'query' => false],
@@ -23,7 +20,7 @@ final class UriTemplate
         '/' => ['prefix' => '/', 'joiner' => '/', 'query' => false],
         ';' => ['prefix' => ';', 'joiner' => ';', 'query' => true],
         '?' => ['prefix' => '?', 'joiner' => '&', 'query' => true],
-        '&' => ['prefix' => '&', 'joiner' => '&', 'query' => true]
+        '&' => ['prefix' => '&', 'joiner' => '&', 'query' => true],
     ];
 
     /** @var array Delimiters */
@@ -45,7 +42,7 @@ final class UriTemplate
         '+',
         ',',
         ';',
-        '='
+        '=',
     ];
 
     /** @var array<int, string> Percent encoded delimiters */
@@ -67,75 +64,46 @@ final class UriTemplate
         '%2B',
         '%2C',
         '%3B',
-        '%3D'
+        '%3D',
     ];
 
     /**
-     * @param mixed[] $variables
+     * @param mixed[] $variables Variables to use in the template expansion
      *
      * @return string|string[]|null
      */
-    public function expand(string $template, array $variables)
+    public static function expand(string $template, array $variables)
     {
         if (false === strpos($template, '{')) {
             return $template;
         }
 
-        $this->variables = $variables;
-
         return preg_replace_callback(
             '/\{([^\}]+)\}/',
-            [$this, 'expandMatch'],
+            self::expandMatchCallback($variables),
             $template
         );
     }
 
     /**
-     * Parse an expression into parts
-     *
-     * @param string $expression Expression to parse
-     *
-     * @return array<string, mixed> Returns an associative array of parts
+     * @param mixed[] $variables Variables to use in the template expansion
      */
-    private function parseExpression(string $expression): array
+    private static function expandMatchCallback(array $variables): callable
     {
-        $result = [];
-
-        if (isset(self::$operatorHash[$expression[0]])) {
-            $result['operator'] = $expression[0];
-            $expression = substr($expression, 1);
-        } else {
-            $result['operator'] = '';
-        }
-
-        foreach (explode(',', $expression) as $value) {
-            $value = trim($value);
-            $varspec = [];
-            if ($colonPos = strpos($value, ':')) {
-                $varspec['value'] = substr($value, 0, $colonPos);
-                $varspec['modifier'] = ':';
-                $varspec['position'] = (int)substr($value, $colonPos + 1);
-            } elseif (substr($value, -1) === '*') {
-                $varspec['modifier'] = '*';
-                $varspec['value'] = substr($value, 0, -1);
-            } else {
-                $varspec['value'] = (string)$value;
-                $varspec['modifier'] = '';
-            }
-            $result['values'][] = $varspec;
-        }
-
-        return $result;
+        return function (array $matches) use ($variables): string {
+            return self::expandMatch($matches, $variables);
+        };
     }
 
     /**
      * Process an expansion
      *
+     * @param mixed[] $variables Variables to use in the template expansion
      * @param string[] $matches Matches met in the preg_replace_callback
      *
      * @return string Returns the replacement string
      */
-    private function expandMatch(array $matches): string
+    private static function expandMatch(array $matches, array $variables): string
     {
         static $rfc1738to3986 = ['+' => '%20', '%7e' => '~'];
 
@@ -146,16 +114,16 @@ final class UriTemplate
         $useQuery = self::$operatorHash[$parsed['operator']]['query'];
 
         foreach ($parsed['values'] as $value) {
-            if (!isset($this->variables[$value['value']])) {
+            if (!isset($variables[$value['value']])) {
                 continue;
             }
 
-            $variable = $this->variables[$value['value']];
+            $variable = $variables[$value['value']];
             $actuallyUseQuery = $useQuery;
             $expanded = '';
 
             if (is_array($variable)) {
-                $isAssoc = $this->isAssoc($variable);
+                $isAssoc = self::isAssoc($variable);
                 $kvp = [];
                 foreach ($variable as $key => $var) {
                     if ($isAssoc) {
@@ -170,7 +138,7 @@ final class UriTemplate
                         if ($parsed['operator'] === '+' ||
                             $parsed['operator'] === '#'
                         ) {
-                            $var = $this->decodeReserved($var);
+                            $var = self::decodeReserved($var);
                         }
                     }
 
@@ -221,7 +189,7 @@ final class UriTemplate
                 }
                 $expanded = rawurlencode($variable);
                 if ($parsed['operator'] === '+' || $parsed['operator'] === '#') {
-                    $expanded = $this->decodeReserved($expanded);
+                    $expanded = self::decodeReserved($expanded);
                 }
             }
 
@@ -245,6 +213,44 @@ final class UriTemplate
     }
 
     /**
+     * Parse an expression into parts
+     *
+     * @param string $expression Expression to parse
+     *
+     * @return array<string, mixed> Returns an associative array of parts
+     */
+    private static function parseExpression(string $expression): array
+    {
+        $result = [];
+
+        if (isset(self::$operatorHash[$expression[0]])) {
+            $result['operator'] = $expression[0];
+            $expression = substr($expression, 1);
+        } else {
+            $result['operator'] = '';
+        }
+
+        foreach (explode(',', $expression) as $value) {
+            $value = trim($value);
+            $varspec = [];
+            if ($colonPos = strpos($value, ':')) {
+                $varspec['value'] = substr($value, 0, $colonPos);
+                $varspec['modifier'] = ':';
+                $varspec['position'] = (int)substr($value, $colonPos + 1);
+            } elseif (substr($value, -1) === '*') {
+                $varspec['modifier'] = '*';
+                $varspec['value'] = substr($value, 0, -1);
+            } else {
+                $varspec['value'] = (string)$value;
+                $varspec['modifier'] = '';
+            }
+            $result['values'][] = $varspec;
+        }
+
+        return $result;
+    }
+
+    /**
      * Determines if an array is associative.
      *
      * This makes the assumption that input arrays are sequences or hashes.
@@ -254,7 +260,7 @@ final class UriTemplate
      *
      * @param array $array Array to check
      */
-    private function isAssoc(array $array): bool
+    private static function isAssoc(array $array): bool
     {
         return $array && array_keys($array)[0] !== 0;
     }
@@ -263,7 +269,7 @@ final class UriTemplate
      * Removes percent encoding on reserved characters (used with + and #
      * modifiers).
      */
-    private function decodeReserved(string $string): string
+    private static function decodeReserved(string $string): string
     {
         return str_replace(self::$delimsPct, self::$delims, $string);
     }
