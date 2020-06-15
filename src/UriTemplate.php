@@ -98,8 +98,8 @@ final class UriTemplate
     /**
      * Process an expansion
      *
-     * @param mixed[] $variables Variables to use in the template expansion
-     * @param string[] $matches Matches met in the preg_replace_callback
+     * @param mixed[]  $variables Variables to use in the template expansion
+     * @param string[] $matches   Matches met in the preg_replace_callback
      *
      * @return string Returns the replacement string
      */
