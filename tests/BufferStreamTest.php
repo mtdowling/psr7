@@ -1,4 +1,5 @@
 <?php
+
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\BufferStream;
@@ -11,20 +12,20 @@ class BufferStreamTest extends BaseTest
         $this->assertTrue($b->isReadable());
         $this->assertTrue($b->isWritable());
         $this->assertFalse($b->isSeekable());
-        $this->assertEquals(null, $b->getMetadata('foo'));
-        $this->assertEquals(10, $b->getMetadata('hwm'));
-        $this->assertEquals([], $b->getMetadata());
+        $this->assertSame(null, $b->getMetadata('foo'));
+        $this->assertSame(10, $b->getMetadata('hwm'));
+        $this->assertSame([], $b->getMetadata());
     }
 
     public function testRemovesReadDataFromBuffer()
     {
         $b = new BufferStream();
-        $this->assertEquals(3, $b->write('foo'));
-        $this->assertEquals(3, $b->getSize());
+        $this->assertSame(3, $b->write('foo'));
+        $this->assertSame(3, $b->getSize());
         $this->assertFalse($b->eof());
-        $this->assertEquals('foo', $b->read(10));
+        $this->assertSame('foo', $b->read(10));
         $this->assertTrue($b->eof());
-        $this->assertEquals('', $b->read(10));
+        $this->assertSame('', $b->read(10));
     }
 
     /**
@@ -36,9 +37,9 @@ class BufferStreamTest extends BaseTest
         $b = new BufferStream();
         $b->write('foo');
         $b->write('baz');
-        $this->assertEquals('foo', $b->read(3));
+        $this->assertSame('foo', $b->read(3));
         $b->write('bar');
-        $this->assertEquals('bazbar', (string) $b);
+        $this->assertSame('bazbar', (string) $b);
         $b->tell();
     }
 
@@ -48,16 +49,16 @@ class BufferStreamTest extends BaseTest
         $b->write('foo');
         $b->detach();
         $this->assertTrue($b->eof());
-        $this->assertEquals(3, $b->write('abc'));
-        $this->assertEquals('abc', $b->read(10));
+        $this->assertSame(3, $b->write('abc'));
+        $this->assertSame('abc', $b->read(10));
     }
 
     public function testExceedingHighwaterMarkReturnsFalseButStillBuffers()
     {
         $b = new BufferStream(5);
-        $this->assertEquals(3, $b->write('hi '));
+        $this->assertSame(3, $b->write('hi '));
         $this->assertFalse($b->write('hello'));
-        $this->assertEquals('hi hello', (string) $b);
-        $this->assertEquals(4, $b->write('test'));
+        $this->assertSame('hi hello', (string) $b);
+        $this->assertSame(4, $b->write('test'));
     }
 }

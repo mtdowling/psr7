@@ -1,4 +1,5 @@
 <?php
+
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\AppendStream;
@@ -58,18 +59,18 @@ class AppendStreamTest extends BaseTest
     public function testSeeksToPositionByReading()
     {
         $a = new AppendStream([
-            Psr7\stream_for('foo'),
-            Psr7\stream_for('bar'),
-            Psr7\stream_for('baz'),
+            Psr7\Utils::streamFor('foo'),
+            Psr7\Utils::streamFor('bar'),
+            Psr7\Utils::streamFor('baz'),
         ]);
 
         $a->seek(3);
-        $this->assertEquals(3, $a->tell());
-        $this->assertEquals('bar', $a->read(3));
+        $this->assertSame(3, $a->tell());
+        $this->assertSame('bar', $a->read(3));
 
         $a->seek(6);
-        $this->assertEquals(6, $a->tell());
-        $this->assertEquals('baz', $a->read(3));
+        $this->assertSame(6, $a->tell());
+        $this->assertSame('baz', $a->read(3));
     }
 
     public function testDetachWithoutStreams()
@@ -89,8 +90,8 @@ class AppendStreamTest extends BaseTest
     {
         $handle = fopen('php://temp', 'r');
 
-        $s1 = Psr7\stream_for($handle);
-        $s2 = Psr7\stream_for('bar');
+        $s1 = Psr7\Utils::streamFor($handle);
+        $s2 = Psr7\Utils::streamFor('bar');
         $a = new AppendStream([$s1, $s2]);
 
         $a->detach();
@@ -111,8 +112,8 @@ class AppendStreamTest extends BaseTest
     {
         $handle = fopen('php://temp', 'r');
 
-        $s1 = Psr7\stream_for($handle);
-        $s2 = Psr7\stream_for('bar');
+        $s1 = Psr7\Utils::streamFor($handle);
+        $s2 = Psr7\Utils::streamFor('bar');
         $a = new AppendStream([$s1, $s2]);
 
         $a->close();
@@ -133,7 +134,7 @@ class AppendStreamTest extends BaseTest
      */
     public function testIsNotWritable()
     {
-        $a = new AppendStream([Psr7\stream_for('foo')]);
+        $a = new AppendStream([Psr7\Utils::streamFor('foo')]);
         $this->assertFalse($a->isWritable());
         $this->assertTrue($a->isSeekable());
         $this->assertTrue($a->isReadable());
@@ -143,34 +144,34 @@ class AppendStreamTest extends BaseTest
     public function testDoesNotNeedStreams()
     {
         $a = new AppendStream();
-        $this->assertEquals('', (string) $a);
+        $this->assertSame('', (string) $a);
     }
 
     public function testCanReadFromMultipleStreams()
     {
         $a = new AppendStream([
-            Psr7\stream_for('foo'),
-            Psr7\stream_for('bar'),
-            Psr7\stream_for('baz'),
+            Psr7\Utils::streamFor('foo'),
+            Psr7\Utils::streamFor('bar'),
+            Psr7\Utils::streamFor('baz'),
         ]);
         $this->assertFalse($a->eof());
         $this->assertSame(0, $a->tell());
-        $this->assertEquals('foo', $a->read(3));
-        $this->assertEquals('bar', $a->read(3));
-        $this->assertEquals('baz', $a->read(3));
+        $this->assertSame('foo', $a->read(3));
+        $this->assertSame('bar', $a->read(3));
+        $this->assertSame('baz', $a->read(3));
         $this->assertSame('', $a->read(1));
         $this->assertTrue($a->eof());
         $this->assertSame(9, $a->tell());
-        $this->assertEquals('foobarbaz', (string) $a);
+        $this->assertSame('foobarbaz', (string) $a);
     }
 
     public function testCanDetermineSizeFromMultipleStreams()
     {
         $a = new AppendStream([
-            Psr7\stream_for('foo'),
-            Psr7\stream_for('bar')
+            Psr7\Utils::streamFor('foo'),
+            Psr7\Utils::streamFor('bar')
         ]);
-        $this->assertEquals(6, $a->getSize());
+        $this->assertSame(6, $a->getSize());
 
         $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
             ->setMethods(['isSeekable', 'isReadable'])
@@ -210,7 +211,7 @@ class AppendStreamTest extends BaseTest
     public function testReturnsEmptyMetadata()
     {
         $s = new AppendStream();
-        $this->assertEquals([], $s->getMetadata());
+        $this->assertSame([], $s->getMetadata());
         $this->assertNull($s->getMetadata('foo'));
     }
 }

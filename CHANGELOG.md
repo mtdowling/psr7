@@ -9,8 +9,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
 
-## [1.6.0]
+- Replaced functions by static methods
+
+### Fixed
+
+- Converting a non-seekable stream to a string
+- Handle multiple Set-Cookie correctly
+- Ignore array keys in header values when merging
+
+### Changed
+
+- Restored partial HHVM 3 support
+
+
+## [1.6.1] - 2019-07-02
+
+### Fixed
+
+- Accept null and bool header values again
+
+
+## [1.6.0] - 2019-06-30
 
 ### Added
 

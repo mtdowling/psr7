@@ -1,4 +1,5 @@
 <?php
+
 namespace GuzzleHttp\Psr7;
 
 use Psr\Http\Message\StreamInterface;
@@ -117,7 +118,7 @@ trait MessageTrait
     public function getBody()
     {
         if (!$this->stream) {
-            $this->stream = stream_for('');
+            $this->stream = Utils::streamFor('');
         }
 
         return $this->stream;

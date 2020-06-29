@@ -1,4 +1,5 @@
 <?php
+
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
@@ -22,12 +23,12 @@ class FnStreamTest extends BaseTest
     {
         $s = new FnStream([
             'read' => function ($len) {
-                $this->assertEquals(3, $len);
+                $this->assertSame(3, $len);
                 return 'foo';
             }
         ]);
 
-        $this->assertEquals('foo', $s->read(3));
+        $this->assertSame('foo', $s->read(3));
     }
 
     public function testCanCloseOnDestruct()
@@ -51,26 +52,26 @@ class FnStreamTest extends BaseTest
 
     public function testDecoratesStream()
     {
-        $a = Psr7\stream_for('foo');
+        $a = Psr7\Utils::streamFor('foo');
         $b = FnStream::decorate($a, []);
-        $this->assertEquals(3, $b->getSize());
-        $this->assertEquals($b->isWritable(), true);
-        $this->assertEquals($b->isReadable(), true);
-        $this->assertEquals($b->isSeekable(), true);
-        $this->assertEquals($b->read(3), 'foo');
-        $this->assertEquals($b->tell(), 3);
-        $this->assertEquals($a->tell(), 3);
+        $this->assertSame(3, $b->getSize());
+        $this->assertSame($b->isWritable(), true);
+        $this->assertSame($b->isReadable(), true);
+        $this->assertSame($b->isSeekable(), true);
+        $this->assertSame($b->read(3), 'foo');
+        $this->assertSame($b->tell(), 3);
+        $this->assertSame($a->tell(), 3);
         $this->assertSame('', $a->read(1));
-        $this->assertEquals($b->eof(), true);
-        $this->assertEquals($a->eof(), true);
+        $this->assertSame($b->eof(), true);
+        $this->assertSame($a->eof(), true);
         $b->seek(0);
-        $this->assertEquals('foo', (string) $b);
+        $this->assertSame('foo', (string) $b);
         $b->seek(0);
-        $this->assertEquals('foo', $b->getContents());
-        $this->assertEquals($a->getMetadata(), $b->getMetadata());
+        $this->assertSame('foo', $b->getContents());
+        $this->assertSame($a->getMetadata(), $b->getMetadata());
         $b->seek(0, SEEK_END);
         $b->write('bar');
-        $this->assertEquals('foobar', (string) $b);
+        $this->assertSame('foobar', (string) $b);
         $this->assertInternalType('resource', $b->detach());
         $b->close();
     }
@@ -78,14 +79,14 @@ class FnStreamTest extends BaseTest
     public function testDecoratesWithCustomizations()
     {
         $called = false;
-        $a = Psr7\stream_for('foo');
+        $a = Psr7\Utils::streamFor('foo');
         $b = FnStream::decorate($a, [
             'read' => function ($len) use (&$called, $a) {
                 $called = true;
                 return $a->read($len);
             }
         ]);
-        $this->assertEquals('foo', $b->read(3));
+        $this->assertSame('foo', $b->read(3));
         $this->assertTrue($called);
     }
 

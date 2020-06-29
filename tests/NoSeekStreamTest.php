@@ -1,4 +1,5 @@
 <?php
+
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
@@ -28,10 +29,10 @@ class NoSeekStreamTest extends BaseTest
 
     public function testToStringDoesNotSeek()
     {
-        $s = \GuzzleHttp\Psr7\stream_for('foo');
+        $s = \GuzzleHttp\Psr7\Utils::streamFor('foo');
         $s->seek(1);
         $wrapped = new NoSeekStream($s);
-        $this->assertEquals('oo', (string) $wrapped);
+        $this->assertSame('oo', (string) $wrapped);
 
         $wrapped->close();
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7\ServerRequest;
@@ -416,9 +417,9 @@ class ServerRequestTest extends BaseTest
         ], $server->getHeaders());
         $this->assertSame('', (string) $server->getBody());
         $this->assertSame('1.1', $server->getProtocolVersion());
-        $this->assertEquals($_COOKIE, $server->getCookieParams());
-        $this->assertEquals($_POST, $server->getParsedBody());
-        $this->assertEquals($_GET, $server->getQueryParams());
+        $this->assertSame($_COOKIE, $server->getCookieParams());
+        $this->assertSame($_POST, $server->getParsedBody());
+        $this->assertSame($_GET, $server->getQueryParams());
 
         $this->assertEquals(
             new Uri('https://www.example.org/blog/article.php?id=10&user=foo'),

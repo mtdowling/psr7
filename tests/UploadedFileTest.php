@@ -1,4 +1,5 @@
 <?php
+
 namespace GuzzleHttp\Tests\Psr7;
 
 use ReflectionProperty;
@@ -156,17 +157,17 @@ class UploadedFileTest extends BaseTest
 
     public function testSuccessful()
     {
-        $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('Foo bar!');
         $upload = new UploadedFile($stream, $stream->getSize(), UPLOAD_ERR_OK, 'filename.txt', 'text/plain');
 
-        $this->assertEquals($stream->getSize(), $upload->getSize());
-        $this->assertEquals('filename.txt', $upload->getClientFilename());
-        $this->assertEquals('text/plain', $upload->getClientMediaType());
+        $this->assertSame($stream->getSize(), $upload->getSize());
+        $this->assertSame('filename.txt', $upload->getClientFilename());
+        $this->assertSame('text/plain', $upload->getClientMediaType());
 
         $this->cleanup[] = $to = tempnam(sys_get_temp_dir(), 'successful');
         $upload->moveTo($to);
         $this->assertFileExists($to);
-        $this->assertEquals($stream->__toString(), file_get_contents($to));
+        $this->assertSame($stream->__toString(), file_get_contents($to));
     }
 
     public function invalidMovePaths()
@@ -188,7 +189,7 @@ class UploadedFileTest extends BaseTest
      */
     public function testMoveRaisesExceptionForInvalidPath($path)
     {
-        $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('Foo bar!');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
 
         $this->cleanup[] = $path;
@@ -199,7 +200,7 @@ class UploadedFileTest extends BaseTest
 
     public function testMoveCannotBeCalledMoreThanOnce()
     {
-        $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('Foo bar!');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
 
         $this->cleanup[] = $to = tempnam(sys_get_temp_dir(), 'diac');
@@ -212,7 +213,7 @@ class UploadedFileTest extends BaseTest
 
     public function testCannotRetrieveStreamAfterMove()
     {
-        $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('Foo bar!');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
 
         $this->cleanup[] = $to = tempnam(sys_get_temp_dir(), 'diac');
