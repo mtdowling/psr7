@@ -782,12 +782,6 @@ class FunctionsTest extends BaseTest
         $this->assertEquals('Lorem ipsu (truncated...)', Psr7\get_message_body_summary($message, 10));
     }
 
-    public function testMessageBodySummaryWithSpecialUTF8Characters()
-    {
-        $message = new Psr7\Response(200, [], '’é€௵ဪ‱');
-        self::assertEquals('’é€௵ဪ‱', Psr7\get_message_body_summary($message));
-    }
-
     public function testMessageBodySummaryWithEmptyBody()
     {
         $message = new Psr7\Response(200, [], '');
