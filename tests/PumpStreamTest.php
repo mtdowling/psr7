@@ -26,7 +26,7 @@ class PumpStreamTest extends TestCase
 
     public function testCanReadFromCallable(): void
     {
-        $p = Psr7\stream_for(function ($size) {
+        $p = Psr7\Utils::streamFor(function ($size) {
             return 'a';
         });
         self::assertSame('a', $p->read(1));
@@ -38,7 +38,7 @@ class PumpStreamTest extends TestCase
     public function testStoresExcessDataInBuffer(): void
     {
         $called = [];
-        $p = Psr7\stream_for(function ($size) use (&$called) {
+        $p = Psr7\Utils::streamFor(function ($size) use (&$called) {
             $called[] = $size;
             return 'abcdef';
         });
@@ -51,7 +51,7 @@ class PumpStreamTest extends TestCase
 
     public function testInifiniteStreamWrappedInLimitStream(): void
     {
-        $p = Psr7\stream_for(function () {
+        $p = Psr7\Utils::streamFor(function () {
             return 'a';
         });
         $s = new LimitStream($p, 5);
@@ -60,7 +60,7 @@ class PumpStreamTest extends TestCase
 
     public function testDescribesCapabilities(): void
     {
-        $p = Psr7\stream_for(function (): void {
+        $p = Psr7\Utils::streamFor(function (): void {
         });
         self::assertTrue($p->isReadable());
         self::assertFalse($p->isSeekable());
@@ -84,7 +84,7 @@ class PumpStreamTest extends TestCase
      */
     public function testThatConvertingStreamToStringWillTriggerErrorAndWillReturnEmptyString(): void
     {
-        $p = Psr7\stream_for(function ($size): void {
+        $p = Psr7\Utils::stream_for(function ($size): void {
             throw new \Exception();
         });
         self::assertInstanceOf(PumpStream::class, $p);

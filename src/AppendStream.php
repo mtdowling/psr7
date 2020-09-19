@@ -73,7 +73,7 @@ final class AppendStream implements StreamInterface
 
     public function getContents(): string
     {
-        return copy_to_string($this);
+        return Utils::copyToString($this);
     }
 
     /**

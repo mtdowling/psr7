@@ -24,13 +24,13 @@ class LimitStreamTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->decorated = Psr7\stream_for(fopen(__FILE__, 'r'));
+        $this->decorated = Psr7\Utils::streamFor(fopen(__FILE__, 'r'));
         $this->body = new LimitStream($this->decorated, 10, 3);
     }
 
     public function testReturnsSubset(): void
     {
-        $body = new LimitStream(Psr7\stream_for('foo'), -1, 1);
+        $body = new LimitStream(Psr7\Utils::stream_for('foo'), -1, 1);
         self::assertSame('oo', (string) $body);
         self::assertTrue($body->eof());
         $body->seek(0);
@@ -42,21 +42,21 @@ class LimitStreamTest extends TestCase
 
     public function testReturnsSubsetWhenCastToString(): void
     {
-        $body = Psr7\stream_for('foo_baz_bar');
+        $body = Psr7\Utils::streamFor('foo_baz_bar');
         $limited = new LimitStream($body, 3, 4);
         self::assertSame('baz', (string) $limited);
     }
 
     public function testReturnsSubsetOfEmptyBodyWhenCastToString(): void
     {
-        $body = Psr7\stream_for('01234567891234');
+        $body = Psr7\Utils::streamFor('01234567891234');
         $limited = new LimitStream($body, 0, 10);
         self::assertSame('', (string) $limited);
     }
 
     public function testReturnsSpecificSubsetOBodyWhenCastToString(): void
     {
-        $body = Psr7\stream_for('0123456789abcdef');
+        $body = Psr7\Utils::streamFor('0123456789abcdef');
         $limited = new LimitStream($body, 3, 10);
         self::assertSame('abc', (string) $limited);
     }
@@ -107,7 +107,7 @@ class LimitStreamTest extends TestCase
 
     public function testThrowsWhenCurrentGreaterThanOffsetSeek(): void
     {
-        $a = Psr7\stream_for('foo_bar');
+        $a = Psr7\Utils::streamFor('foo_bar');
         $b = new NoSeekStream($a);
         $c = new LimitStream($b);
         $a->getContents();
@@ -118,7 +118,7 @@ class LimitStreamTest extends TestCase
 
     public function testCanGetContentsWithoutSeeking(): void
     {
-        $a = Psr7\stream_for('foo_bar');
+        $a = Psr7\Utils::streamFor('foo_bar');
         $b = new NoSeekStream($a);
         $c = new LimitStream($b);
         self::assertSame('foo_bar', $c->getContents());
@@ -138,7 +138,7 @@ class LimitStreamTest extends TestCase
 
     public function testGetContentsIsBasedOnSubset(): void
     {
-        $body = new LimitStream(Psr7\stream_for('foobazbar'), 3, 3);
+        $body = new LimitStream(Psr7\Utils::stream_for('foobazbar'), 3, 3);
         self::assertSame('baz', $body->getContents());
     }
 
@@ -158,7 +158,7 @@ class LimitStreamTest extends TestCase
 
     public function testLengthLessOffsetWhenNoLimitSize(): void
     {
-        $a = Psr7\stream_for('foo_bar');
+        $a = Psr7\Utils::streamFor('foo_bar');
         $b = new LimitStream($a, -1, 4);
         self::assertSame(3, $b->getSize());
     }

@@ -53,7 +53,7 @@ class FnStreamTest extends TestCase
 
     public function testDecoratesStream(): void
     {
-        $a = Psr7\stream_for('foo');
+        $a = Psr7\Utils::streamFor('foo');
         $b = FnStream::decorate($a, []);
         self::assertSame(3, $b->getSize());
         self::assertSame($b->isWritable(), true);
@@ -80,7 +80,7 @@ class FnStreamTest extends TestCase
     public function testDecoratesWithCustomizations(): void
     {
         $called = false;
-        $a = Psr7\stream_for('foo');
+        $a = Psr7\Utils::streamFor('foo');
         $b = FnStream::decorate($a, [
             'read' => function ($len) use (&$called, $a) {
                 $called = true;

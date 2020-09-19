@@ -83,7 +83,7 @@ class UploadedFileTest extends TestCase
 
     public function testSuccessful(): void
     {
-        $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('Foo bar!');
         $upload = new UploadedFile($stream, $stream->getSize(), UPLOAD_ERR_OK, 'filename.txt', 'text/plain');
 
         self::assertSame($stream->getSize(), $upload->getSize());
@@ -115,7 +115,7 @@ class UploadedFileTest extends TestCase
      */
     public function testMoveRaisesExceptionForInvalidPath($path): void
     {
-        $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('Foo bar!');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
 
         $this->expectException(\InvalidArgumentException::class);
@@ -125,7 +125,7 @@ class UploadedFileTest extends TestCase
 
     public function testMoveCannotBeCalledMoreThanOnce(): void
     {
-        $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('Foo bar!');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
 
         $this->cleanup[] = $to = tempnam(sys_get_temp_dir(), 'diac');
@@ -139,7 +139,7 @@ class UploadedFileTest extends TestCase
 
     public function testCannotRetrieveStreamAfterMove(): void
     {
-        $stream = \GuzzleHttp\Psr7\stream_for('Foo bar!');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('Foo bar!');
         $upload = new UploadedFile($stream, 0, UPLOAD_ERR_OK);
 
         $this->cleanup[] = $to = tempnam(sys_get_temp_dir(), 'diac');

@@ -36,7 +36,7 @@ class ResponseTest extends TestCase
     public function testConstructorDoesNotReadStreamBody(): void
     {
         $streamIsRead = false;
-        $body = Psr7\FnStream::decorate(Psr7\stream_for(''), [
+        $body = Psr7\FnStream::decorate(Psr7\Utils::streamFor(''), [
             '__toString' => function () use (&$streamIsRead) {
                 $streamIsRead = true;
                 return '';
@@ -142,7 +142,7 @@ class ResponseTest extends TestCase
 
     public function testWithBody(): void
     {
-        $b = Psr7\stream_for('0');
+        $b = Psr7\Utils::streamFor('0');
         $r = (new Response())->withBody($b);
         self::assertInstanceOf(StreamInterface::class, $r->getBody());
         self::assertSame('0', (string) $r->getBody());

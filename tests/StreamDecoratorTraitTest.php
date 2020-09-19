@@ -31,7 +31,7 @@ class StreamDecoratorTraitTest extends TestCase
         $this->c = fopen('php://temp', 'r+');
         fwrite($this->c, 'foo');
         fseek($this->c, 0);
-        $this->a = Psr7\stream_for($this->c);
+        $this->a = Psr7\Utils::streamFor($this->c);
         $this->b = new Str($this->a);
     }
 

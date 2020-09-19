@@ -28,7 +28,7 @@ class NoSeekStreamTest extends TestCase
 
     public function testToStringDoesNotSeek(): void
     {
-        $s = \GuzzleHttp\Psr7\stream_for('foo');
+        $s = \GuzzleHttp\Psr7\Utils::streamFor('foo');
         $s->seek(1);
         $wrapped = new NoSeekStream($s);
         self::assertSame('oo', (string) $wrapped);

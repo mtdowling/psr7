@@ -17,7 +17,7 @@ class InflateStreamTest extends TestCase
     public function testInflatesRfc1952Streams(): void
     {
         $content = gzencode('test');
-        $a = Psr7\stream_for($content);
+        $a = Psr7\Utils::streamFor($content);
         $b = new InflateStream($a);
         self::assertSame('test', (string) $b);
     }
@@ -25,7 +25,7 @@ class InflateStreamTest extends TestCase
     public function testInflatesStreamsRfc1952WithFilename(): void
     {
         $content = $this->getGzipStringWithFilename('test');
-        $a = Psr7\stream_for($content);
+        $a = Psr7\Utils::streamFor($content);
         $b = new InflateStream($a);
         self::assertSame('test', (string) $b);
     }
@@ -33,7 +33,7 @@ class InflateStreamTest extends TestCase
     public function testInflatesRfc1950Streams(): void
     {
         $content = gzcompress('test');
-        $a = Psr7\stream_for($content);
+        $a = Psr7\Utils::streamFor($content);
         $b = new InflateStream($a);
         self::assertSame('test', (string) $b);
     }
@@ -68,13 +68,13 @@ class InflateStreamTest extends TestCase
     public function testInflatesStreamsPreserveSeekable(): void
     {
         $content = gzencode('test');
-        $seekable = Psr7\stream_for($content);
+        $seekable = Psr7\Utils::streamFor($content);
 
         $seekableInflate = new InflateStream($seekable);
         self::assertTrue($seekableInflate->isSeekable());
         self::assertSame('test', (string) $seekableInflate);
 
-        $nonSeekable = new NoSeekStream(Psr7\stream_for($content));
+        $nonSeekable = new NoSeekStream(Psr7\Utils::stream_for($content));
         $nonSeekableInflate = new InflateStream($nonSeekable);
         self::assertFalse($nonSeekableInflate->isSeekable());
         self::assertSame('test', (string) $nonSeekableInflate);

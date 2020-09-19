@@ -19,7 +19,7 @@ class RequestTest extends TestCase
     public function testRequestUriMayBeString(): void
     {
         $r = new Request('GET', '/');
-        self::assertSame('/', (string) $r->getUri());
+        $this->assertEquals('/', (string) $r->getUri());
     }
 
     public function testRequestUriMayBeUri(): void
@@ -59,7 +59,7 @@ class RequestTest extends TestCase
     public function testConstructorDoesNotReadStreamBody(): void
     {
         $streamIsRead = false;
-        $body = Psr7\FnStream::decorate(Psr7\stream_for(''), [
+        $body = Psr7\FnStream::decorate(Psr7\Utils::streamFor(''), [
             '__toString' => function () use (&$streamIsRead) {
                 $streamIsRead = true;
                 return '';
