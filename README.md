@@ -310,7 +310,7 @@ There are various static methods available under the `GuzzleHttp\Psr7` namespace
 
 ## `GuzzleHttp\Psr7\Message::toString`
 
-`toString(MessageInterface $message): string`
+`public static function toString(MessageInterface $message): string`
 
 Returns the string representation of an HTTP message.
 
