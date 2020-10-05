@@ -306,6 +306,11 @@ final class Utils
 
         switch (gettype($resource)) {
             case 'resource':
+                if (\stream_get_meta_data($resource)['uri'] === 'php://input') {
+                    $stream = fopen('php://temp', 'w+');
+                    fwrite($stream, stream_get_contents($resource));
+                    $resource = $stream;
+                }
                 return new Stream($resource, $options);
             case 'object':
                 if ($resource instanceof StreamInterface) {
