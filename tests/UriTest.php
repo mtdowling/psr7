@@ -134,7 +134,7 @@ class UriTest extends BaseTest
     {
         $this->expectExceptionGuzzle('InvalidArgumentException', 'Unable to parse URI');
 
-        new Uri('//example.com:0');
+        new Uri('//example.com:-1');
     }
 
     public function testSchemeMustHaveCorrectType()
