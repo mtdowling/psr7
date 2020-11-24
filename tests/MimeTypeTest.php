@@ -6,15 +6,15 @@ use GuzzleHttp\Psr7;
 
 class MimeTypeTestTest
 {
-    public function testDetermineFromExtension()
+    public function testDetermineFromExtension(): void
     {
-        $this->assertNull(Psr7\MimeType::fromExtension('not-a-real-extension'));
-        $this->assertSame('application/json', Psr7\MimeType::fromExtension('json'));
+        self::assertNull(Psr7\MimeType::fromExtension('not-a-real-extension'));
+        self::assertSame('application/json', Psr7\MimeType::fromExtension('json'));
     }
 
-    public function testDetermineFromFilename()
+    public function testDetermineFromFilename(): void
     {
-        $this->assertSame(
+        self::assertSame(
             'image/jpeg',
             Psr7\MimeType::fromFilename('/tmp/images/IMG034821.JPEG')
         );

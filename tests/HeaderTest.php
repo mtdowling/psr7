@@ -55,14 +55,14 @@ class HeaderTest
     /**
      * @dataProvider parseParamsProvider
      */
-    public function testParseParams($header, $result)
+    public function testParseParams($header, $result): void
     {
-        $this->assertSame($result, Psr7\Header::parse($header));
+        self::assertSame($result, Psr7\Header::parse($header));
     }
 
-    public function testParsesArrayHeaders()
+    public function testParsesArrayHeaders(): void
     {
         $header = ['a, b', 'c', 'd, e'];
-        $this->assertSame(['a', 'b', 'c', 'd', 'e'], Psr7\Header::normalize($header));
+        self::assertSame(['a', 'b', 'c', 'd', 'e'], Psr7\Header::normalize($header));
     }
 }

@@ -44,7 +44,7 @@ final class Utils
      *
      * @throws \RuntimeException on error.
      */
-    public static function copyToStream(StreamInterface $source, StreamInterface $dest, $maxLen = -1)
+    public static function copyToStream(StreamInterface $source, StreamInterface $dest, $maxLen = -1): void
     {
         $bufferSize = 8192;
 
@@ -75,6 +75,7 @@ final class Utils
      * @param StreamInterface $stream Stream to read
      * @param int             $maxLen Maximum number of bytes to read. Pass -1
      *                                to read the entire stream.
+     *
      * @return string
      *
      * @throws \RuntimeException on error.
@@ -181,7 +182,7 @@ final class Utils
                     $standardPorts = ['http' => 80, 'https' => 443];
                     $scheme = $changes['uri']->getScheme();
                     if (isset($standardPorts[$scheme]) && $port != $standardPorts[$scheme]) {
-                        $changes['set_headers']['Host'] .= ':'.$port;
+                        $changes['set_headers']['Host'] .= ':' . $port;
                     }
                 }
             }
@@ -203,13 +204,12 @@ final class Utils
 
         if ($request instanceof ServerRequestInterface) {
             return (new ServerRequest(
-                isset($changes['method']) ? $changes['method'] : $request->getMethod(),
+                $changes['method'] ?? $request->getMethod(),
                 $uri,
                 $headers,
-                isset($changes['body']) ? $changes['body'] : $request->getBody(),
-                isset($changes['version'])
-                    ? $changes['version']
-                    : $request->getProtocolVersion(),
+                $changes['body'] ?? $request->getBody(),
+                $changes['version']
+                    ?? $request->getProtocolVersion(),
                 $request->getServerParams()
             ))
             ->withParsedBody($request->getParsedBody())
@@ -219,13 +219,12 @@ final class Utils
         }
 
         return new Request(
-            isset($changes['method']) ? $changes['method'] : $request->getMethod(),
+            $changes['method'] ?? $request->getMethod(),
             $uri,
             $headers,
-            isset($changes['body']) ? $changes['body'] : $request->getBody(),
-            isset($changes['version'])
-                ? $changes['version']
-                : $request->getProtocolVersion()
+            $changes['body'] ?? $request->getBody(),
+            $changes['version']
+                ?? $request->getProtocolVersion()
         );
     }
 
@@ -286,7 +285,7 @@ final class Utils
      *   number of requested bytes are available. Any additional bytes will be
      *   buffered and used in subsequent reads.
      *
-     * @param resource|string|null|int|float|bool|StreamInterface|callable|\Iterator $resource Entity body data
+     * @param resource|string|int|float|bool|StreamInterface|callable|\Iterator|null $resource Entity body data
      * @param array                                                                  $options  Additional options
      *
      * @return StreamInterface
@@ -350,7 +349,7 @@ final class Utils
     public static function tryFopen($filename, $mode)
     {
         $ex = null;
-        set_error_handler(function () use ($filename, $mode, &$ex) {
+        set_error_handler(function () use ($filename, $mode, &$ex): void {
             $ex = new \RuntimeException(sprintf(
                 'Unable to open %s using mode %s: %s',
                 $filename,

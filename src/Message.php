@@ -95,7 +95,7 @@ final class Message
      *
      * @throws \RuntimeException
      */
-    public static function rewindBody(MessageInterface $message)
+    public static function rewindBody(MessageInterface $message): void
     {
         $body = $message->getBody();
 
@@ -129,7 +129,7 @@ final class Message
             throw new \InvalidArgumentException('Invalid message: Missing header delimiter');
         }
 
-        list($rawHeaders, $body) = $messageParts;
+        [$rawHeaders, $body] = $messageParts;
         $rawHeaders .= "\r\n"; // Put back the delimiter we split previously
         $headerParts = preg_split("/\r?\n/", $rawHeaders, 2);
 
@@ -137,7 +137,7 @@ final class Message
             throw new \InvalidArgumentException('Invalid message: Missing status line');
         }
 
-        list($startLine, $rawHeaders) = $headerParts;
+        [$startLine, $rawHeaders] = $headerParts;
 
         if (preg_match("/(?:^HTTP\/|^[A-Z]+ \S+ HTTP\/)(\d+(?:\.\d+)?)/i", $startLine, $matches) && $matches[1] === '1.0') {
             // Header folding is deprecated for HTTP/1.1, but allowed in HTTP/1.0
@@ -246,7 +246,7 @@ final class Message
             $data['headers'],
             $data['body'],
             explode('/', $parts[0])[1],
-            isset($parts[2]) ? $parts[2] : null
+            $parts[2] ?? null
         );
     }
 }

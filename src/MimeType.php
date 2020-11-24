@@ -133,8 +133,7 @@ final class MimeType
 
         $extension = strtolower($extension);
 
-        return isset($mimetypes[$extension])
-            ? $mimetypes[$extension]
-            : null;
+        return $mimetypes[$extension]
+            ?? null;
     }
 }

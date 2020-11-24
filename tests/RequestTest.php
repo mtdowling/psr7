@@ -19,7 +19,7 @@ class RequestTest extends TestCase
     public function testRequestUriMayBeString(): void
     {
         $r = new Request('GET', '/');
-        $this->assertEquals('/', (string) $r->getUri());
+        self::assertEquals('/', (string) $r->getUri());
     }
 
     public function testRequestUriMayBeUri(): void

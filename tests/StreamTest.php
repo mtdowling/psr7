@@ -71,7 +71,7 @@ class StreamTest extends TestCase
     public function testConvertsToStringNonSeekableStream(): void
     {
         if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped('This does not work on HHVM.');
+            self::markTestSkipped('This does not work on HHVM.');
         }
 
         $handle = popen('echo foo', 'r');
@@ -83,7 +83,7 @@ class StreamTest extends TestCase
     public function testConvertsToStringNonSeekablePartiallyReadStream(): void
     {
         if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped('This does not work on HHVM.');
+            self::markTestSkipped('This does not work on HHVM.');
         }
 
         $handle = popen('echo bar', 'r');

@@ -48,51 +48,51 @@ class QueryTest
     /**
      * @dataProvider parseQueryProvider
      */
-    public function testParsesQueries($input, $output)
+    public function testParsesQueries($input, $output): void
     {
         $result = Psr7\Query::parse($input);
-        $this->assertSame($output, $result);
+        self::assertSame($output, $result);
     }
 
-    public function testDoesNotDecode()
+    public function testDoesNotDecode(): void
     {
         $str = 'foo%20=bar';
         $data = Psr7\Query::parse($str, false);
-        $this->assertSame(['foo%20' => 'bar'], $data);
+        self::assertSame(['foo%20' => 'bar'], $data);
     }
 
     /**
      * @dataProvider parseQueryProvider
      */
-    public function testParsesAndBuildsQueries($input)
+    public function testParsesAndBuildsQueries($input): void
     {
         $result = Psr7\Query::parse($input, false);
-        $this->assertSame($input, Psr7\Query::build($result, false));
+        self::assertSame($input, Psr7\Query::build($result, false));
     }
 
-    public function testEncodesWithRfc1738()
+    public function testEncodesWithRfc1738(): void
     {
         $str = Psr7\Query::build(['foo bar' => 'baz+'], PHP_QUERY_RFC1738);
-        $this->assertSame('foo+bar=baz%2B', $str);
+        self::assertSame('foo+bar=baz%2B', $str);
     }
 
-    public function testEncodesWithRfc3986()
+    public function testEncodesWithRfc3986(): void
     {
         $str = Psr7\Query::build(['foo bar' => 'baz+'], PHP_QUERY_RFC3986);
-        $this->assertSame('foo%20bar=baz%2B', $str);
+        self::assertSame('foo%20bar=baz%2B', $str);
     }
 
-    public function testDoesNotEncode()
+    public function testDoesNotEncode(): void
     {
         $str = Psr7\Query::build(['foo bar' => 'baz+'], false);
-        $this->assertSame('foo bar=baz+', $str);
+        self::assertSame('foo bar=baz+', $str);
     }
 
-    public function testCanControlDecodingType()
+    public function testCanControlDecodingType(): void
     {
         $result = Psr7\Query::parse('var=foo+bar', PHP_QUERY_RFC3986);
-        $this->assertSame('foo+bar', $result['var']);
+        self::assertSame('foo+bar', $result['var']);
         $result = Psr7\Query::parse('var=foo+bar', PHP_QUERY_RFC1738);
-        $this->assertSame('foo bar', $result['var']);
+        self::assertSame('foo bar', $result['var']);
     }
 }
