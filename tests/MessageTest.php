@@ -5,7 +5,7 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\FnStream;
 
-class MessageTest extends BaseTest
+class MessageTest
 {
     public function testConvertsRequestsToStrings()
     {

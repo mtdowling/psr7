@@ -4,7 +4,7 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
 
-class HeaderTest extends BaseTest
+class HeaderTest
 {
     public function parseParamsProvider()
     {

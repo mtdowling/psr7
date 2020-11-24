@@ -60,7 +60,7 @@ class InflateStreamTest extends TestCase
         // crc16
         $header .= pack('v', crc32($header));
 
-        $a = Psr7\stream_for($header . $content);
+        $a = Psr7\Utils::streamFor($header . $content);
         $b = new InflateStream($a);
         self::assertSame('test', (string) $b);
     }
@@ -74,7 +74,7 @@ class InflateStreamTest extends TestCase
         self::assertTrue($seekableInflate->isSeekable());
         self::assertSame('test', (string) $seekableInflate);
 
-        $nonSeekable = new NoSeekStream(Psr7\Utils::stream_for($content));
+        $nonSeekable = new NoSeekStream(Psr7\Utils::streamFor($content));
         $nonSeekableInflate = new InflateStream($nonSeekable);
         self::assertFalse($nonSeekableInflate->isSeekable());
         self::assertSame('test', (string) $nonSeekableInflate);

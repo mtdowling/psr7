@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\NoSeekStream;
 
-class UtilsTest extends BaseTest
+class UtilsTest
 {
     public function testCopiesToString()
     {

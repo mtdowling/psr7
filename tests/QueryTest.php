@@ -4,7 +4,7 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
 
-class QueryTest extends BaseTest
+class QueryTest
 {
     public function parseQueryProvider()
     {

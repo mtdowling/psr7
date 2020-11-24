@@ -30,7 +30,7 @@ class LimitStreamTest extends TestCase
 
     public function testReturnsSubset(): void
     {
-        $body = new LimitStream(Psr7\Utils::stream_for('foo'), -1, 1);
+        $body = new LimitStream(Psr7\Utils::streamFor('foo'), -1, 1);
         self::assertSame('oo', (string) $body);
         self::assertTrue($body->eof());
         $body->seek(0);
@@ -138,7 +138,7 @@ class LimitStreamTest extends TestCase
 
     public function testGetContentsIsBasedOnSubset(): void
     {
-        $body = new LimitStream(Psr7\Utils::stream_for('foobazbar'), 3, 3);
+        $body = new LimitStream(Psr7\Utils::streamFor('foobazbar'), 3, 3);
         self::assertSame('baz', $body->getContents());
     }
 

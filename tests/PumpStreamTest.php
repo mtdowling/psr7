@@ -84,7 +84,7 @@ class PumpStreamTest extends TestCase
      */
     public function testThatConvertingStreamToStringWillTriggerErrorAndWillReturnEmptyString(): void
     {
-        $p = Psr7\Utils::stream_for(function ($size): void {
+        $p = Psr7\Utils::streamFor(function ($size): void {
             throw new \Exception();
         });
         self::assertInstanceOf(PumpStream::class, $p);
