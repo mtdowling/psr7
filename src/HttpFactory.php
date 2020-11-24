@@ -47,13 +47,13 @@ final class HttpFactory implements
 
     public function createStream(string $content = ''): StreamInterface
     {
-        return \GuzzleHttp\Psr7\stream_for($content);
+        return \GuzzleHttp\Psr7\Utils::streamFor($content);
     }
 
     public function createStreamFromFile(string $file, string $mode = 'r'): StreamInterface
     {
         try {
-            $resource = \GuzzleHttp\Psr7\try_fopen($file, $mode);
+            $resource = \GuzzleHttp\Psr7\Utils::tryFopen($file, $mode);
         } catch (\RuntimeException $e) {
             if ('' === $mode || false === \in_array($mode[0], ['r', 'w', 'a', 'x', 'c'], true)) {
                 throw new \InvalidArgumentException(sprintf('Invalid file opening mode "%s"', $mode), 0, $e);
@@ -62,12 +62,12 @@ final class HttpFactory implements
             throw $e;
         }
 
-        return \GuzzleHttp\Psr7\stream_for($resource);
+        return \GuzzleHttp\Psr7\Utils::streamFor($resource);
     }
 
     public function createStreamFromResource($resource): StreamInterface
     {
-        return \GuzzleHttp\Psr7\stream_for($resource);
+        return \GuzzleHttp\Psr7\Utils::streamFor($resource);
     }
 
     public function createServerRequest(string $method, $uri, array $serverParams = []): ServerRequestInterface

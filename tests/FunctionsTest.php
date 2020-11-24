@@ -448,11 +448,11 @@ class FunctionsTest extends TestCase
         self::assertNull(Psr7\mimetype_from_extension('not-a-real-extension'));
         self::assertSame(
             'application/json',
-            Psr7\mimetype_from_extension('json')
+            Psr7\MimeType::fromExtension('json')
         );
         self::assertSame(
             'image/jpeg',
-            Psr7\mimetype_from_filename('/tmp/images/IMG034821.JPEG')
+            Psr7\MimeType::fromFilename('/tmp/images/IMG034821.JPEG')
         );
     }
 

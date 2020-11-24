@@ -146,23 +146,23 @@ class CachingStreamTest extends TestCase
 
         $body = new CachingStream($decorated);
 
-        self::assertSame("0000\n", Psr7\readline($body));
-        self::assertSame("0001\n", Psr7\readline($body));
+        self::assertSame("0000\n", Psr7\Utils::readline($body));
+        self::assertSame("0001\n", Psr7\Utils::readline($body));
         // Write over part of the body yet to be read, so skip some bytes
         self::assertSame(5, $body->write("TEST\n"));
         // Read, which skips bytes, then reads
-        self::assertSame("0003\n", Psr7\readline($body));
-        self::assertSame("0004\n", Psr7\readline($body));
-        self::assertSame("0005\n", Psr7\readline($body));
+        self::assertSame("0003\n", Psr7\Utils::readline($body));
+        self::assertSame("0004\n", Psr7\Utils::readline($body));
+        self::assertSame("0005\n", Psr7\Utils::readline($body));
 
         // Overwrite part of the cached body (so don't skip any bytes)
         $body->seek(5);
         self::assertSame(5, $body->write("ABCD\n"));
-        self::assertSame("TEST\n", Psr7\readline($body));
-        self::assertSame("0003\n", Psr7\readline($body));
-        self::assertSame("0004\n", Psr7\readline($body));
-        self::assertSame("0005\n", Psr7\readline($body));
-        self::assertSame("0006\n", Psr7\readline($body));
+        self::assertSame("TEST\n", Psr7\Utils::readline($body));
+        self::assertSame("0003\n", Psr7\Utils::readline($body));
+        self::assertSame("0004\n", Psr7\Utils::readline($body));
+        self::assertSame("0005\n", Psr7\Utils::readline($body));
+        self::assertSame("0006\n", Psr7\Utils::readline($body));
         self::assertSame(5, $body->write("1234\n"));
 
         // Seek to 0 and ensure the overwritten bit is replaced
