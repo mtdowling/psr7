@@ -16,7 +16,7 @@ parameters:
 			path: src/MultipartStream.php
 
 		-
-			message: "#^Parameter \\#1 \\$filename of function GuzzleHttp\\\\Psr7\\\\mimetype_from_filename expects string, string\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$filename of static method GuzzleHttp\\\\Psr7\\\\MimeType\\:\\:fromFilename\\(\\) expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/MultipartStream.php
 
@@ -61,26 +61,21 @@ parameters:
 			path: src/UriNormalizer.php
 
 		-
-			message: "#^Variable \\$segment might not be defined\\.$#"
-			count: 1
-			path: src/UriResolver.php
-
-		-
 			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
 			count: 2
-			path: src/functions.php
+			path: src/Header.php
 
 		-
 			message: "#^Parameter \\#2 \\$subject of function preg_match_all expects string, string\\|null given\\.$#"
 			count: 1
-			path: src/functions.php
+			path: src/Message.php
 
 		-
 			message: "#^Parameter \\#1 \\$haystack of function substr_count expects string, string\\|null given\\.$#"
 			count: 1
-			path: src/functions.php
+			path: src/Message.php
 
 		-
 			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, string\\|null given\\.$#"
 			count: 1
-			path: src/functions.php
+			path: src/Message.php
