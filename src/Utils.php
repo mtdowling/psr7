@@ -297,8 +297,12 @@ final class Utils
     {
         if (is_scalar($resource)) {
             $stream = fopen('php://temp', 'r+');
-            if ($resource !== '') {
-                fwrite($stream, $resource);
+            if ($stream === false) {
+                throw new \RuntimeException('Cannot open stream');
+            }
+
+            if ((string) $resource !== '') {
+                fwrite($stream, (string) $resource);
                 fseek($stream, 0);
             }
             return new Stream($stream, $options);
@@ -324,7 +328,11 @@ final class Utils
                 }
                 break;
             case 'NULL':
-                return new Stream(fopen('php://temp', 'r+'), $options);
+                $stream = fopen('php://temp', 'r+');
+                if ($stream === false) {
+                    throw new \RuntimeException('Cannot open stream');
+                }
+                return new Stream($stream, $options);
         }
 
         if (is_callable($resource)) {
@@ -350,13 +358,14 @@ final class Utils
     public static function tryFopen($filename, $mode)
     {
         $ex = null;
-        set_error_handler(function () use ($filename, $mode, &$ex): void {
+        set_error_handler(function () use ($filename, $mode, &$ex): bool {
             $ex = new \RuntimeException(sprintf(
                 'Unable to open %s using mode %s: %s',
                 $filename,
                 $mode,
                 func_get_args()[1]
             ));
+            return false;
         });
 
         $handle = fopen($filename, $mode);

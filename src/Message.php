@@ -144,7 +144,6 @@ final class Message
             $rawHeaders = preg_replace(Rfc7230::HEADER_FOLD_REGEX, ' ', $rawHeaders);
         }
 
-        /** @var array[] $headerLines */
         $count = preg_match_all(Rfc7230::HEADER_REGEX, $rawHeaders, $headerLines, PREG_SET_ORDER);
 
         // If these aren't the same, then one line didn't match and there's an invalid header.

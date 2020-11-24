@@ -79,3 +79,23 @@ parameters:
 			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/Message.php
+
+		-
+			message: "#^Method GuzzleHttp\\\\Psr7\\\\Utils\\:\\:tryFopen\\(\\) should return resource but returns resource\\|false\\.$#"
+			count: 1
+			path: src/Utils.php
+
+		-
+			message: "#^Unreachable statement - code above always terminates\\.$#"
+			count: 1
+			path: src/Utils.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of class GuzzleHttp\\\\Psr7\\\\Stream constructor expects resource, \\(callable\\)|Iterator|Psr\\\\Http\\\\Message\\\\StreamInterface\\|resource\\|null given\\.$#"
+			count: 1
+			path: src/Utils.php
+
+		-
+			message: "#^Parameter \\#1 \\$object of function method_exists expects object\\|string, \\(callable\\)\\|resource\\|null given\\.$#"
+			count: 1
+			path: src/Utils.php
