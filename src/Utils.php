@@ -12,7 +12,7 @@ final class Utils
     /**
      * Remove the items given by the keys, case insensitively from the data.
      *
-     * @param iterable<string> $keys
+     * @param iterable<string>|array $keys
      *
      * @return array
      */
@@ -20,12 +20,13 @@ final class Utils
     {
         $result = [];
 
-        foreach ($keys as &$key) {
-            $key = strtolower($key);
+        $lowerKeys = [];
+        foreach ($keys as $key) {
+            $lowerKeys[] = strtolower($key);
         }
 
         foreach ($data as $k => $v) {
-            if (!in_array(strtolower($k), $keys)) {
+            if (!in_array(strtolower($k), $lowerKeys)) {
                 $result[$k] = $v;
             }
         }
