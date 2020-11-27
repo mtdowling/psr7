@@ -554,7 +554,7 @@ Maps a file extensions to a mimetype.
 
 ## Upgrading from Function API
 
-The static API was first introduced in 1.7.0, in order to mitigate problems with functions conflicting between global and local copies of the package. The function API will be removed in 2.0.0. A migration table has been provided here for your convenience:
+The static API introduced in 1.7.0, in order to mitigate problems with functions conflicting between global and local copies of the package. The function API has been removed in 2.0.0. A migration table has been provided here for your convenience:
 
 | Original Function | Replacement Method |
 |----------------|----------------|
