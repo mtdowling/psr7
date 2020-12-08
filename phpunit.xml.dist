@@ -1,31 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     backupGlobals="true"
-    bootstrap="vendor/autoload.php"
     colors="true"
-    failOnWarning="true"
+    beStrictAboutOutputDuringTests="true"
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    bootstrap="vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="Guzzle PSR-7 Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-        <testsuite name="PSR-7 Integration Test Suite">
-            <directory>./vendor/http-interop/http-factory-tests/test</directory>
+        <testsuite name="GuzzleHttp PSR7 Test Suite">
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory>src</directory>
+            <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
-    <php>
-        <const name="REQUEST_FACTORY" value="GuzzleHttp\Psr7\HttpFactory"/>
-        <const name="RESPONSE_FACTORY" value="GuzzleHttp\Psr7\HttpFactory"/>
-        <const name="SERVER_REQUEST_FACTORY" value="GuzzleHttp\Psr7\HttpFactory"/>
-        <const name="STREAM_FACTORY" value="GuzzleHttp\Psr7\HttpFactory"/>
-        <const name="UPLOADED_FILE_FACTORY" value="GuzzleHttp\Psr7\HttpFactory"/>
-        <const name="URI_FACTORY" value="GuzzleHttp\Psr7\HttpFactory"/>
-    </php>
 </phpunit>
