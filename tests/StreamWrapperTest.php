@@ -95,7 +95,7 @@ class StreamWrapperTest extends TestCase
 
     public function testReturnsFalseWhenStreamDoesNotExist(): void
     {
-        $this->expectException(\PHPUnit\Framework\Error\Warning::class);
+        $this->expectWarning();
         fopen('guzzle://foo', 'r');
     }
 
