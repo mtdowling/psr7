@@ -26,7 +26,7 @@ matrix:
           dist: bionic
         - php: 7.4
           dist: bionic
-        - php: nightly
+        - php: 8.0
           dist: bionic
     fast_finish: true
 
