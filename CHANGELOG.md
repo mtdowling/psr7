@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- Restored partial HHVM 3 support
+- Removed HHVM references in tests
 
 
 ## [1.6.1] - 2019-07-02
