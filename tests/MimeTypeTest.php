@@ -4,7 +4,7 @@ namespace GuzzleHttp\Tests\Psr7;
 
 use GuzzleHttp\Psr7;
 
-class MimeTypeTestTest
+class MimeTypeTest
 {
     public function testDetermineFromExtension(): void
     {
