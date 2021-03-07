@@ -61,11 +61,6 @@ parameters:
 			path: src/UriNormalizer.php
 
 		-
-			message: "#^Variable \\$segment might not be defined\\.$#"
-			count: 1
-			path: src/UriResolver.php
-
-		-
 			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
 			count: 2
 			path: src/functions.php
