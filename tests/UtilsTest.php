@@ -184,9 +184,16 @@ class UtilsTest extends BaseTest
 
     public function testThrowsExceptionNotWarning()
     {
-        $this->expectExceptionGuzzle('RuntimeException', 'Unable to open /path/to/does/not/exist using mode r');
+        $this->expectExceptionGuzzle('RuntimeException', 'Unable to open "/path/to/does/not/exist" using mode "r"');
 
         Psr7\Utils::tryFopen('/path/to/does/not/exist', 'r');
+    }
+
+    public function testThrowsExceptionNotValueError()
+    {
+        $this->expectExceptionGuzzle('RuntimeException', 'Unable to open "" using mode "r"');
+
+        Psr7\Utils::tryFopen('', 'r');
     }
 
     public function testCreatesUriForValue()
