@@ -11,17 +11,17 @@ class DroppingStreamTest extends BaseTest
     {
         $stream = new BufferStream();
         $drop = new DroppingStream($stream, 5);
-        $this->assertSame(3, $drop->write('hel'));
-        $this->assertSame(2, $drop->write('lo'));
-        $this->assertSame(5, $drop->getSize());
-        $this->assertSame('hello', $drop->read(5));
-        $this->assertSame(0, $drop->getSize());
+        self::assertSame(3, $drop->write('hel'));
+        self::assertSame(2, $drop->write('lo'));
+        self::assertSame(5, $drop->getSize());
+        self::assertSame('hello', $drop->read(5));
+        self::assertSame(0, $drop->getSize());
         $drop->write('12345678910');
-        $this->assertSame(5, $stream->getSize());
-        $this->assertSame(5, $drop->getSize());
-        $this->assertSame('12345', (string) $drop);
-        $this->assertSame(0, $drop->getSize());
+        self::assertSame(5, $stream->getSize());
+        self::assertSame(5, $drop->getSize());
+        self::assertSame('12345', (string) $drop);
+        self::assertSame(0, $drop->getSize());
         $drop->write('hello');
-        $this->assertSame(0, $drop->write('test'));
+        self::assertSame(0, $drop->write('test'));
     }
 }

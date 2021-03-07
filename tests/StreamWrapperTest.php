@@ -2,8 +2,8 @@
 
 namespace GuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7\StreamWrapper;
 use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\StreamWrapper;
 
 /**
  * @covers GuzzleHttp\Psr7\StreamWrapper
@@ -14,19 +14,19 @@ class StreamWrapperTest extends BaseTest
     {
         $stream = Psr7\Utils::streamFor('foo');
         $handle = StreamWrapper::getResource($stream);
-        $this->assertSame('foo', fread($handle, 3));
-        $this->assertSame(3, ftell($handle));
-        $this->assertSame(3, fwrite($handle, 'bar'));
-        $this->assertSame(0, fseek($handle, 0));
-        $this->assertSame('foobar', fread($handle, 6));
-        $this->assertSame('', fread($handle, 1));
-        $this->assertTrue(feof($handle));
+        self::assertSame('foo', fread($handle, 3));
+        self::assertSame(3, ftell($handle));
+        self::assertSame(3, fwrite($handle, 'bar'));
+        self::assertSame(0, fseek($handle, 0));
+        self::assertSame('foobar', fread($handle, 6));
+        self::assertSame('', fread($handle, 1));
+        self::assertTrue(feof($handle));
 
         $stBlksize  = defined('PHP_WINDOWS_VERSION_BUILD') ? -1 : 0;
 
         // This fails on HHVM for some reason
         if (!defined('HHVM_VERSION')) {
-            $this->assertSame([
+            self::assertSame([
                 0         => 0,
                 1         => 0,
                 2         => 33206,
@@ -56,15 +56,15 @@ class StreamWrapperTest extends BaseTest
             ], fstat($handle));
         }
 
-        $this->assertTrue(fclose($handle));
-        $this->assertSame('foobar', (string) $stream);
+        self::assertTrue(fclose($handle));
+        self::assertSame('foobar', (string) $stream);
     }
 
     public function testStreamContext()
     {
         $stream = Psr7\Utils::streamFor('foo');
 
-        $this->assertSame('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
+        self::assertSame('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
     }
 
     public function testStreamCast()
@@ -83,12 +83,12 @@ class StreamWrapperTest extends BaseTest
         $stream = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
             ->setMethods(['isReadable', 'isWritable'])
             ->getMockForAbstractClass();
-        $stream->expects($this->once())
+        $stream->expects(self::once())
             ->method('isReadable')
-            ->will($this->returnValue(false));
-        $stream->expects($this->once())
+            ->will(self::returnValue(false));
+        $stream->expects(self::once())
             ->method('isWritable')
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
 
         $this->expectExceptionGuzzle('InvalidArgumentException');
 
@@ -107,12 +107,12 @@ class StreamWrapperTest extends BaseTest
         $stream = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
             ->setMethods(['isReadable', 'isWritable'])
             ->getMockForAbstractClass();
-        $stream->expects($this->once())
+        $stream->expects(self::once())
             ->method('isReadable')
-            ->will($this->returnValue(false));
-        $stream->expects($this->once())
+            ->will(self::returnValue(false));
+        $stream->expects(self::once())
             ->method('isWritable')
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
         $r = StreamWrapper::getResource($stream);
         $this->assertInternalTypeGuzzle('resource', $r);
         fclose($r);
@@ -124,7 +124,7 @@ class StreamWrapperTest extends BaseTest
 
         $stBlksize = defined('PHP_WINDOWS_VERSION_BUILD') ? -1 : 0;
 
-        $this->assertSame([
+        self::assertSame([
             0         => 0,
             1         => 0,
             2         => 0,
@@ -157,10 +157,10 @@ class StreamWrapperTest extends BaseTest
     public function testXmlReaderWithStream()
     {
         if (!class_exists('XMLReader')) {
-            $this->markTestSkipped('XML Reader is not available.');
+            self::markTestSkipped('XML Reader is not available.');
         }
         if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped('This does not work on HHVM.');
+            self::markTestSkipped('This does not work on HHVM.');
         }
 
         $stream = Psr7\Utils::streamFor('<?xml version="1.0" encoding="utf-8"?><foo />');
@@ -169,18 +169,18 @@ class StreamWrapperTest extends BaseTest
         libxml_set_streams_context(StreamWrapper::createStreamContext($stream));
         $reader = new \XMLReader();
 
-        $this->assertTrue($reader->open('guzzle://stream'));
-        $this->assertTrue($reader->read());
-        $this->assertSame('foo', $reader->name);
+        self::assertTrue($reader->open('guzzle://stream'));
+        self::assertTrue($reader->read());
+        self::assertSame('foo', $reader->name);
     }
 
     public function testXmlWriterWithStream()
     {
         if (!class_exists('XMLWriter')) {
-            $this->markTestSkipped('XML Writer is not available.');
+            self::markTestSkipped('XML Writer is not available.');
         }
         if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped('This does not work on HHVM.');
+            self::markTestSkipped('This does not work on HHVM.');
         }
 
         $stream = Psr7\Utils::streamFor(fopen('php://memory', 'wb'));
@@ -189,12 +189,12 @@ class StreamWrapperTest extends BaseTest
         libxml_set_streams_context(StreamWrapper::createStreamContext($stream));
         $writer = new \XMLWriter();
 
-        $this->assertTrue($writer->openURI('guzzle://stream'));
-        $this->assertTrue($writer->startDocument());
-        $this->assertTrue($writer->writeElement('foo'));
-        $this->assertTrue($writer->endDocument());
+        self::assertTrue($writer->openURI('guzzle://stream'));
+        self::assertTrue($writer->startDocument());
+        self::assertTrue($writer->writeElement('foo'));
+        self::assertTrue($writer->endDocument());
 
         $stream->rewind();
-        $this->assertXmlStringEqualsXmlString('<?xml version="1.0"?><foo />', (string) $stream);
+        self::assertXmlStringEqualsXmlString('<?xml version="1.0"?><foo />', (string) $stream);
     }
 }

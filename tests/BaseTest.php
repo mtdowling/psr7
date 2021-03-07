@@ -42,83 +42,83 @@ abstract class BaseTest extends TestCase
         switch ($type) {
             case 'array':
                 if (method_exists($this, 'assertIsArray')) {
-                    $this->assertIsArray($input);
+                    self::assertIsArray($input);
                 } else {
-                    $this->assertInternalType('array', $input);
+                    self::assertInternalType('array', $input);
                 }
                 break;
             case 'bool':
             case 'boolean':
                 if (method_exists($this, 'assertIsBool')) {
-                    $this->assertIsBool($input);
+                    self::assertIsBool($input);
                 } else {
-                    $this->assertInternalType('bool', $input);
+                    self::assertInternalType('bool', $input);
                 }
                 break;
             case 'double':
             case 'float':
             case 'real':
                 if (method_exists($this, 'assertIsFloat')) {
-                    $this->assertIsFloat($input);
+                    self::assertIsFloat($input);
                 } else {
-                    $this->assertInternalType('float', $input);
+                    self::assertInternalType('float', $input);
                 }
                 break;
             case 'int':
             case 'integer':
                 if (method_exists($this, 'assertIsInt')) {
-                    $this->assertIsInt($input);
+                    self::assertIsInt($input);
                 } else {
-                    $this->assertInternalType('int', $input);
+                    self::assertInternalType('int', $input);
                 }
                 break;
             case 'numeric':
                 if (method_exists($this, 'assertIsNumeric')) {
-                    $this->assertIsNumeric($input);
+                    self::assertIsNumeric($input);
                 } else {
-                    $this->assertInternalType('numeric', $input);
+                    self::assertInternalType('numeric', $input);
                 }
                 break;
             case 'object':
                 if (method_exists($this, 'assertIsObject')) {
-                    $this->assertIsObject($input);
+                    self::assertIsObject($input);
                 } else {
-                    $this->assertInternalType('object', $input);
+                    self::assertInternalType('object', $input);
                 }
                 break;
             case 'resource':
                 if (method_exists($this, 'assertIsResource')) {
-                    $this->assertIsResource($input);
+                    self::assertIsResource($input);
                 } else {
-                    $this->assertInternalType('resource', $input);
+                    self::assertInternalType('resource', $input);
                 }
                 break;
             case 'string':
                 if (method_exists($this, 'assertIsString')) {
-                    $this->assertIsString($input);
+                    self::assertIsString($input);
                 } else {
-                    $this->assertInternalType('string', $input);
+                    self::assertInternalType('string', $input);
                 }
                 break;
             case 'scalar':
                 if (method_exists($this, 'assertIsScalar')) {
-                    $this->assertIsScalar($input);
+                    self::assertIsScalar($input);
                 } else {
-                    $this->assertInternalType('scalar', $input);
+                    self::assertInternalType('scalar', $input);
                 }
                 break;
             case 'callable':
                 if (method_exists($this, 'assertIsCallable')) {
-                    $this->assertIsCallable($input);
+                    self::assertIsCallable($input);
                 } else {
-                    $this->assertInternalType('callable', $input);
+                    self::assertInternalType('callable', $input);
                 }
                 break;
             case 'iterable':
                 if (method_exists($this, 'assertIsIterable')) {
-                    $this->assertIsIterable($input);
+                    self::assertIsIterable($input);
                 } else {
-                    $this->assertInternalType('iterable', $input);
+                    self::assertInternalType('iterable', $input);
                 }
                 break;
         }
@@ -131,9 +131,9 @@ abstract class BaseTest extends TestCase
     public function assertStringContainsStringGuzzle($needle, $haystack)
     {
         if (method_exists($this, 'assertStringContainsString')) {
-            $this->assertStringContainsString($needle, $haystack);
+            self::assertStringContainsString($needle, $haystack);
         } else {
-            $this->assertContains($needle, $haystack);
+            self::assertContains($needle, $haystack);
         }
     }
 }

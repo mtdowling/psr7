@@ -15,7 +15,7 @@ class LazyOpenStream implements StreamInterface
     /** @var string File to open */
     private $filename;
 
-    /** @var string $mode */
+    /** @var string */
     private $mode;
 
     /**

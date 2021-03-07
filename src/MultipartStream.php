@@ -115,9 +115,11 @@ class MultipartStream implements StreamInterface
         $disposition = $this->getHeader($headers, 'content-disposition');
         if (!$disposition) {
             $headers['Content-Disposition'] = ($filename === '0' || $filename)
-                ? sprintf('form-data; name="%s"; filename="%s"',
+                ? sprintf(
+                    'form-data; name="%s"; filename="%s"',
                     $name,
-                    basename($filename))
+                    basename($filename)
+                )
                 : "form-data; name=\"{$name}\"";
         }
 

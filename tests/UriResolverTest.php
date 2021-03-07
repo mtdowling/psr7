@@ -20,12 +20,12 @@ class UriResolverTest extends BaseTest
         $baseUri = new Uri($base);
         $targetUri = UriResolver::resolve($baseUri, new Uri($rel));
 
-        $this->assertInstanceOf('Psr\Http\Message\UriInterface', $targetUri);
-        $this->assertSame($expectedTarget, (string) $targetUri);
+        self::assertInstanceOf('Psr\Http\Message\UriInterface', $targetUri);
+        self::assertSame($expectedTarget, (string) $targetUri);
         // This ensures there are no test cases that only work in the resolve() direction but not the
         // opposite via relativize(). This can happen when both base and rel URI are relative-path
         // references resulting in another relative-path URI.
-        $this->assertSame($expectedTarget, (string) UriResolver::resolve($baseUri, $targetUri));
+        self::assertSame($expectedTarget, (string) UriResolver::resolve($baseUri, $targetUri));
     }
 
     /**
@@ -36,10 +36,10 @@ class UriResolverTest extends BaseTest
         $baseUri = new Uri($base);
         $relativeUri = UriResolver::relativize($baseUri, new Uri($target));
 
-        $this->assertInstanceOf('Psr\Http\Message\UriInterface', $relativeUri);
+        self::assertInstanceOf('Psr\Http\Message\UriInterface', $relativeUri);
         // There are test-cases with too many dot-segments and relative references that are equal like "." == "./".
         // So apart from the same-as condition, this alternative success condition is necessary.
-        $this->assertTrue(
+        self::assertTrue(
             $expectedRelativeReference === (string) $relativeUri
             || $target === (string) UriResolver::resolve($baseUri, $relativeUri),
             sprintf(
@@ -58,10 +58,10 @@ class UriResolverTest extends BaseTest
         $targetUri = new Uri($target);
         $relativeUri = UriResolver::relativize($baseUri, $targetUri);
 
-        $this->assertInstanceOf('Psr\Http\Message\UriInterface', $relativeUri);
-        $this->assertSame($expectedRelativeReference, (string) $relativeUri);
+        self::assertInstanceOf('Psr\Http\Message\UriInterface', $relativeUri);
+        self::assertSame($expectedRelativeReference, (string) $relativeUri);
 
-        $this->assertSame((string) UriResolver::resolve($baseUri, $targetUri), (string) UriResolver::resolve($baseUri, $relativeUri));
+        self::assertSame((string) UriResolver::resolve($baseUri, $targetUri), (string) UriResolver::resolve($baseUri, $relativeUri));
     }
 
     public function getResolveTestCases()

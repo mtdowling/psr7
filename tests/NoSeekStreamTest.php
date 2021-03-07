@@ -2,7 +2,6 @@
 
 namespace GuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\NoSeekStream;
 
 /**
@@ -16,10 +15,10 @@ class NoSeekStreamTest extends BaseTest
         $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
             ->setMethods(['isSeekable', 'seek'])
             ->getMockForAbstractClass();
-        $s->expects($this->never())->method('seek');
-        $s->expects($this->never())->method('isSeekable');
+        $s->expects(self::never())->method('seek');
+        $s->expects(self::never())->method('isSeekable');
         $wrapped = new NoSeekStream($s);
-        $this->assertFalse($wrapped->isSeekable());
+        self::assertFalse($wrapped->isSeekable());
 
         $this->expectExceptionGuzzle('RuntimeException', 'Cannot seek a NoSeekStream');
 
@@ -31,7 +30,7 @@ class NoSeekStreamTest extends BaseTest
         $s = \GuzzleHttp\Psr7\Utils::streamFor('foo');
         $s->seek(1);
         $wrapped = new NoSeekStream($s);
-        $this->assertSame('oo', (string) $wrapped);
+        self::assertSame('oo', (string) $wrapped);
 
         $wrapped->close();
     }

@@ -2,9 +2,9 @@
 
 namespace GuzzleHttp\Tests\Psr7;
 
-use Psr\Http\Message\StreamInterface;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\StreamDecoratorTrait;
+use Psr\Http\Message\StreamInterface;
 
 class Str implements StreamInterface
 {
@@ -40,11 +40,13 @@ class StreamDecoratorTraitTest extends BaseTest
         $s = $this->getMockBuilder('Psr\Http\Message\StreamInterface')
             ->setMethods(['read'])
             ->getMockForAbstractClass();
-        $s->expects($this->once())
+        $s->expects(self::once())
             ->method('read')
-            ->will($this->throwException(new \Exception('foo')));
+            ->will(self::throwException(new \Exception('foo')));
         $msg = '';
-        set_error_handler(function ($errNo, $str) use (&$msg) { $msg = $str; });
+        set_error_handler(function ($errNo, $str) use (&$msg) {
+            $msg = $str;
+        });
         echo new Str($s);
         restore_error_handler();
         $this->assertStringContainsStringGuzzle('foo', $msg);
@@ -52,70 +54,70 @@ class StreamDecoratorTraitTest extends BaseTest
 
     public function testToString()
     {
-        $this->assertSame('foo', (string) $this->b);
+        self::assertSame('foo', (string) $this->b);
     }
 
     public function testHasSize()
     {
-        $this->assertSame(3, $this->b->getSize());
+        self::assertSame(3, $this->b->getSize());
     }
 
     public function testReads()
     {
-        $this->assertSame('foo', $this->b->read(10));
+        self::assertSame('foo', $this->b->read(10));
     }
 
     public function testCheckMethods()
     {
-        $this->assertSame($this->a->isReadable(), $this->b->isReadable());
-        $this->assertSame($this->a->isWritable(), $this->b->isWritable());
-        $this->assertSame($this->a->isSeekable(), $this->b->isSeekable());
+        self::assertSame($this->a->isReadable(), $this->b->isReadable());
+        self::assertSame($this->a->isWritable(), $this->b->isWritable());
+        self::assertSame($this->a->isSeekable(), $this->b->isSeekable());
     }
 
     public function testSeeksAndTells()
     {
         $this->b->seek(1);
-        $this->assertSame(1, $this->a->tell());
-        $this->assertSame(1, $this->b->tell());
+        self::assertSame(1, $this->a->tell());
+        self::assertSame(1, $this->b->tell());
         $this->b->seek(0);
-        $this->assertSame(0, $this->a->tell());
-        $this->assertSame(0, $this->b->tell());
+        self::assertSame(0, $this->a->tell());
+        self::assertSame(0, $this->b->tell());
         $this->b->seek(0, SEEK_END);
-        $this->assertSame(3, $this->a->tell());
-        $this->assertSame(3, $this->b->tell());
+        self::assertSame(3, $this->a->tell());
+        self::assertSame(3, $this->b->tell());
     }
 
     public function testGetsContents()
     {
-        $this->assertSame('foo', $this->b->getContents());
-        $this->assertSame('', $this->b->getContents());
+        self::assertSame('foo', $this->b->getContents());
+        self::assertSame('', $this->b->getContents());
         $this->b->seek(1);
-        $this->assertSame('oo', $this->b->getContents());
+        self::assertSame('oo', $this->b->getContents());
     }
 
     public function testCloses()
     {
         $this->b->close();
-        $this->assertFalse(is_resource($this->c));
+        self::assertFalse(is_resource($this->c));
     }
 
     public function testDetaches()
     {
         $this->b->detach();
-        $this->assertFalse($this->b->isReadable());
+        self::assertFalse($this->b->isReadable());
     }
 
     public function testWrapsMetadata()
     {
-        $this->assertSame($this->b->getMetadata(), $this->a->getMetadata());
-        $this->assertSame($this->b->getMetadata('uri'), $this->a->getMetadata('uri'));
+        self::assertSame($this->b->getMetadata(), $this->a->getMetadata());
+        self::assertSame($this->b->getMetadata('uri'), $this->a->getMetadata('uri'));
     }
 
     public function testWrapsWrites()
     {
         $this->b->seek(0, SEEK_END);
         $this->b->write('foo');
-        $this->assertSame('foofoo', (string) $this->a);
+        self::assertSame('foofoo', (string) $this->a);
     }
 
     public function testThrowsWithInvalidGetter()
@@ -139,5 +141,7 @@ class BadStream
 {
     use StreamDecoratorTrait;
 
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 }

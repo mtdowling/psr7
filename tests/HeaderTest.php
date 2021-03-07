@@ -57,12 +57,12 @@ class HeaderTest extends BaseTest
      */
     public function testParseParams($header, $result)
     {
-        $this->assertSame($result, Psr7\Header::parse($header));
+        self::assertSame($result, Psr7\Header::parse($header));
     }
 
     public function testParsesArrayHeaders()
     {
         $header = ['a, b', 'c', 'd, e'];
-        $this->assertSame(['a', 'b', 'c', 'd', 'e'], Psr7\Header::normalize($header));
+        self::assertSame(['a', 'b', 'c', 'd', 'e'], Psr7\Header::normalize($header));
     }
 }

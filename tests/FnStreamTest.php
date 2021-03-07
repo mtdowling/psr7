@@ -26,7 +26,7 @@ class FnStreamTest extends BaseTest
             }
         ]);
 
-        $this->assertSame('foo', $s->read(3));
+        self::assertSame('foo', $s->read(3));
     }
 
     public function testCanCloseOnDestruct()
@@ -38,38 +38,38 @@ class FnStreamTest extends BaseTest
             }
         ]);
         unset($s);
-        $this->assertTrue($called);
+        self::assertTrue($called);
     }
 
     public function testDoesNotRequireClose()
     {
         $s = new FnStream([]);
         unset($s);
-        $this->assertTrue(true); // strict mode requires an assertion
+        self::assertTrue(true); // strict mode requires an assertion
     }
 
     public function testDecoratesStream()
     {
         $a = Psr7\Utils::streamFor('foo');
         $b = FnStream::decorate($a, []);
-        $this->assertSame(3, $b->getSize());
-        $this->assertSame($b->isWritable(), true);
-        $this->assertSame($b->isReadable(), true);
-        $this->assertSame($b->isSeekable(), true);
-        $this->assertSame($b->read(3), 'foo');
-        $this->assertSame($b->tell(), 3);
-        $this->assertSame($a->tell(), 3);
-        $this->assertSame('', $a->read(1));
-        $this->assertSame($b->eof(), true);
-        $this->assertSame($a->eof(), true);
+        self::assertSame(3, $b->getSize());
+        self::assertSame($b->isWritable(), true);
+        self::assertSame($b->isReadable(), true);
+        self::assertSame($b->isSeekable(), true);
+        self::assertSame($b->read(3), 'foo');
+        self::assertSame($b->tell(), 3);
+        self::assertSame($a->tell(), 3);
+        self::assertSame('', $a->read(1));
+        self::assertSame($b->eof(), true);
+        self::assertSame($a->eof(), true);
         $b->seek(0);
-        $this->assertSame('foo', (string) $b);
+        self::assertSame('foo', (string) $b);
         $b->seek(0);
-        $this->assertSame('foo', $b->getContents());
-        $this->assertSame($a->getMetadata(), $b->getMetadata());
+        self::assertSame('foo', $b->getContents());
+        self::assertSame($a->getMetadata(), $b->getMetadata());
         $b->seek(0, SEEK_END);
         $b->write('bar');
-        $this->assertSame('foobar', (string) $b);
+        self::assertSame('foobar', (string) $b);
         $this->assertInternalTypeGuzzle('resource', $b->detach());
         $b->close();
     }
@@ -84,8 +84,8 @@ class FnStreamTest extends BaseTest
                 return $a->read($len);
             }
         ]);
-        $this->assertSame('foo', $b->read(3));
-        $this->assertTrue($called);
+        self::assertSame('foo', $b->read(3));
+        self::assertTrue($called);
     }
 
     public function testDoNotAllowUnserialization()

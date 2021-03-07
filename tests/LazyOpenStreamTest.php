@@ -35,25 +35,25 @@ class LazyOpenStreamTest extends BaseTest
         $l = new LazyOpenStream($this->fname, 'w+');
         $l->write('foo');
         $this->assertInternalTypeGuzzle('array', $l->getMetadata());
-        $this->assertFileExists($this->fname);
-        $this->assertSame('foo', file_get_contents($this->fname));
-        $this->assertSame('foo', (string) $l);
+        self::assertFileExists($this->fname);
+        self::assertSame('foo', file_get_contents($this->fname));
+        self::assertSame('foo', (string) $l);
     }
 
     public function testProxiesToFile()
     {
         file_put_contents($this->fname, 'foo');
         $l = new LazyOpenStream($this->fname, 'r');
-        $this->assertSame('foo', $l->read(4));
-        $this->assertTrue($l->eof());
-        $this->assertSame(3, $l->tell());
-        $this->assertTrue($l->isReadable());
-        $this->assertTrue($l->isSeekable());
-        $this->assertFalse($l->isWritable());
+        self::assertSame('foo', $l->read(4));
+        self::assertTrue($l->eof());
+        self::assertSame(3, $l->tell());
+        self::assertTrue($l->isReadable());
+        self::assertTrue($l->isSeekable());
+        self::assertFalse($l->isWritable());
         $l->seek(1);
-        $this->assertSame('oo', $l->getContents());
-        $this->assertSame('foo', (string) $l);
-        $this->assertSame(3, $l->getSize());
+        self::assertSame('oo', $l->getContents());
+        self::assertSame('foo', (string) $l);
+        self::assertSame(3, $l->getSize());
         $this->assertInternalTypeGuzzle('array', $l->getMetadata());
         $l->close();
     }
@@ -65,7 +65,7 @@ class LazyOpenStreamTest extends BaseTest
         $r = $l->detach();
         $this->assertInternalTypeGuzzle('resource', $r);
         fseek($r, 0);
-        $this->assertSame('foo', stream_get_contents($r));
+        self::assertSame('foo', stream_get_contents($r));
         fclose($r);
     }
 }
