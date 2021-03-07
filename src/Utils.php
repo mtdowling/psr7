@@ -297,7 +297,7 @@ final class Utils
     public static function streamFor($resource = '', array $options = [])
     {
         if (is_scalar($resource)) {
-            $stream = fopen('php://temp', 'r+');
+            $stream = self::tryFopen('php://temp', 'r+');
             if ($resource !== '') {
                 fwrite($stream, $resource);
                 fseek($stream, 0);
@@ -308,7 +308,7 @@ final class Utils
         switch (gettype($resource)) {
             case 'resource':
                 if (\stream_get_meta_data($resource)['uri'] === 'php://input') {
-                    $stream = fopen('php://temp', 'w+');
+                    $stream = self::tryFopen('php://temp', 'w+');
                     fwrite($stream, stream_get_contents($resource));
                     $resource = $stream;
                 }
@@ -330,7 +330,7 @@ final class Utils
                 }
                 break;
             case 'NULL':
-                return new Stream(fopen('php://temp', 'r+'), $options);
+                return new Stream(self::tryFopen('php://temp', 'r+'), $options);
         }
 
         if (is_callable($resource)) {
@@ -363,6 +363,8 @@ final class Utils
                 $mode,
                 func_get_args()[1]
             ));
+
+            return true;
         });
 
         $handle = fopen($filename, $mode);
