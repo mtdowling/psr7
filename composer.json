@@ -40,7 +40,7 @@
         "psr/http-message-implementation": "1.0"
     },
     "require-dev": {
-        "http-interop/http-factory-tests": "dev-master",
+        "http-interop/http-factory-tests": "^0.7",
         "phpunit/phpunit": "^8.5"
     },
     "suggest": {
