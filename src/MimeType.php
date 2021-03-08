@@ -6,7 +6,7 @@ namespace GuzzleHttp\Psr7;
 
 final class MimeType
 {
-    prviate const MIME_TYPES = [
+    private const MIME_TYPES = [
       '3gp' => 'video/3gpp',
       '7z' => 'application/x-7z-compressed',
       'aac' => 'audio/x-aac',
