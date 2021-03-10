@@ -135,7 +135,7 @@ final class CachingStream implements StreamInterface
     private function cacheEntireStream(): int
     {
         $target = new FnStream(['write' => 'strlen']);
-        copy_to_stream($this, $target);
+        Utils::copyToStream($this, $target);
 
         return $this->tell();
     }
