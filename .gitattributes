@@ -1,10 +1,12 @@
-.editorconfig           export-ignore
+.editorconfig          export-ignore
 .gitattributes         export-ignore
 /.github/              export-ignore
 .gitignore             export-ignore
 .php_cs.dist           export-ignore
-/Makefile               export-ignore
+/Makefile              export-ignore
 /phpstan-baseline.neon export-ignore
 /phpstan.neon.dist     export-ignore
 /phpunit.xml.dist      export-ignore
+/psalm-baseline.xml    export-ignore
+/psalm.xml             export-ignore
 /tests/                export-ignore
