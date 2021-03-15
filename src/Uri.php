@@ -67,12 +67,46 @@ class Uri implements UriInterface
     {
         // weak type check to also accept null until we can add scalar type hints
         if ($uri != '') {
-            $parts = parse_url($uri);
+            $parts = self::parse($uri);
             if ($parts === false) {
                 throw new \InvalidArgumentException("Unable to parse URI: $uri");
             }
             $this->applyParts($parts);
         }
+    }
+
+    /**
+     * UTF-8 aware \parse_url() replacement.
+     *
+     * The internal function produces broken output for non ASCII domain names
+     * (IDN) when used with locales other than "C".
+     *
+     * On the other hand, cURL understands IDN correctly only when UTF-8 locale
+     * is configured ("C.UTF-8", "en_US.UTF-8", etc.).
+     *
+     * @see https://bugs.php.net/bug.php?id=52923
+     * @see https://www.php.net/manual/en/function.parse-url.php#114817
+     * @see https://curl.haxx.se/libcurl/c/CURLOPT_URL.html#ENCODING
+     *
+     * @return array|false
+     */
+    private static function parse($url, $component = -1)
+    {
+        $encodedUrl = preg_replace_callback(
+            '%[^:/@?&=#]+%usD',
+            static function ($matches) {
+                return urlencode($matches[0]);
+            },
+            $url
+        );
+
+        $result = parse_url($encodedUrl, $component);
+
+        if ($result === false) {
+            return false;
+        }
+
+        return is_array($result) ? array_map('urldecode', $result) : urldecode($result);
     }
 
     public function __toString()
@@ -582,7 +616,7 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Scheme must be a string');
         }
 
-        return strtolower($scheme);
+        return \strtr($scheme, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
     }
 
     /**
@@ -618,7 +652,7 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Host must be a string');
         }
 
-        return strtolower($host);
+        return \strtr($host, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
     }
 
     /**
