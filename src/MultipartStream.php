@@ -7,6 +7,8 @@ use Psr\Http\Message\StreamInterface;
 /**
  * Stream that when read returns bytes for a streaming multipart or
  * multipart/form-data stream.
+ *
+ * @final
  */
 class MultipartStream implements StreamInterface
 {
