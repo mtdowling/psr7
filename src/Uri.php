@@ -278,7 +278,7 @@ class Uri implements UriInterface
     {
         $result = self::getFilteredQueryString($uri, [$key]);
 
-        $result[] = self::generateQueryString($key, $value);
+        $result[] = self::generateQueryString(self::escapeQueryKey($key), self::escapeQueryValue($value));
 
         return $uri->withQuery(implode('&', $result));
     }
@@ -296,7 +296,10 @@ class Uri implements UriInterface
         $result = self::getFilteredQueryString($uri, array_keys($keyValueArray));
 
         foreach ($keyValueArray as $key => $value) {
-            $result[] = self::generateQueryString((string) $key, $value !== null ? (string) $value : null);
+            $result[] = self::generateQueryString(
+                self::escapeQueryKey((string) $key),
+                $value !== null ? self::escapeQueryValue((string) $value) : null
+            );
         }
 
         return $uri->withQuery(implode('&', $result));
@@ -616,6 +619,26 @@ class Uri implements UriInterface
         }
 
         return $queryString;
+    }
+
+    private static function escapeQueryKey(string $str): string
+    {
+        return preg_replace_callback(
+            '/(?:[^' . self::CHAR_UNRESERVED . '%]++|%(?![A-Fa-f0-9]{2}))/',
+            function (array $match): string {
+                return rawurlencode($match[0]);
+            },
+            $str
+        );
+    }
+
+    private static function escapeQueryValue(?string $str): ?string
+    {
+        if ($str === null) {
+            return null;
+        }
+
+        return self::escapeQueryKey($str);
     }
 
     private function removeDefaultPort(): void

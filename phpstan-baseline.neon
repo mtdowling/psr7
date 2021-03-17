@@ -141,6 +141,11 @@ parameters:
 			path: src/Uri.php
 
 		-
+			message: "#^Method GuzzleHttp\\\\Psr7\\\\Uri\\:\\:escapeQueryKey\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/Uri.php
+
+		-
 			message: "#^Method GuzzleHttp\\\\Psr7\\\\Uri\\:\\:filterQueryAndFragment\\(\\) should return string but returns string\\|null\\.$#"
 			count: 1
 			path: src/Uri.php

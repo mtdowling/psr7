@@ -337,6 +337,50 @@ class UriTest extends TestCase
         self::assertSame('key1=value1&key2=value2', $uri->getQuery());
     }
 
+    /**
+     * @link https://tools.ietf.org/html/rfc3986#section-2.2
+     *
+     * @return \string[][]
+     */
+    public function percentEncodingReservedCharactersList(): array
+    {
+        return [
+            "!" => ["!", '%21'],
+            "#" => ["#", '%23'],
+            "$" => ["$", '%24'],
+            "%" => ["%", '%25'],
+            "&" => ["&", '%26'],
+            "'" => ["'", '%27'],
+            "(" => ["(", '%28'],
+            ")" => [")", '%29'],
+            "*" => ["*", '%2A'],
+            "+" => ["+", '%2B'],
+            "," => [",", '%2C'],
+            "/" => ["/", '%2F'],
+            ":" => [":", '%3A'],
+            ";" => [";", '%3B'],
+            "=" => ["=", '%3D'],
+            "?" => ["?", '%3F'],
+            "@" => ["@", '%40'],
+            "[" => ["[", '%5B'],
+            "]" => ["]", '%5D'],
+        ];
+    }
+
+    /**
+     * @dataProvider percentEncodingReservedCharactersList
+     */
+    public function testWithQueryValuesPercentEncodingReservedCharacters($original, $encoded): void
+    {
+        $uri = new Uri();
+        $uri = Uri::withQueryValues($uri, [$original => $original]);
+        self::assertSame($encoded . '=' . $encoded, $uri->getQuery());
+
+        $uri = new Uri();
+        $uri = Uri::withQueryValue($uri, $original, $original);
+        self::assertSame($encoded . '=' . $encoded, $uri->getQuery());
+    }
+
     public function testWithQueryValuesReplacesSameKeys(): void
     {
         $uri = new Uri();
