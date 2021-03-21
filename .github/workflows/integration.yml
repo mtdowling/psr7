@@ -32,4 +32,6 @@ jobs:
         run: php -S 127.0.0.1:10002 tests/Integration/server.php &
 
       - name: Run tests
+        env:
+          TEST_SERVER: 127.0.0.1:10002
         run: ./vendor/bin/phpunit --testsuite Integration

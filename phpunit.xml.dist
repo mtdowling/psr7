@@ -16,10 +16,6 @@
     </testsuite>
   </testsuites>
 
-  <php>
-    <server name="TEST_SERVER" value="http://127.0.0.1:10002" />
-  </php>
-
   <filter>
     <whitelist>
       <directory suffix=".php">src/</directory>
