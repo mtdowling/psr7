@@ -217,7 +217,7 @@ final class Utils
             ->withQueryParams($request->getQueryParams())
             ->withCookieParams($request->getCookieParams())
             ->withUploadedFiles($request->getUploadedFiles());
-        
+
             foreach ($request->getAttributes() as $key => $value) {
                 $new = $new->withAttribute($key, $value);
             }
