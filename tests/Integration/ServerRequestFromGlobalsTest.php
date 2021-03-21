@@ -1,11 +1,8 @@
 <?php
 
-
 namespace GuzzleHttp\Tests\Psr7\Integration;
 
-
 use GuzzleHttp\Tests\Psr7\BaseTest;
-use PHPUnit\Framework\TestCase;
 
 class ServerRequestFromGlobalsTest extends BaseTest
 {
@@ -29,7 +26,7 @@ class ServerRequestFromGlobalsTest extends BaseTest
         curl_setopt($curl, CURLOPT_POSTFIELDS, 'foobar');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
-        curl_close ($curl);
+        curl_close($curl);
 
         self::assertNotFalse($response);
         $data = json_decode($response, true);

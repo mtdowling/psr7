@@ -1,6 +1,6 @@
 <?php
 
-require dirname(__DIR__, 2).'/vendor/autoload.php';
+require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 
