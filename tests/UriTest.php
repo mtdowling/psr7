@@ -692,6 +692,15 @@ class UriTest extends BaseTest
         $uri = new Uri('https://яндекAс.рф');
         self::assertSame('яндекaс.рф', $uri->getHost());
     }
+
+    public function testIPv6Host()
+    {
+        $uri = new Uri('https://[2a00:f48:1008::212:183:10]');
+        self::assertSame('[2a00:f48:1008::212:183:10]', $uri->getHost());
+
+        $uri = new Uri('http://[2a00:f48:1008::212:183:10]');
+        self::assertSame('[2a00:f48:1008::212:183:10]', $uri->getHost());
+    }
 }
 
 class ExtendedUriTest extends Uri
