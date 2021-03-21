@@ -9,8 +9,17 @@
   <testsuites>
     <testsuite name="GuzzleHttp PSR7 Test Suite">
       <directory>tests/</directory>
+      <exclude>tests/Integration</exclude>
+    </testsuite>
+    <testsuite name="Integration">
+      <directory>tests/Integration</directory>
     </testsuite>
   </testsuites>
+
+  <php>
+    <server name="TEST_SERVER" value="http://127.0.0.1:10002" />
+  </php>
+
   <filter>
     <whitelist>
       <directory suffix=".php">src/</directory>

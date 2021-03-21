@@ -23,7 +23,7 @@ class CachingStream implements StreamInterface
     /**
      * We will treat the buffer object as the body of the stream
      *
-     * @param StreamInterface $stream Stream to cache
+     * @param StreamInterface $stream Stream to cache. The cursor is assumed to be at the beginning of the stream.
      * @param StreamInterface $target Optionally specify where data is cached
      */
     public function __construct(
