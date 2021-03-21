@@ -101,8 +101,9 @@ class Uri implements UriInterface
      *
      * @return array|false
      */
-    private static function parse(string $url, int $component = -1)
+    private static function parse(string $url)
     {
+        /** @var string */
         $encodedUrl = preg_replace_callback(
             '%[^:/@?&=#]+%usD',
             static function ($matches) {
@@ -111,13 +112,13 @@ class Uri implements UriInterface
             $url
         );
 
-        $result = parse_url($encodedUrl, $component);
+        $result = parse_url($encodedUrl);
 
         if ($result === false) {
             return false;
         }
 
-        return is_array($result) ? array_map('urldecode', $result) : urldecode($result);
+        return array_map('urldecode', $result);
     }
 
     public function __toString(): string

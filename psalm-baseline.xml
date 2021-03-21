@@ -115,6 +115,11 @@
       <code>$this-&gt;stream</code>
     </UndefinedThisPropertyAssignment>
   </file>
+  <file src="src/Uri.php">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$result</code>
+    </PossiblyInvalidArgument>
+  </file>
   <file src="src/UriResolver.php">
     <TypeDoesNotContainType occurrences="1">
       <code>'' === $relativePath</code>

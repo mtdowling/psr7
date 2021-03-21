@@ -1,18 +1,14 @@
 <?php
 
+declare(strict_types=1);
 
 namespace GuzzleHttp\Tests\Psr7\Integration;
 
-
-use GuzzleHttp\Tests\Psr7\BaseTest;
 use PHPUnit\Framework\TestCase;
 
-class ServerRequestFromGlobalsTest extends BaseTest
+class ServerRequestFromGlobalsTest extends TestCase
 {
-    /**
-     * @before
-     */
-    protected function setUpTest()
+    protected function setUp(): void
     {
         if (false === $this->getServerUri()) {
             self::markTestSkipped();
@@ -20,7 +16,7 @@ class ServerRequestFromGlobalsTest extends BaseTest
         parent::setUp();
     }
 
-    public function testBodyExists()
+    public function testBodyExists(): void
     {
         $curl = curl_init();
 
@@ -29,7 +25,7 @@ class ServerRequestFromGlobalsTest extends BaseTest
         curl_setopt($curl, CURLOPT_POSTFIELDS, 'foobar');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
-        curl_close ($curl);
+        curl_close($curl);
 
         self::assertNotFalse($response);
         $data = json_decode($response, true);
@@ -43,6 +39,6 @@ class ServerRequestFromGlobalsTest extends BaseTest
 
     private function getServerUri()
     {
-        return isset($_SERVER['TEST_SERVER']) ? $_SERVER['TEST_SERVER'] : false;
+        return $_SERVER['TEST_SERVER'] ?? false;
     }
 }
