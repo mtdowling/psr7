@@ -97,8 +97,8 @@ class Uri implements UriInterface
         // If IPv6
         $prefix = '';
         if (preg_match('%^(.*://\[[0-9:a-f]+\])(.*?)$%', $url, $matches)) {
-            $prefix = $matches[0];
-            $url = $matches[1];
+            $prefix = $matches[1];
+            $url = $matches[2];
         }
 
         $encodedUrl = preg_replace_callback(

@@ -698,8 +698,10 @@ class UriTest extends BaseTest
         $uri = new Uri('https://[2a00:f48:1008::212:183:10]');
         self::assertSame('[2a00:f48:1008::212:183:10]', $uri->getHost());
 
-        $uri = new Uri('http://[2a00:f48:1008::212:183:10]');
+        $uri = new Uri('http://[2a00:f48:1008::212:183:10]:56?foo=bar');
         self::assertSame('[2a00:f48:1008::212:183:10]', $uri->getHost());
+        self::assertSame(56, $uri->getPort());
+        self::assertSame('foo=bar', $uri->getQuery());
     }
 }
 
