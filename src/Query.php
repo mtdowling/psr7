@@ -91,6 +91,7 @@ final class Query
             $k = $encoder((string) $k);
             if (!is_array($v)) {
                 $qs .= $k;
+                $v = is_bool($v) ? (int) $v : $v;
                 if ($v !== null) {
                     $qs .= '=' . $encoder((string) $v);
                 }
@@ -98,6 +99,7 @@ final class Query
             } else {
                 foreach ($v as $vv) {
                     $qs .= $k;
+                    $vv = is_bool($vv) ? (int) $vv : $vv;
                     if ($vv !== null) {
                         $qs .= '=' . $encoder((string) $vv);
                     }
