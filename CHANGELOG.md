@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- Locale independent URL parsing.
+- Locale independent URL parsing
 - Most classes got a `@final` annotation to prepare for 2.0.
 
 ### Fixed
