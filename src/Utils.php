@@ -290,10 +290,16 @@ final class Utils
 
         switch (gettype($resource)) {
             case 'resource':
+                /*
+                 * The 'php://input' is a special stream with quirks and inconsistencies.
+                 * We avoid using that stream by reading it into php://temp
+                 */
+
                 /** @var resource $resource */
                 if (\stream_get_meta_data($resource)['uri'] === 'php://input') {
                     $stream = self::tryFopen('php://temp', 'w+');
                     fwrite($stream, stream_get_contents($resource));
+                    fseek($stream, 0);
                     $resource = $stream;
                 }
                 return new Stream($resource, $options);

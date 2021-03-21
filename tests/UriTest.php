@@ -687,6 +687,15 @@ class UriTest extends TestCase
         $uri = (new Uri)->withUserInfo('foo%40bar.com', 'pass%23word');
         self::assertSame('foo%40bar.com:pass%23word', $uri->getUserInfo());
     }
+
+    public function testInternationalizedDomainName()
+    {
+        $uri = new Uri('https://яндекс.рф');
+        self::assertSame('яндекс.рф', $uri->getHost());
+
+        $uri = new Uri('https://яндекAс.рф');
+        self::assertSame('яндекaс.рф', $uri->getHost());
+    }
 }
 
 class ExtendedUriTest extends Uri
