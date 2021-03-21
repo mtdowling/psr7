@@ -94,6 +94,13 @@ class Uri implements UriInterface
      */
     private static function parse($url)
     {
+        // If IPv6
+        $prefix = '';
+        if (preg_match('%^(.*://\[[0-9:a-f]+\])(.*?)$%', $url, $matches)) {
+            $prefix = $matches[0];
+            $url = $matches[1];
+        }
+
         $encodedUrl = preg_replace_callback(
             '%[^:/@?&=#]+%usD',
             static function ($matches) {
@@ -102,7 +109,7 @@ class Uri implements UriInterface
             $url
         );
 
-        $result = parse_url($encodedUrl);
+        $result = parse_url($prefix.$encodedUrl);
 
         if ($result === false) {
             return false;
