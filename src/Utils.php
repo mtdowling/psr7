@@ -203,7 +203,7 @@ final class Utils
         }
 
         if ($request instanceof ServerRequestInterface) {
-            return (new ServerRequest(
+            $new = (new ServerRequest(
                 isset($changes['method']) ? $changes['method'] : $request->getMethod(),
                 $uri,
                 $headers,
@@ -217,6 +217,12 @@ final class Utils
             ->withQueryParams($request->getQueryParams())
             ->withCookieParams($request->getCookieParams())
             ->withUploadedFiles($request->getUploadedFiles());
+        
+            foreach ($request->getAttributes() as $key => $value) {
+                $new = $new->withAttribute($key, $value);
+            }
+
+            return $new;
         }
 
         return new Request(
