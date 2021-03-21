@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Made classes final
 - PHP7 type hints
 
+### Changed
+
+- When building a query string, booleans are represented as 1 and 0.
+
 ### Removed
 
 - PHP < 7.2 support
