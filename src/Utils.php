@@ -302,7 +302,7 @@ final class Utils
                  */
 
                 /** @var resource $resource */
-                if (\stream_get_meta_data($resource)['uri'] === 'php://input') {
+                if (\stream_get_meta_data($resource)['uri'] ?? '' === 'php://input') {
                     $stream = self::tryFopen('php://temp', 'w+');
                     fwrite($stream, stream_get_contents($resource));
                     fseek($stream, 0);
