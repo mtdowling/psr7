@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## 1.8.2 - 2021-04-25
+
+### Fixed
+
+- Handle possibly unuset `url` in `stream_get_meta_data`
+
 ## 1.8.1 - 2021-03-21
 
 ### Fixed
