@@ -26,11 +26,32 @@ class ResponseTest extends TestCase
         self::assertSame('', (string) $r->getBody());
     }
 
-    public function testCanConstructWithStatusCode(): void
+    /**
+     * @dataProvider statusCodeProvider
+     */
+    public function testCanConstructWithStatusCode(int $statusCode, string $reasonPhrase = '')
     {
-        $r = new Response(404);
-        self::assertSame(404, $r->getStatusCode());
-        self::assertSame('Not Found', $r->getReasonPhrase());
+        $r = new Response($statusCode);
+        self::assertSame($statusCode, $r->getStatusCode());
+        self::assertSame($reasonPhrase, $r->getReasonPhrase());
+    }
+
+    /**
+     * Although some of the status codes below seem invalid a status code can be above
+     */
+    public function statusCodeProvider(): array
+    {
+        return [
+            [100, 'Continue'],
+            [200, 'OK'],
+            [201, 'Created'],
+            [401, 'Unauthorized'],
+            [404, 'Not Found'],
+            [500, 'Internal Server Error'],
+            [503, 'Service Unavailable'],
+            [600],
+            [999],
+        ];
     }
 
     public function testConstructorDoesNotReadStreamBody(): void
@@ -110,11 +131,14 @@ class ResponseTest extends TestCase
         self::assertSame('1000', $r->getProtocolVersion());
     }
 
-    public function testWithStatusCodeAndNoReason(): void
+    /**
+     * @dataProvider statusCodeProvider
+     */
+    public function testWithStatusCodeAndNoReason(int $statusCode, string $reasonPhrase = '')
     {
-        $r = (new Response())->withStatus(201);
-        self::assertSame(201, $r->getStatusCode());
-        self::assertSame('Created', $r->getReasonPhrase());
+        $r = (new Response())->withStatus($statusCode);
+        self::assertSame($statusCode, $r->getStatusCode());
+        self::assertSame($reasonPhrase, $r->getReasonPhrase());
     }
 
     public function testWithStatusCodeAndReason(): void
@@ -354,7 +378,7 @@ class ResponseTest extends TestCase
     public function testConstructResponseWithInvalidRangeStatusCode($invalidValues): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Status code must be an integer value between 1xx and 5xx.');
+        $this->expectExceptionMessage('Status code must be an integer value between 1xx and 9xx.');
         new Response($invalidValues);
     }
 
@@ -367,14 +391,14 @@ class ResponseTest extends TestCase
     {
         $response = new Response();
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Status code must be an integer value between 1xx and 5xx.');
+        $this->expectExceptionMessage('Status code must be an integer value between 1xx and 9xx.');
         $response->withStatus($invalidValues);
     }
 
     public function invalidStatusCodeRangeProvider(): iterable
     {
         return [
-            [600],
+            [1],
             [99],
         ];
     }
