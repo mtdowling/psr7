@@ -441,6 +441,11 @@ class ServerRequestTest extends TestCase
         ];
 
         self::assertEquals($expectedFiles, $server->getUploadedFiles());
+
+        $_SERVER['CONTENT_TYPE'] = '';
+        $server = ServerRequest::fromGlobals();
+        $headers = $server->getHeaders();
+        self::assertArrayNotHasKey('Content-Type', $headers);
     }
 
     public function testUploadedFiles(): void

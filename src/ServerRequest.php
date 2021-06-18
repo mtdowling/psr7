@@ -167,6 +167,11 @@ class ServerRequest extends Request implements ServerRequestInterface
     {
         $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         $headers = getallheaders();
+        $disallowEmpty = ['content-type', 'content-length'];
+        $headers = array_filter($headers, function($v, $k) use ($disallowEmpty) {
+            return !(in_array(strtolower($k), $disallowEmpty) && $v === '');
+        }, ARRAY_FILTER_USE_BOTH);
+
         $uri = self::getUriFromGlobals();
         $body = new CachingStream(new LazyOpenStream('php://input', 'r+'));
         $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? str_replace('HTTP/', '', $_SERVER['SERVER_PROTOCOL']) : '1.1';
