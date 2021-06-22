@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+
+- Attempting to create a `Uri` object from a malformed URI will no longer throw a generic
+  `InvalidArgumentException`, but rather a `MalformedUriException`, which inherits from the former
+  for backwards compatibility. Callers relying on the exception being thrown to detect invalid
+  URIs should catch the new exception.
+
 ## 2.0.0 - 2021-06-30
 
 Identical to the RC release.

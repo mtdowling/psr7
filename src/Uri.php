@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Psr7;
 
+use GuzzleHttp\Psr7\Exception\MalformedUriException;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -81,7 +82,7 @@ class Uri implements UriInterface
         if ($uri !== '') {
             $parts = self::parse($uri);
             if ($parts === false) {
-                throw new \InvalidArgumentException("Unable to parse URI: $uri");
+                throw new MalformedUriException("Unable to parse URI: $uri");
             }
             $this->applyParts($parts);
         }
@@ -349,7 +350,7 @@ class Uri implements UriInterface
      *
      * @link http://php.net/manual/en/function.parse-url.php
      *
-     * @throws \InvalidArgumentException If the components do not form a valid URI.
+     * @throws MalformedUriException If the components do not form a valid URI.
      */
     public static function fromParts(array $parts): UriInterface
     {
@@ -720,13 +721,13 @@ class Uri implements UriInterface
 
         if ($this->getAuthority() === '') {
             if (0 === strpos($this->path, '//')) {
-                throw new \InvalidArgumentException('The path of a URI without an authority must not start with two slashes "//"');
+                throw new MalformedUriException('The path of a URI without an authority must not start with two slashes "//"');
             }
             if ($this->scheme === '' && false !== strpos(explode('/', $this->path, 2)[0], ':')) {
-                throw new \InvalidArgumentException('A relative URI must not have a path beginning with a segment containing a colon');
+                throw new MalformedUriException('A relative URI must not have a path beginning with a segment containing a colon');
             }
         } elseif (isset($this->path[0]) && $this->path[0] !== '/') {
-            throw new \InvalidArgumentException('The path of a URI with an authority must start with a slash "/" or be empty');
+            throw new MalformedUriException('The path of a URI with an authority must start with a slash "/" or be empty');
         }
     }
 }
