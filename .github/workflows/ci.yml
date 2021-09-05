@@ -48,12 +48,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: composer update --no-interaction --no-progress
-
       - name: Mimic PHP 8.0
         run: composer config platform.php 8.0.999
         if: matrix.php > 8
+
+      - name: Install dependencies
+        run: composer update --no-interaction --no-progress
 
       - name: Run tests
         run: make test
