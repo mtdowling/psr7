@@ -4,31 +4,6 @@ on:
   pull_request:
 
 jobs:
-  build-lowest-version:
-    name: Build lowest version
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 10
-      matrix:
-        php: ['5.5', '7.2']
-
-    steps:
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          coverage: 'none'
-          extensions: mbstring
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: composer update --no-interaction --prefer-stable --prefer-lowest --no-progress
-
-      - name: Run tests
-        run: make test
-
   build:
     name: Build
     runs-on: ubuntu-latest
