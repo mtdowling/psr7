@@ -43,7 +43,7 @@ class CachingStreamTest extends BaseTest
 
     public function testUsesRemoteSizeIfNotAvailable()
     {
-        $body = Psr7\PumpStream(new DummyIterator);
+        $body = new Psr7\PumpStream(new DummyIterator);
         $caching = new CachingStream($body);
         self::assertNull($caching->getSize());
     }
