@@ -470,4 +470,38 @@ class UtilsTest extends TestCase
 
         self::assertSame(['foo' => 'bar'], $modifiedRequest->getAttributes());
     }
+
+    /**
+     * @return list<array{0: string[], 1: array, 2: array}>
+     */
+    public function providesCaselessRemoveCases(): array
+    {
+        return [
+            [
+                ['foo-bar'],
+                ['Foo-Bar' => 'hello'],
+                []
+            ],
+            [
+                ['foo-bar'],
+                ['hello'],
+                ['hello']
+            ],
+            [
+                ['foo-Bar'],
+                ['Foo-Bar' => 'hello', 123 => '', 'Foo-BAR' => 'hello123', 'foobar' => 'baz'],
+                [123 => '', 'foobar' => 'baz'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider providesCaselessRemoveCases
+     *
+     * @param string[] $keys
+     */
+    public function testCaselessRemove(array $keys, array $data, array $expected): void
+    {
+        self::assertSame($expected, Psr7\Utils::caselessRemove($keys, $data));
+    }
 }

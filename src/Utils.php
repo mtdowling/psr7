@@ -25,7 +25,7 @@ final class Utils
         }
 
         foreach ($data as $k => $v) {
-            if (!in_array(strtolower($k), $keys)) {
+            if (!is_string($k) || !in_array(strtolower($k), $keys)) {
                 $result[$k] = $v;
             }
         }
