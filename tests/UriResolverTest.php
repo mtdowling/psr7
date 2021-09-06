@@ -124,6 +124,8 @@ class UriResolverTest extends TestCase
             // path ending with slash or no slash at all
             ['http://a/b/c/d/',  'e',             'http://a/b/c/d/e'],
             ['urn:no-slash',     'e',             'urn:e'],
+            // path ending without slash and multi-segment relative part
+            ['http://a/b/c',     'd/e',           'http://a/b/d/e'],
             // falsey relative parts
             [self::RFC3986_BASE, '//0',           'http://0'],
             [self::RFC3986_BASE, '0',             'http://a/b/c/0'],
