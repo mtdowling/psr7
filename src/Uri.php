@@ -77,6 +77,10 @@ class Uri implements UriInterface, \JsonSerializable
     /** @var string|null String representation */
     private $composedComponents;
 
+    /**
+     * @throws \InvalidArgumentException
+     * @throws MalformedUriException
+     */
     public function __construct(string $uri = '')
     {
         if ($uri !== '') {
