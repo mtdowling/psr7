@@ -7,3 +7,9 @@ parameters:
     level: max
     paths:
         - src
+    exceptions:
+        check:
+            missingCheckedExceptionInThrows: true
+            tooWideThrowType: true
+        uncheckedExceptionClasses:
+            - 'RuntimeException'
