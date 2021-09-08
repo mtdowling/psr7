@@ -31,6 +31,8 @@ class Request implements RequestInterface
      * @param array<string, string|string[]>       $headers Request headers
      * @param string|resource|StreamInterface|null $body    Request body
      * @param string                               $version Protocol version
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         string $method,
@@ -75,6 +77,9 @@ class Request implements RequestInterface
         return $target;
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function withRequestTarget($requestTarget): RequestInterface
     {
         if (preg_match('#\s#', $requestTarget)) {
@@ -147,6 +152,8 @@ class Request implements RequestInterface
 
     /**
      * @param mixed $method
+     *
+     * @throws \InvalidArgumentException
      */
     private function assertMethod($method): void
     {

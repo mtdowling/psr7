@@ -113,6 +113,8 @@ class ServerRequest extends Request implements ServerRequestInterface
      * @param array $value $_FILES struct
      *
      * @return UploadedFileInterface|UploadedFileInterface[]
+     *
+     * @throws \InvalidArgumentException
      */
     private static function createUploadedFileFromSpec(array $value)
     {
@@ -136,6 +138,8 @@ class ServerRequest extends Request implements ServerRequestInterface
      * UploadedFileInterface instances.
      *
      * @return UploadedFileInterface[]
+     *
+     * @throws \InvalidArgumentException
      */
     private static function normalizeNestedFileSpec(array $files = []): array
     {
@@ -162,6 +166,8 @@ class ServerRequest extends Request implements ServerRequestInterface
      * $_COOKIE
      * $_FILES
      * $_SERVER
+     *
+     * @throws \InvalidArgumentException
      */
     public static function fromGlobals(): ServerRequestInterface
     {
@@ -196,6 +202,8 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     /**
      * Get a Uri populated with values from $_SERVER.
+     *
+     * @throws \InvalidArgumentException
      */
     public static function getUriFromGlobals(): UriInterface
     {

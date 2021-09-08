@@ -118,6 +118,9 @@ trait MessageTrait
         return $new;
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function getBody(): StreamInterface
     {
         if (!$this->stream) {
@@ -140,6 +143,8 @@ trait MessageTrait
 
     /**
      * @param array<string|int, string|string[]> $headers
+     *
+     * @throws \InvalidArgumentException
      */
     private function setHeaders(array $headers): void
     {
@@ -167,6 +172,8 @@ trait MessageTrait
      * @param mixed $value
      *
      * @return string[]
+     *
+     * @throws \InvalidArgumentException
      */
     private function normalizeHeaderValue($value): array
     {
@@ -213,6 +220,8 @@ trait MessageTrait
      * @see https://tools.ietf.org/html/rfc7230#section-3.2
      *
      * @param mixed $header
+     *
+     * @throws \InvalidArgumentException
      */
     private function assertHeader($header): void
     {

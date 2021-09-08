@@ -25,6 +25,8 @@ final class CachingStream implements StreamInterface
      *
      * @param StreamInterface $stream Stream to cache. The cursor is assumed to be at the beginning of the stream.
      * @param StreamInterface $target Optionally specify where data is cached
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         StreamInterface $stream,
@@ -45,11 +47,17 @@ final class CachingStream implements StreamInterface
         return max($this->stream->getSize(), $remoteSize);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function rewind(): void
     {
         $this->seek(0);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function seek($offset, $whence = SEEK_SET): void
     {
         if ($whence === SEEK_SET) {

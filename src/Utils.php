@@ -154,6 +154,8 @@ final class Utils
      *
      * @param RequestInterface $request Request to clone and modify.
      * @param array            $changes Changes to apply.
+     *
+     * @throws \InvalidArgumentException
      */
     public static function modifyRequest(RequestInterface $request, array $changes): RequestInterface
     {

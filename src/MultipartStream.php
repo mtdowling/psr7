@@ -62,6 +62,8 @@ final class MultipartStream implements StreamInterface
 
     /**
      * Create the aggregate stream that will be used to upload the POST data
+     *
+     * @throws \InvalidArgumentException
      */
     protected function createStream(array $elements = []): StreamInterface
     {
@@ -77,6 +79,9 @@ final class MultipartStream implements StreamInterface
         return $stream;
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     private function addElement(AppendStream $stream, array $element): void
     {
         foreach (['contents', 'name'] as $key) {

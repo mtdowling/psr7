@@ -277,6 +277,8 @@ class Uri implements UriInterface, \JsonSerializable
      * @param UriInterface|null $base An optional base URI to compare against
      *
      * @link https://tools.ietf.org/html/rfc3986#section-4.4
+     *
+     * @throws \InvalidArgumentException
      */
     public static function isSameDocumentReference(UriInterface $uri, UriInterface $base = null): bool
     {
@@ -300,6 +302,8 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * @param UriInterface $uri URI to use as a base.
      * @param string       $key Query string key to remove.
+     *
+     * @throws \InvalidArgumentException
      */
     public static function withoutQueryValue(UriInterface $uri, string $key): UriInterface
     {
@@ -320,6 +324,8 @@ class Uri implements UriInterface, \JsonSerializable
      * @param UriInterface $uri   URI to use as a base.
      * @param string       $key   Key to set.
      * @param string|null  $value Value to set
+     *
+     * @throws \InvalidArgumentException
      */
     public static function withQueryValue(UriInterface $uri, string $key, ?string $value): UriInterface
     {
@@ -337,6 +343,8 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * @param UriInterface               $uri           URI to use as a base.
      * @param array<string, string|null> $keyValueArray Associative array of key and values
+     *
+     * @throws \InvalidArgumentException
      */
     public static function withQueryValues(UriInterface $uri, array $keyValueArray): UriInterface
     {
@@ -354,7 +362,8 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * @link http://php.net/manual/en/function.parse-url.php
      *
-     * @throws MalformedUriException If the components do not form a valid URI.
+     * @throws MalformedUriException     If the components do not form a valid URI.
+     * @throws \InvalidArgumentException
      */
     public static function fromParts(array $parts): UriInterface
     {
@@ -431,6 +440,9 @@ class Uri implements UriInterface, \JsonSerializable
         return $new;
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function withUserInfo($user, $password = null): UriInterface
     {
         $info = $this->filterUserInfoComponent($user);
@@ -499,6 +511,9 @@ class Uri implements UriInterface, \JsonSerializable
         return $new;
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function withQuery($query): UriInterface
     {
         $query = $this->filterQueryAndFragment($query);
@@ -514,6 +529,9 @@ class Uri implements UriInterface, \JsonSerializable
         return $new;
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function withFragment($fragment): UriInterface
     {
         $fragment = $this->filterQueryAndFragment($fragment);
@@ -538,6 +556,8 @@ class Uri implements UriInterface, \JsonSerializable
      * Apply parse_url parts to a URI.
      *
      * @param array $parts Array of parse_url parts to apply.
+     *
+     * @throws \InvalidArgumentException
      */
     private function applyParts(array $parts): void
     {
@@ -722,6 +742,9 @@ class Uri implements UriInterface, \JsonSerializable
         return rawurlencode($match[0]);
     }
 
+    /**
+     * @throws MalformedUriException
+     */
     private function validateState(): void
     {
         if ($this->host === '' && ($this->scheme === 'http' || $this->scheme === 'https')) {

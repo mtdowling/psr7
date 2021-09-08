@@ -45,11 +45,17 @@ final class HttpFactory implements
         return new UploadedFile($stream, $size, $error, $clientFilename, $clientMediaType);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function createStream(string $content = ''): StreamInterface
     {
         return Utils::streamFor($content);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function createStreamFromFile(string $file, string $mode = 'r'): StreamInterface
     {
         try {
@@ -65,11 +71,17 @@ final class HttpFactory implements
         return Utils::streamFor($resource);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function createStreamFromResource($resource): StreamInterface
     {
         return Utils::streamFor($resource);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function createServerRequest(string $method, $uri, array $serverParams = []): ServerRequestInterface
     {
         if (empty($method)) {
@@ -83,11 +95,17 @@ final class HttpFactory implements
         return new ServerRequest($method, $uri, [], null, '1.1', $serverParams);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function createResponse(int $code = 200, string $reasonPhrase = ''): ResponseInterface
     {
         return new Response($code, [], null, '1.1', $reasonPhrase);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function createRequest(string $method, $uri): RequestInterface
     {
         return new Request($method, $uri);

@@ -32,6 +32,8 @@ final class LazyOpenStream implements StreamInterface
 
     /**
      * Creates the underlying stream lazily when required.
+     *
+     * @throws \InvalidArgumentException
      */
     protected function createStream(): StreamInterface
     {

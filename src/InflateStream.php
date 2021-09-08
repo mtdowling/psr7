@@ -21,6 +21,9 @@ final class InflateStream implements StreamInterface
 {
     use StreamDecoratorTrait;
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function __construct(StreamInterface $stream)
     {
         $resource = StreamWrapper::getResource($stream);

@@ -120,6 +120,8 @@ final class UriNormalizer
      * @param int          $flags A bitmask of normalizations to apply, see constants
      *
      * @link https://tools.ietf.org/html/rfc3986#section-6.2
+     *
+     * @throws \InvalidArgumentException
      */
     public static function normalize(UriInterface $uri, int $flags = self::PRESERVING_NORMALIZATIONS): UriInterface
     {
@@ -175,12 +177,17 @@ final class UriNormalizer
      * @param int          $normalizations A bitmask of normalizations to apply, see constants
      *
      * @link https://tools.ietf.org/html/rfc3986#section-6.1
+     *
+     * @throws \InvalidArgumentException
      */
     public static function isEquivalent(UriInterface $uri1, UriInterface $uri2, int $normalizations = self::PRESERVING_NORMALIZATIONS): bool
     {
         return (string) self::normalize($uri1, $normalizations) === (string) self::normalize($uri2, $normalizations);
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     private static function capitalizePercentEncoding(UriInterface $uri): UriInterface
     {
         $regex = '/(?:%[A-Fa-f0-9]{2})++/';
@@ -197,6 +204,9 @@ final class UriNormalizer
             );
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     private static function decodeUnreservedCharacters(UriInterface $uri): UriInterface
     {
         $regex = '/%(?:2D|2E|5F|7E|3[0-9]|[46][1-9A-F]|[57][0-9A])/i';

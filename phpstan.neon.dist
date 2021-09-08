@@ -7,9 +7,11 @@ parameters:
     level: max
     paths:
         - src
+    treatPhpDocTypesAsCertain: false
     exceptions:
         check:
             missingCheckedExceptionInThrows: true
             tooWideThrowType: true
         uncheckedExceptionClasses:
             - 'RuntimeException'
+            - 'BadMethodCallException'

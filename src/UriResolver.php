@@ -54,6 +54,8 @@ final class UriResolver
      * Converts the relative URI into a new URI that is resolved against the base URI.
      *
      * @link http://tools.ietf.org/html/rfc3986#section-5.2
+     *
+     * @throws \InvalidArgumentException
      */
     public static function resolve(UriInterface $base, UriInterface $rel): UriInterface
     {
@@ -124,6 +126,8 @@ final class UriResolver
      * relative-path reference will be returned as-is.
      *
      *    echo UriResolver::relativize($base, new Uri('/a/b/c'));  // prints 'c' as well
+     *
+     * @throws \InvalidArgumentException
      */
     public static function relativize(UriInterface $base, UriInterface $target): UriInterface
     {

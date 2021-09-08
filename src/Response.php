@@ -90,6 +90,8 @@ class Response implements ResponseInterface
      * @param string|resource|StreamInterface|null $body    Response body
      * @param string                               $version Protocol version
      * @param string|null                          $reason  Reason phrase (when empty a default will be used based on the status code)
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         int $status = 200,
@@ -143,6 +145,8 @@ class Response implements ResponseInterface
 
     /**
      * @param mixed $statusCode
+     *
+     * @throws \InvalidArgumentException
      */
     private function assertStatusCodeIsInteger($statusCode): void
     {
@@ -151,6 +155,9 @@ class Response implements ResponseInterface
         }
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     private function assertStatusCodeRange(int $statusCode): void
     {
         if ($statusCode < 100 || $statusCode >= 600) {

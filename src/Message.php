@@ -14,6 +14,8 @@ final class Message
      * Returns the string representation of an HTTP message.
      *
      * @param MessageInterface $message Message to convert to a string.
+     *
+     * @throws \InvalidArgumentException
      */
     public static function toString(MessageInterface $message): string
     {
@@ -110,6 +112,8 @@ final class Message
      * array values, and a "body" key containing the body of the message.
      *
      * @param string $message HTTP request or response to parse.
+     *
+     * @throws \InvalidArgumentException
      */
     public static function parseMessage(string $message): array
     {
@@ -193,6 +197,8 @@ final class Message
      * Parses a request message string into a request object.
      *
      * @param string $message Request message string.
+     *
+     * @throws \InvalidArgumentException
      */
     public static function parseRequest(string $message): RequestInterface
     {
@@ -219,6 +225,8 @@ final class Message
      * Parses a response message string into a response object.
      *
      * @param string $message Response message string.
+     *
+     * @throws \InvalidArgumentException
      */
     public static function parseResponse(string $message): ResponseInterface
     {

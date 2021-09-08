@@ -28,6 +28,8 @@ final class AppendStream implements StreamInterface
     /**
      * @param StreamInterface[] $streams Streams to decorate. Each stream must
      *                                   be readable.
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $streams = [])
     {

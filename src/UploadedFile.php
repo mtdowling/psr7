@@ -59,6 +59,8 @@ class UploadedFile implements UploadedFileInterface
 
     /**
      * @param StreamInterface|string|resource $streamOrFile
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         $streamOrFile,
