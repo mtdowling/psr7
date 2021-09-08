@@ -174,3 +174,8 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/Utils.php
+
+		-
+			message: "#^Strict comparison using === between '' and non-empty-string will always evaluate to false\\.$#"
+			count: 1
+			path: src/UriResolver.php
