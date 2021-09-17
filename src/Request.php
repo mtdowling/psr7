@@ -151,7 +151,7 @@ class Request implements RequestInterface
     private function assertMethod($method): void
     {
         if (!is_string($method) || $method === '') {
-            throw new \InvalidArgumentException('Method must be a non-empty string.');
+            throw new InvalidArgumentException('Method must be a non-empty string.');
         }
     }
 }
