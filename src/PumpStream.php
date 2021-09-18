@@ -148,6 +148,11 @@ final class PumpStream implements StreamInterface
         return $result;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return mixed
+     */
     public function getMetadata($key = null)
     {
         if (!$key) {

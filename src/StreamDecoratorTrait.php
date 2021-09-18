@@ -78,6 +78,11 @@ trait StreamDecoratorTrait
         $this->stream->close();
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return mixed
+     */
     public function getMetadata($key = null)
     {
         return $this->stream->getMetadata($key);
