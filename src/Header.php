@@ -51,11 +51,17 @@ final class Header
         foreach ((array) $header as $value) {
             foreach ((array) $value as $v) {
                 if (strpos($v, ',') === false) {
-                    $result[] = $v;
+                    $trimmed = trim($v);
+                    if ($trimmed !== '') {
+                        $result[] = $trimmed;
+                    }
                     continue;
                 }
                 foreach (preg_split('/,(?=([^"]*"([^"]|\\\\.)*")*[^"]*$)/', $v) as $vv) {
-                    $result[] = trim($vv);
+                    $trimmed = trim($vv);
+                    if ($trimmed !== '') {
+                        $result[] = $trimmed;
+                    }
                 }
             }
         }
