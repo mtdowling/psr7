@@ -14,7 +14,7 @@ use Psr\Http\Message\UriInterface;
  */
 class UriResolverTest extends TestCase
 {
-    const RFC3986_BASE = 'http://a/b/c/d;p?q';
+    private const RFC3986_BASE = 'http://a/b/c/d;p?q';
 
     /**
      * @dataProvider getResolveTestCases

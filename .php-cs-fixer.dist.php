@@ -1,17 +1,15 @@
 <?php
 
-$config = PhpCsFixer\Config::create()
+$config = (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
         'concat_space' => ['spacing' => 'one'],
         'declare_strict_types' => true,
-        'final_static_access' => true,
         'fully_qualified_strict_types' => true,
         'function_to_constant' => ['functions' => ['php_sapi_name']],
         'header_comment' => false,
-        'is_null' => ['use_yoda_style' => true],
         'list_syntax' => ['syntax' => 'short'],
         'lowercase_cast' => true,
         'magic_method_casing' => true,
@@ -36,11 +34,11 @@ $config = PhpCsFixer\Config::create()
         'php_unit_mock' => ['target' => 'newest'],
         'php_unit_mock_short_will_return' => true,
         'php_unit_no_expectation_annotation' => ['target' => 'newest'],
-        'php_unit_ordered_covers' => true,
         'php_unit_test_annotation' => ['style' => 'prefix'],
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'phpdoc_align' => ['align' => 'vertical'],
         'phpdoc_no_useless_inheritdoc' => true,
+        'phpdoc_order_by_value' => ['annotations' => ['covers']],
         'phpdoc_scalar' => true,
         'phpdoc_separation' => true,
         'phpdoc_single_line_var_spacing' => true,
@@ -49,11 +47,13 @@ $config = PhpCsFixer\Config::create()
         'phpdoc_types' => true,
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
         'phpdoc_var_without_name' => true,
+        'self_static_accessor' => true,
         'single_trait_insert_per_statement' => true,
         'standardize_not_equals' => true,
         'ternary_to_null_coalescing' => true,
         'visibility_required' => true,
         'void_return' => true,
+        'yoda_style' => false,
         // 'native_function_invocation' => true,
     ])
     ->setFinder(

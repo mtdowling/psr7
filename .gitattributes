@@ -2,7 +2,7 @@
 .gitattributes         export-ignore
 /.github/              export-ignore
 .gitignore             export-ignore
-.php_cs.dist           export-ignore
+.php-cs-fixer.dist.php export-ignore
 /Makefile              export-ignore
 /phpstan-baseline.neon export-ignore
 /phpstan.neon.dist     export-ignore
