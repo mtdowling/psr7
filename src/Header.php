@@ -54,7 +54,7 @@ final class Header
                     $result[] = $v;
                     continue;
                 }
-                foreach (preg_split('/,(?=([^"]*"[^"]*")*[^"]*$)/', $v) as $vv) {
+                foreach (preg_split('/,(?=([^"]*"([^"]|\\\\.)*")*[^"]*$)/', $v) as $vv) {
                     $result[] = trim($vv);
                 }
             }
