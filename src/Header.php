@@ -47,12 +47,8 @@ final class Header
      */
     public static function normalize($header): array
     {
-        if (!is_array($header)) {
-            return array_map('trim', explode(',', $header));
-        }
-
         $result = [];
-        foreach ($header as $value) {
+        foreach ((array) $header as $value) {
             foreach ((array) $value as $v) {
                 if (strpos($v, ',') === false) {
                     $result[] = $v;
