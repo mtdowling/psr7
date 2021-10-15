@@ -98,6 +98,7 @@ final class MimeType
       'wma' => 'audio/x-ms-wma',
       'wmv' => 'video/x-ms-wmv',
       'woff' => 'application/x-font-woff',
+      'woff2' => 'font/woff2',
       'wsdl' => 'application/wsdl+xml',
       'xbm' => 'image/x-xbitmap',
       'xls' => 'application/vnd.ms-excel',
