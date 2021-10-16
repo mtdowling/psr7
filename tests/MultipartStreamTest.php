@@ -243,4 +243,26 @@ EOT;
 
         self::assertSame($expected, str_replace("\r", '', (string) $b));
     }
+
+    public function testCanCreateWithNoneMetadataStreamField(): void
+    {
+        $str = 'dummy text';
+        $a = Psr7\Utils::streamFor(static function() use ($str): string { return $str; });
+        $b = new Psr7\LimitStream($a, \strlen($str));
+        $c = new MultipartStream([
+            [
+                'name'     => 'foo',
+                'contents' => $b,
+            ],
+        ], 'boundary');
+
+        self::assertSame(\implode("\r\n", [
+            '--boundary',
+            'Content-Disposition: form-data; name="foo"',
+            '',
+            $str,
+            '--boundary--',
+            '',
+        ]), (string)$c);
+    }
 }
