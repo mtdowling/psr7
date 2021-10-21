@@ -131,7 +131,7 @@ final class Utils
             hash_update($ctx, $stream->read(1048576));
         }
 
-        $out = hash_final($ctx, (bool) $rawOutput);
+        $out = hash_final($ctx, $rawOutput);
         $stream->seek($pos);
 
         return $out;
