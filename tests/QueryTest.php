@@ -45,6 +45,8 @@ class QueryTest extends TestCase
             // Ensure it doesn't leave things behind with repeated values
             // Can parse mult-values items
             ['q=a&q=b&q=c', ['q' => ['a', 'b', 'c']]],
+            // Keeps first null when parsing mult-values
+            ['q&q=&q=a', ['q' => [null, '', 'a']]],
         ];
     }
 
