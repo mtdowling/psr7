@@ -14,14 +14,14 @@ final class Utils
     /**
      * Remove the items given by the keys, case insensitively from the data.
      *
-     * @param string[] $keys
+     * @param (string|int)[] $keys
      */
     public static function caselessRemove(array $keys, array $data): array
     {
         $result = [];
 
         foreach ($keys as &$key) {
-            $key = strtolower($key);
+            $key = is_int($key) ? $key : strtolower($key);
         }
 
         foreach ($data as $k => $v) {
@@ -304,7 +304,9 @@ final class Utils
                 /** @var resource $resource */
                 if ((\stream_get_meta_data($resource)['uri'] ?? '') === 'php://input') {
                     $stream = self::tryFopen('php://temp', 'w+');
-                    fwrite($stream, stream_get_contents($resource));
+                    /** @var string $content */
+                    $content = stream_get_contents($resource);
+                    fwrite($stream, $content);
                     fseek($stream, 0);
                     $resource = $stream;
                 }
@@ -364,8 +366,8 @@ final class Utils
             return true;
         });
 
+        $handle = false;
         try {
-            /** @var resource $handle */
             $handle = fopen($filename, $mode);
         } catch (\Throwable $e) {
             $ex = new \RuntimeException(sprintf(
@@ -383,6 +385,7 @@ final class Utils
             throw $ex;
         }
 
+        /** @var resource $handle */
         return $handle;
     }
 
@@ -393,7 +396,7 @@ final class Utils
      * UriInterface for the given value. If the value is already a
      * UriInterface, it is returned as-is.
      *
-     * @param string|UriInterface $uri
+     * @param string|UriInterface|mixed $uri
      *
      * @throws \InvalidArgumentException
      */

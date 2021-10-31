@@ -44,7 +44,10 @@ final class StreamWrapper
                 . 'writable, or both.');
         }
 
-        return fopen('guzzle://stream', $mode, false, self::createStreamContext($stream));
+        /** @var resource $handle */
+        $handle = fopen('guzzle://stream', $mode, false, self::createStreamContext($stream));
+
+        return $handle;
     }
 
     /**

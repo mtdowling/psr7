@@ -11,6 +11,22 @@ use Psr\Http\Message\StreamInterface;
  *
  * Allows for easy testing and extension of a provided stream without needing
  * to create a concrete class for a simple extension point.
+ *
+ * @property callable $_fn___toString
+ * @property callable $_fn_close
+ * @property callable $_fn_detach
+ * @property callable $_fn_rewind
+ * @property callable $_fn_getSize
+ * @property callable $_fn_tell
+ * @property callable $_fn_eof
+ * @property callable $_fn_isSeekable
+ * @property callable $_fn_seek
+ * @property callable $_fn_isWritable
+ * @property callable $_fn_write
+ * @property callable $_fn_isReadable
+ * @property callable $_fn_read
+ * @property callable $_fn_getContents
+ * @property callable $_fn_getMetadata
  */
 final class FnStream implements StreamInterface
 {

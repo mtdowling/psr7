@@ -150,7 +150,9 @@ final class UriNormalizer
         }
 
         if ($flags & self::REMOVE_DUPLICATE_SLASHES) {
-            $uri = $uri->withPath(preg_replace('#//++#', '/', $uri->getPath()));
+            /** @var string $thing */
+            $thing = preg_replace('#//++#', '/', $uri->getPath());
+            $uri = $uri->withPath($thing);
         }
 
         if ($flags & self::SORT_QUERY_PARAMETERS && $uri->getQuery() !== '') {
@@ -189,12 +191,12 @@ final class UriNormalizer
             return strtoupper($match[0]);
         };
 
-        return
-            $uri->withPath(
-                preg_replace_callback($regex, $callback, $uri->getPath())
-            )->withQuery(
-                preg_replace_callback($regex, $callback, $uri->getQuery())
-            );
+        /** @var string $pathStr */
+        $pathStr = preg_replace_callback($regex, $callback, $uri->getPath());
+        /** @var string $queryStr */
+        $queryStr = preg_replace_callback($regex, $callback, $uri->getQuery());
+
+        return $uri->withPath($pathStr)->withQuery($queryStr);
     }
 
     private static function decodeUnreservedCharacters(UriInterface $uri): UriInterface
@@ -205,12 +207,12 @@ final class UriNormalizer
             return rawurldecode($match[0]);
         };
 
-        return
-            $uri->withPath(
-                preg_replace_callback($regex, $callback, $uri->getPath())
-            )->withQuery(
-                preg_replace_callback($regex, $callback, $uri->getQuery())
-            );
+        /** @var string $pathStr */
+        $pathStr = preg_replace_callback($regex, $callback, $uri->getPath());
+        /** @var string $queryStr */
+        $queryStr = preg_replace_callback($regex, $callback, $uri->getQuery());
+
+        return $uri->withPath($pathStr)->withQuery($queryStr);
     }
 
     private function __construct()

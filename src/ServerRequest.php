@@ -135,7 +135,7 @@ class ServerRequest extends Request implements ServerRequestInterface
      * Loops through all nested files and returns a normalized array of
      * UploadedFileInterface instances.
      *
-     * @return UploadedFileInterface[]
+     * @return (UploadedFileInterface|mixed)[]
      */
     private static function normalizeNestedFileSpec(array $files = []): array
     {
@@ -166,7 +166,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public static function fromGlobals(): ServerRequestInterface
     {
         $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-        $headers = getallheaders();
+        $headers = getallheaders() ?: [];
         $uri = self::getUriFromGlobals();
         $body = new CachingStream(new LazyOpenStream('php://input', 'r+'));
         $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? str_replace('HTTP/', '', $_SERVER['SERVER_PROTOCOL']) : '1.1';

@@ -585,11 +585,14 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('User info must be a string');
         }
 
-        return preg_replace_callback(
+        /** @var string $thing */
+        $thing = preg_replace_callback(
             '/(?:[^%' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . ']+|%(?![A-Fa-f0-9]{2}))/',
             [$this, 'rawurlencodeMatchZero'],
             $component
         );
+
+        return $thing;
     }
 
     /**
@@ -681,11 +684,14 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Path must be a string');
         }
 
-        return preg_replace_callback(
+        /** @var string $thing */
+        $thing = preg_replace_callback(
             '/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/]++|%(?![A-Fa-f0-9]{2}))/',
             [$this, 'rawurlencodeMatchZero'],
             $path
         );
+
+        return $thing;
     }
 
     /**
@@ -701,11 +707,14 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Query and fragment must be a string');
         }
 
-        return preg_replace_callback(
+        /** @var string $thing */
+        $thing = preg_replace_callback(
             '/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/\?]++|%(?![A-Fa-f0-9]{2}))/',
             [$this, 'rawurlencodeMatchZero'],
             $str
         );
+
+        return $thing;
     }
 
     private function rawurlencodeMatchZero(array $match): string

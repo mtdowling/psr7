@@ -68,4 +68,13 @@ class HeaderTest extends TestCase
         $header = ['a, b', 'c', 'd, e'];
         self::assertSame(['a', 'b', 'c', 'd', 'e'], Psr7\Header::normalize($header));
     }
+
+    public function testNormalizeWithPcreBackTrackLimited(): void
+    {
+        $limited = ini_get('pcre.backtrack_limit');
+        ini_set('pcre.backtrack_limit', '4');
+        $things = ['"Google Chrome";v="95", "Chromium";v="95", ";Not A Brand";v="99"'];
+        self::assertSame(['"Google Chrome";v="95", "Chromium";v="95", ";Not A Brand";v="99"'], Psr7\Header::normalize($things));
+        ini_set('pcre.backtrack_limit', $limited);
+    }
 }

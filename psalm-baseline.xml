@@ -10,25 +10,6 @@
       <code>$this-&gt;stream</code>
     </UndefinedThisPropertyAssignment>
   </file>
-  <file src="src/FnStream.php">
-    <InvalidFunctionCall occurrences="15">
-      <code>call_user_func($this-&gt;_fn___toString)</code>
-      <code>call_user_func($this-&gt;_fn_close)</code>
-      <code>call_user_func($this-&gt;_fn_detach)</code>
-      <code>call_user_func($this-&gt;_fn_eof)</code>
-      <code>call_user_func($this-&gt;_fn_getContents)</code>
-      <code>call_user_func($this-&gt;_fn_getMetadata, $key)</code>
-      <code>call_user_func($this-&gt;_fn_getSize)</code>
-      <code>call_user_func($this-&gt;_fn_isReadable)</code>
-      <code>call_user_func($this-&gt;_fn_isSeekable)</code>
-      <code>call_user_func($this-&gt;_fn_isWritable)</code>
-      <code>call_user_func($this-&gt;_fn_read, $length)</code>
-      <code>call_user_func($this-&gt;_fn_rewind)</code>
-      <code>call_user_func($this-&gt;_fn_seek, $offset, $whence)</code>
-      <code>call_user_func($this-&gt;_fn_tell)</code>
-      <code>call_user_func($this-&gt;_fn_write, $string)</code>
-    </InvalidFunctionCall>
-  </file>
   <file src="src/HttpFactory.php">
     <ParamNameMismatch occurrences="1">
       <code>$file</code>
@@ -60,14 +41,6 @@
     </ParamNameMismatch>
   </file>
   <file src="src/MultipartStream.php">
-    <PossiblyInvalidArgument occurrences="2">
-      <code>$element['filename'] ?? null</code>
-      <code>$uri</code>
-    </PossiblyInvalidArgument>
-    <PossiblyNullArgument occurrences="2">
-      <code>$filename</code>
-      <code>$filename</code>
-    </PossiblyNullArgument>
     <UndefinedThisPropertyAssignment occurrences="1">
       <code>$this-&gt;stream</code>
     </UndefinedThisPropertyAssignment>
@@ -84,9 +57,6 @@
     <InvalidReturnStatement occurrences="1">
       <code>$normalizedFiles</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>UploadedFileInterface[]</code>
-    </InvalidReturnType>
     <ParamNameMismatch occurrences="2">
       <code>$attribute</code>
       <code>$attribute</code>
@@ -129,9 +99,6 @@
     <MissingDocblockType occurrences="1">
       <code>throw $ex;</code>
     </MissingDocblockType>
-    <PossiblyUndefinedVariable occurrences="1">
-      <code>$handle</code>
-    </PossiblyUndefinedVariable>
     <RedundantCast occurrences="1">
       <code>(bool) $rawOutput</code>
     </RedundantCast>

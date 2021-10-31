@@ -111,7 +111,7 @@ final class MultipartStream implements StreamInterface
         // Set a default content-disposition header if one was no provided
         $disposition = $this->getHeader($headers, 'content-disposition');
         if (!$disposition) {
-            $headers['Content-Disposition'] = ($filename === '0' || $filename)
+            $headers['Content-Disposition'] = \is_string($filename) && ($filename === '0' || $filename)
                 ? sprintf(
                     'form-data; name="%s"; filename="%s"',
                     $name,
@@ -130,7 +130,7 @@ final class MultipartStream implements StreamInterface
 
         // Set a default Content-Type if one was not supplied
         $type = $this->getHeader($headers, 'content-type');
-        if (!$type && ($filename === '0' || $filename)) {
+        if (!$type && \is_string($filename) && ($filename === '0' || $filename)) {
             if ($type = MimeType::fromFilename($filename)) {
                 $headers['Content-Type'] = $type;
             }
@@ -139,6 +139,9 @@ final class MultipartStream implements StreamInterface
         return [$stream, $headers];
     }
 
+    /**
+     * @return mixed
+     */
     private function getHeader(array $headers, string $key)
     {
         $lowercaseHeader = strtolower($key);

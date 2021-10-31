@@ -113,6 +113,9 @@ class UploadedFile implements UploadedFileInterface
         $this->error = $error;
     }
 
+    /**
+     * @param string|mixed $param
+     */
     private function isStringNotEmpty($param): bool
     {
         return is_string($param) && false === empty($param);

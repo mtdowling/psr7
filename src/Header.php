@@ -21,7 +21,7 @@ final class Header
 
         foreach (self::normalize($header) as $val) {
             $part = [];
-            foreach (preg_split('/;(?=([^"]*"[^"]*")*[^"]*$)/', $val) as $kvp) {
+            foreach (preg_split('/;(?=([^"]*"[^"]*")*[^"]*$)/', $val) ?: [$val] as $kvp) {
                 if (preg_match_all('/<[^>]+>|[^=]+/', $kvp, $matches)) {
                     $m = $matches[0];
                     if (isset($m[1])) {
@@ -58,7 +58,7 @@ final class Header
                     $result[] = $v;
                     continue;
                 }
-                foreach (preg_split('/,(?=([^"]*"[^"]*")*[^"]*$)/', $v) as $vv) {
+                foreach (preg_split('/,(?=([^"]*"[^"]*")*[^"]*$)/', $v) ?: [$v] as $vv) {
                     $result[] = trim($vv);
                 }
             }
