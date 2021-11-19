@@ -707,6 +707,13 @@ class UriTest extends TestCase
         self::assertSame(56, $uri->getPort());
         self::assertSame('foo=bar', $uri->getQuery());
     }
+
+    public function testJsonSerializable(): void
+    {
+        $uri = new Uri('https://example.com');
+
+        self::assertSame('{"uri":"https:\/\/example.com"}', \json_encode(['uri'=> $uri]));
+    }
 }
 
 class ExtendedUriTest extends Uri
