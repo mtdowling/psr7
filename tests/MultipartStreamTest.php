@@ -60,12 +60,22 @@ class MultipartStreamTest extends TestCase
                 'contents' => 'bam'
             ]
         ], 'boundary');
-        self::assertSame(
-            "--boundary\r\nContent-Disposition: form-data; name=\"foo\"\r\nContent-Length: 3\r\n\r\n"
-            . "bar\r\n--boundary\r\nContent-Disposition: form-data; name=\"baz\"\r\nContent-Length: 3"
-            . "\r\n\r\nbam\r\n--boundary--\r\n",
-            (string) $b
-        );
+
+        $expected = \implode('', [
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"foo\"\r\n",
+            "Content-Length: 3\r\n",
+            "\r\n",
+            "bar\r\n",
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"baz\"\r\n",
+            "Content-Length: 3\r\n",
+            "\r\n",
+            "bam\r\n",
+            "--boundary--\r\n",
+        ]);
+
+        self::assertSame($expected, (string) $b);
     }
 
     public function testSerializesNonStringFields(): void
@@ -88,14 +98,33 @@ class MultipartStreamTest extends TestCase
                 'contents' => (float) 1.1
             ]
         ], 'boundary');
-        self::assertSame(
-            "--boundary\r\nContent-Disposition: form-data; name=\"int\"\r\nContent-Length: 1\r\n\r\n"
-            . "1\r\n--boundary\r\nContent-Disposition: form-data; name=\"bool\"\r\n\r\n\r\n--boundary"
-            . "\r\nContent-Disposition: form-data; name=\"bool2\"\r\nContent-Length: 1\r\n\r\n"
-            . "1\r\n--boundary\r\nContent-Disposition: form-data; name=\"float\"\r\nContent-Length: 3"
-            . "\r\n\r\n1.1\r\n--boundary--\r\n",
-            (string) $b
-        );
+
+        $expected = \implode('', [
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"int\"\r\n",
+            "Content-Length: 1\r\n",
+            "\r\n",
+            "1\r\n",
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"bool\"\r\n",
+            "\r\n",
+            "\r\n",
+            "--boundary",
+            "\r\n",
+            "Content-Disposition: form-data; name=\"bool2\"\r\n",
+            "Content-Length: 1\r\n",
+            "\r\n",
+            "1\r\n",
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"float\"\r\n",
+            "Content-Length: 3\r\n",
+            "\r\n",
+            "1.1\r\n",
+            "--boundary--\r\n",
+            "",
+        ]);
+
+        self::assertSame($expected, (string) $b);
     }
 
     public function testSerializesFiles(): void
@@ -133,30 +162,29 @@ class MultipartStreamTest extends TestCase
             ],
         ], 'boundary');
 
-        $expected = <<<EOT
---boundary
-Content-Disposition: form-data; name="foo"; filename="bar.txt"
-Content-Length: 3
-Content-Type: text/plain
+        $expected = \implode('', [
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"foo\"; filename=\"bar.txt\"\r\n",
+            "Content-Length: 3\r\n",
+            "Content-Type: text/plain\r\n",
+            "\r\n",
+            "foo\r\n",
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"qux\"; filename=\"baz.jpg\"\r\n",
+            "Content-Length: 3\r\n",
+            "Content-Type: image/jpeg\r\n",
+            "\r\n",
+            "baz\r\n",
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"qux\"; filename=\"bar.gif\"\r\n",
+            "Content-Length: 3\r\n",
+            "Content-Type: image/gif\r\n",
+            "\r\n",
+            "bar\r\n",
+            "--boundary--\r\n",
+        ]);
 
-foo
---boundary
-Content-Disposition: form-data; name="qux"; filename="baz.jpg"
-Content-Length: 3
-Content-Type: image/jpeg
-
-baz
---boundary
-Content-Disposition: form-data; name="qux"; filename="bar.gif"
-Content-Length: 3
-Content-Type: image/gif
-
-bar
---boundary--
-
-EOT;
-
-        self::assertSame($expected, str_replace("\r", '', (string) $b));
+        self::assertSame($expected, (string) $b);
     }
 
     public function testSerializesFilesWithCustomHeaders(): void
@@ -178,19 +206,18 @@ EOT;
             ]
         ], 'boundary');
 
-        $expected = <<<EOT
---boundary
-x-foo: bar
-content-disposition: custom
-Content-Length: 3
-Content-Type: text/plain
+        $expected = \implode('', [
+            "--boundary\r\n",
+            "x-foo: bar\r\n",
+            "content-disposition: custom\r\n",
+            "Content-Length: 3\r\n",
+            "Content-Type: text/plain\r\n",
+            "\r\n",
+            "foo\r\n",
+            "--boundary--\r\n",
+        ]);
 
-foo
---boundary--
-
-EOT;
-
-        self::assertSame($expected, str_replace("\r", '', (string) $b));
+        self::assertSame($expected, (string) $b);
     }
 
     public function testSerializesFilesWithCustomHeadersAndMultipleValues(): void
@@ -223,25 +250,24 @@ EOT;
             ]
         ], 'boundary');
 
-        $expected = <<<EOT
---boundary
-x-foo: bar
-content-disposition: custom
-Content-Length: 3
-Content-Type: text/plain
+        $expected = \implode('', [
+            "--boundary\r\n",
+            "x-foo: bar\r\n",
+            "content-disposition: custom\r\n",
+            "Content-Length: 3\r\n",
+            "Content-Type: text/plain\r\n",
+            "\r\n",
+            "foo\r\n",
+            "--boundary\r\n",
+            "cOntenT-Type: custom\r\n",
+            "Content-Disposition: form-data; name=\"foo\"; filename=\"baz.jpg\"\r\n",
+            "Content-Length: 3\r\n",
+            "\r\n",
+            "baz\r\n",
+            "--boundary--\r\n",
+        ]);
 
-foo
---boundary
-cOntenT-Type: custom
-Content-Disposition: form-data; name="foo"; filename="baz.jpg"
-Content-Length: 3
-
-baz
---boundary--
-
-EOT;
-
-        self::assertSame($expected, str_replace("\r", '', (string) $b));
+        self::assertSame($expected, (string) $b);
     }
 
     public function testCanCreateWithNoneMetadataStreamField(): void
@@ -258,13 +284,14 @@ EOT;
             ],
         ], 'boundary');
 
-        self::assertSame(\implode("\r\n", [
-            '--boundary',
-            'Content-Disposition: form-data; name="foo"',
-            '',
-            $str,
-            '--boundary--',
-            '',
-        ]), (string)$c);
+        $expected = \implode('', [
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"foo\"\r\n",
+            "\r\n",
+            $str . "\r\n",
+            "--boundary--\r\n",
+        ]);
+
+        self::assertSame($expected, (string)$c);
     }
 }
