@@ -187,6 +187,39 @@ class MultipartStreamTest extends TestCase
         self::assertSame($expected, (string) $b);
     }
 
+    public function testSerializesFilesWithMixedNewlines(): void
+    {
+        $content = "LF\nCRLF\r\nCR\r";
+        $contentLength = \strlen($content);
+
+        $f1 = Psr7\FnStream::decorate(Psr7\Utils::streamFor($content), [
+            'getMetadata' => static function (): string {
+                return '/foo/newlines.txt';
+            }
+        ]);
+
+        $b = new MultipartStream([
+            [
+                'name'     => 'newlines',
+                'contents' => $f1
+            ],
+        ], 'boundary');
+
+        $expected = \implode('', [
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"newlines\"; filename=\"newlines.txt\"\r\n",
+            "Content-Length: {$contentLength}\r\n",
+            "Content-Type: text/plain\r\n",
+            "\r\n",
+            "{$content}\r\n",
+            "--boundary--\r\n",
+        ]);
+
+        // Do not perform newline normalization in the assertion! The `$content` must
+        // be embedded as-is in the payload.
+        self::assertSame($expected, (string) $b);
+    }
+
     public function testSerializesFilesWithCustomHeaders(): void
     {
         $f1 = Psr7\FnStream::decorate(Psr7\Utils::streamFor('foo'), [
