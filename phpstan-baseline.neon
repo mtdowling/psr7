@@ -10,3 +10,8 @@ parameters:
 			count: 1
 			path: src/Utils.php
 
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Utils.php
+

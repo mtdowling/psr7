@@ -396,7 +396,7 @@ final class Utils
      * UriInterface for the given value. If the value is already a
      * UriInterface, it is returned as-is.
      *
-     * @param string|UriInterface|mixed $uri
+     * @param string|UriInterface $uri
      *
      * @throws \InvalidArgumentException
      */
