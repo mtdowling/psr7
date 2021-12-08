@@ -99,6 +99,9 @@
     <MissingDocblockType occurrences="1">
       <code>throw $ex;</code>
     </MissingDocblockType>
+    <PossiblyUndefinedVariable occurrences="1">
+      <code>$handle</code>
+    </PossiblyUndefinedVariable>
     <RedundantCast occurrences="1">
       <code>(bool) $rawOutput</code>
     </RedundantCast>

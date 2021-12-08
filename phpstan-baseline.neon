@@ -6,7 +6,31 @@ parameters:
 			path: src/MultipartStream.php
 
 		-
+			message: "#^Method GuzzleHttp\\\\Psr7\\\\StreamWrapper\\:\\:getResource\\(\\) should return resource but returns resource\\|false\\.$#"
+			count: 1
+			path: src/StreamWrapper.php
+
+		-
 			message: "#^Parameter \\#1 \\$keys of static method GuzzleHttp\\\\Psr7\\\\Utils\\:\\:caselessRemove\\(\\) expects array\\<string\\>, array\\<int, int\\|string\\> given\\.$#"
+			count: 1
+			path: src/Utils.php
+		-
+			message: "#^Method GuzzleHttp\\\\Psr7\\\\Uri\\:\\:filterUserInfoComponent\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/Uri.php
+
+		-
+			message: "#^Method GuzzleHttp\\\\Psr7\\\\Uri\\:\\:filterPath\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/Uri.php
+
+		-
+			message: "#^Method GuzzleHttp\\\\Psr7\\\\Uri\\:\\:filterQueryAndFragment\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/Uri.php
+
+		-
+			message: "#^Variable \\$handle might not be defined\\.$#"
 			count: 1
 			path: src/Utils.php
 

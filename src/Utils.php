@@ -366,8 +366,8 @@ final class Utils
             return true;
         });
 
-        $handle = false;
         try {
+            /** @var resource $handle */
             $handle = fopen($filename, $mode);
         } catch (\Throwable $e) {
             $ex = new \RuntimeException(sprintf(
@@ -385,7 +385,6 @@ final class Utils
             throw $ex;
         }
 
-        /** @var resource $handle */
         return $handle;
     }
 
