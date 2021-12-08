@@ -150,8 +150,8 @@ final class UriNormalizer
         }
 
         if ($flags & self::REMOVE_DUPLICATE_SLASHES) {
-            /** @var string $thing */
             $thing = preg_replace('#//++#', '/', $uri->getPath());
+            /** @var string $thing */
             $uri = $uri->withPath($thing);
         }
 
@@ -191,11 +191,13 @@ final class UriNormalizer
             return strtoupper($match[0]);
         };
 
-        /** @var string $pathStr */
         $pathStr = preg_replace_callback($regex, $callback, $uri->getPath());
-        /** @var string $queryStr */
         $queryStr = preg_replace_callback($regex, $callback, $uri->getQuery());
 
+        /**
+         * @var string $pathStr
+         * @var string $queryStr
+         */
         return $uri->withPath($pathStr)->withQuery($queryStr);
     }
 
@@ -207,11 +209,13 @@ final class UriNormalizer
             return rawurldecode($match[0]);
         };
 
-        /** @var string $pathStr */
         $pathStr = preg_replace_callback($regex, $callback, $uri->getPath());
-        /** @var string $queryStr */
         $queryStr = preg_replace_callback($regex, $callback, $uri->getQuery());
 
+        /**
+         * @var string $pathStr
+         * @var string $queryStr
+         */
         return $uri->withPath($pathStr)->withQuery($queryStr);
     }
 

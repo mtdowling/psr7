@@ -585,13 +585,13 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('User info must be a string');
         }
 
-        /** @var string $thing */
         $thing = preg_replace_callback(
             '/(?:[^%' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . ']+|%(?![A-Fa-f0-9]{2}))/',
             [$this, 'rawurlencodeMatchZero'],
             $component
         );
 
+        /** @var string $thing */
         return $thing;
     }
 
@@ -684,13 +684,13 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Path must be a string');
         }
 
-        /** @var string $thing */
         $thing = preg_replace_callback(
             '/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/]++|%(?![A-Fa-f0-9]{2}))/',
             [$this, 'rawurlencodeMatchZero'],
             $path
         );
 
+        /** @var string $thing */
         return $thing;
     }
 
@@ -707,13 +707,13 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Query and fragment must be a string');
         }
 
-        /** @var string $thing */
         $thing = preg_replace_callback(
             '/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/\?]++|%(?![A-Fa-f0-9]{2}))/',
             [$this, 'rawurlencodeMatchZero'],
             $str
         );
 
+        /** @var string $thing */
         return $thing;
     }
 

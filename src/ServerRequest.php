@@ -135,7 +135,7 @@ class ServerRequest extends Request implements ServerRequestInterface
      * Loops through all nested files and returns a normalized array of
      * UploadedFileInterface instances.
      *
-     * @return (UploadedFileInterface|mixed)[]
+     * @return UploadedFileInterface[]
      */
     private static function normalizeNestedFileSpec(array $files = []): array
     {
@@ -152,6 +152,7 @@ class ServerRequest extends Request implements ServerRequestInterface
             $normalizedFiles[$key] = self::createUploadedFileFromSpec($spec);
         }
 
+        /** @var UploadedFileInterface[] $normalizedFiles */
         return $normalizedFiles;
     }
 

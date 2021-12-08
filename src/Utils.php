@@ -14,14 +14,14 @@ final class Utils
     /**
      * Remove the items given by the keys, case insensitively from the data.
      *
-     * @param (string|int)[] $keys
+     * @param string[] $keys
      */
     public static function caselessRemove(array $keys, array $data): array
     {
         $result = [];
 
         foreach ($keys as &$key) {
-            $key = is_int($key) ? $key : strtolower($key);
+            $key = strtolower($key);
         }
 
         foreach ($data as $k => $v) {
@@ -304,8 +304,8 @@ final class Utils
                 /** @var resource $resource */
                 if ((\stream_get_meta_data($resource)['uri'] ?? '') === 'php://input') {
                     $stream = self::tryFopen('php://temp', 'w+');
-                    /** @var string $content */
                     $content = stream_get_contents($resource);
+                    /** @var string $content */
                     fwrite($stream, $content);
                     fseek($stream, 0);
                     $resource = $stream;

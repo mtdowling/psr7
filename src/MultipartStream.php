@@ -139,9 +139,6 @@ final class MultipartStream implements StreamInterface
         return [$stream, $headers];
     }
 
-    /**
-     * @return mixed
-     */
     private function getHeader(array $headers, string $key)
     {
         $lowercaseHeader = strtolower($key);
