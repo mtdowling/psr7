@@ -114,7 +114,7 @@ class UploadedFile implements UploadedFileInterface
     }
 
     /**
-     * @param string|mixed $param
+     * @param mixed $param
      */
     private function isStringNotEmpty($param): bool
     {
