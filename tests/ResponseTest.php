@@ -355,6 +355,7 @@ class ResponseTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Status code must be an integer value between 1xx and 5xx.');
+        $this->expectExceptionCode($invalidValues);
         new Response($invalidValues);
     }
 
@@ -368,6 +369,7 @@ class ResponseTest extends TestCase
         $response = new Response();
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Status code must be an integer value between 1xx and 5xx.');
+        $this->expectExceptionCode($invalidValues);
         $response->withStatus($invalidValues);
     }
 
