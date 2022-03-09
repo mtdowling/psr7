@@ -79,11 +79,10 @@ final class MultipartStream implements StreamInterface
 
     private function addElement(AppendStream $stream, array $element): void
     {
-        foreach (['contents', 'name'] as $key) {
-            if (!array_key_exists($key, $element)) {
-                throw new \InvalidArgumentException("A '{$key}' key is required");
+          if (! (array_key_exists('contents', $element) || array_key_exists('name', $element) ) ) {
+                return;
+                throw new \InvalidArgumentException("Content and name  key is required");
             }
-        }
 
         $element['contents'] = Utils::streamFor($element['contents']);
 
