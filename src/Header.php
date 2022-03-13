@@ -19,20 +19,22 @@ final class Header
         static $trimmed = "\"'  \n\t\r";
         $params = $matches = [];
 
-        foreach (self::normalize($header) as $val) {
-            $part = [];
-            foreach (preg_split('/;(?=([^"]*"[^"]*")*[^"]*$)/', $val) as $kvp) {
-                if (preg_match_all('/<[^>]+>|[^=]+/', $kvp, $matches)) {
-                    $m = $matches[0];
-                    if (isset($m[1])) {
-                        $part[trim($m[0], $trimmed)] = trim($m[1], $trimmed);
-                    } else {
-                        $part[] = trim($m[0], $trimmed);
+        foreach ((array) $header as $value) {
+            foreach (self::splitList($value) as $val) {
+                $part = [];
+                foreach (preg_split('/;(?=([^"]*"[^"]*")*[^"]*$)/', $val) as $kvp) {
+                    if (preg_match_all('/<[^>]+>|[^=]+/', $kvp, $matches)) {
+                        $m = $matches[0];
+                        if (isset($m[1])) {
+                            $part[trim($m[0], $trimmed)] = trim($m[1], $trimmed);
+                        } else {
+                            $part[] = trim($m[0], $trimmed);
+                        }
                     }
                 }
-            }
-            if ($part) {
-                $params[] = $part;
+                if ($part) {
+                    $params[] = $part;
+                }
             }
         }
 
