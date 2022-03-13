@@ -44,6 +44,8 @@ final class Header
      * headers into an array of headers with no comma separated values.
      *
      * @param string|array $header Header to normalize.
+     *
+     * @deprecated Use self::splitList() instead.
      */
     public static function normalize($header): array
     {
