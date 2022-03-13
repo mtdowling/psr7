@@ -51,20 +51,8 @@ final class Header
     {
         $result = [];
         foreach ((array) $header as $value) {
-            foreach ((array) $value as $v) {
-                if (strpos($v, ',') === false) {
-                    $trimmed = trim($v);
-                    if ($trimmed !== '') {
-                        $result[] = $trimmed;
-                    }
-                    continue;
-                }
-                foreach (preg_split('/,(?=([^"]*"([^"]|\\\\.)*")*[^"]*$)/', $v) as $vv) {
-                    $trimmed = trim($vv);
-                    if ($trimmed !== '') {
-                        $result[] = $trimmed;
-                    }
-                }
+            foreach (self::splitList($value) as $parsed) {
+                $result[] = $parsed;
             }
         }
 
