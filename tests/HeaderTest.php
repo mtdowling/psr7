@@ -150,13 +150,8 @@ class HeaderTest extends TestCase
         self::assertSame($result, Psr7\Header::normalize($header));
     }
 
-    public function splitListProvider(): array
-    {
-        return $this->normalizeProvider();
-    }
-
     /**
-     * @dataProvider splitListProvider
+     * @dataProvider normalizeProvider
      */
     public function testSplitList($header, $result): void
     {
