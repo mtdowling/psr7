@@ -68,4 +68,75 @@ final class Header
 
         return $result;
     }
+
+    /**
+     * Splits a HTTP header defined to contain comma-separated list into
+     * each individual value. Empty values will be removed.
+     *
+     * Example headers include 'accept', 'cache-control' and 'if-none-match'.
+     *
+     * This method must not be used to parse headers that are not defined as
+     * a list, such as 'user-agent' or 'set-cookie'.
+     *
+     * @param string|string[] $values Header value as returned by MessageInterface::getHeader()
+     *
+     * @return string[]
+     */
+    public static function splitList($values): array
+    {
+        if (!\is_array($values)) {
+            $values = [$values];
+        }
+
+        $result = [];
+        foreach ($values as $value) {
+            if (!\is_string($value)) {
+                throw new \TypeError('$header must either be a string or an array containing strings.');
+            }
+
+            $v = '';
+            $isQuoted = false;
+            $isEscaped = false;
+            for ($i = 0, $max = \strlen($value); $i < $max; $i++) {
+                if ($isEscaped) {
+                    $v .= $value[$i];
+                    $isEscaped = false;
+
+                    continue;
+                }
+
+                if (!$isQuoted && $value[$i] === ',') {
+                    $v = \trim($v);
+                    if ($v !== '') {
+                        $result[] = $v;
+                    }
+
+                    $v = '';
+                    continue;
+                }
+
+                if ($isQuoted && $value[$i] === '\\') {
+                    $isEscaped = true;
+                    $v .= $value[$i];
+
+                    continue;
+                }
+                if ($value[$i] === '"') {
+                    $isQuoted = !$isQuoted;
+                    $v .= $value[$i];
+
+                    continue;
+                }
+
+                $v .= $value[$i];
+            }
+
+            $v = \trim($v);
+            if ($v !== '') {
+                $result[] = $v;
+            }
+        }
+
+        return $result;
+    }
 }
