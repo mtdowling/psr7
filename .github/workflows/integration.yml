@@ -24,7 +24,7 @@ jobs:
           coverage: none
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Mimic PHP 8.0
         run: composer config platform.php 8.0.999

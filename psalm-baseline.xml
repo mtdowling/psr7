@@ -54,16 +54,16 @@
       <code>array</code>
       <code>array</code>
     </LessSpecificImplementedReturnType>
-    <ParamNameMismatch occurrences="2">
+    <ParamNameMismatch occurrences="6">
+      <code>$header</code>
+      <code>$header</code>
+      <code>$header</code>
+      <code>$header</code>
       <code>$header</code>
       <code>$header</code>
     </ParamNameMismatch>
   </file>
   <file src="src/MultipartStream.php">
-    <PossiblyInvalidArgument occurrences="2">
-      <code>$element['filename'] ?? null</code>
-      <code>$uri</code>
-    </PossiblyInvalidArgument>
     <PossiblyNullArgument occurrences="2">
       <code>$filename</code>
       <code>$filename</code>
@@ -76,9 +76,6 @@
     <ParadoxicalCondition occurrences="1">
       <code>isset($this-&gt;headerNames['host'])</code>
     </ParadoxicalCondition>
-    <RedundantCondition occurrences="1">
-      <code>assertMethod</code>
-    </RedundantCondition>
   </file>
   <file src="src/ServerRequest.php">
     <InvalidReturnStatement occurrences="1">
@@ -87,7 +84,8 @@
     <InvalidReturnType occurrences="1">
       <code>UploadedFileInterface[]</code>
     </InvalidReturnType>
-    <ParamNameMismatch occurrences="2">
+    <ParamNameMismatch occurrences="3">
+      <code>$attribute</code>
       <code>$attribute</code>
       <code>$attribute</code>
     </ParamNameMismatch>
@@ -132,8 +130,5 @@
     <PossiblyUndefinedVariable occurrences="1">
       <code>$handle</code>
     </PossiblyUndefinedVariable>
-    <RedundantCast occurrences="1">
-      <code>(bool) $rawOutput</code>
-    </RedundantCast>
   </file>
 </files>
