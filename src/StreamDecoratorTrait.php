@@ -13,6 +13,9 @@ use Psr\Http\Message\StreamInterface;
  */
 trait StreamDecoratorTrait
 {
+    /** @var StreamInterface */
+    protected $stream;
+
     /**
      * @param StreamInterface $stream Stream to decorate
      */
