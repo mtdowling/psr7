@@ -174,6 +174,17 @@ class RequestTest extends BaseTest
         ], $r->getHeaders());
     }
 
+    public function testHeaderValueWithWhitespace()
+    {
+        $r = new Request('GET', 'https://example.com/', [
+            'User-Agent' => 'Linux f0f489981e90 5.10.104-linuxkit 1 SMP Wed Mar 9 19:05:23 UTC 2022 x86_64'
+        ]);
+        self::assertSame([
+            'Host' => ['example.com'],
+            'User-Agent' => ['Linux f0f489981e90 5.10.104-linuxkit 1 SMP Wed Mar 9 19:05:23 UTC 2022 x86_64']
+        ], $r->getHeaders());
+    }
+
     public function testCanGetHeaderAsCsv()
     {
         $r = new Request('GET', 'http://foo.com/baz?bar=bam', [
