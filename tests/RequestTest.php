@@ -293,4 +293,51 @@ class RequestTest extends TestCase
         $r = $r->withUri(new Uri('http://foo.com:8125/bar'));
         self::assertSame('foo.com:8125', $r->getHeaderLine('host'));
     }
+
+    /**
+     * @dataProvider provideHeaderValuesContainingNotAllowedChars
+     */
+    public function testContainsNotAllowedCharsOnHeaderValue(string $value): void
+    {
+        $this->expectExceptionMessage(sprintf('"%s" is not valid header value', $value));
+        $r = new Request(
+            'GET',
+            'http://foo.com/baz?bar=bam',
+            [
+                'testing' => $value
+            ]
+        );
+    }
+
+    public function provideHeaderValuesContainingNotAllowedChars(): iterable
+    {
+        // Explicit tests for newlines as the most common exploit vector.
+        $tests = [
+            ["new\nline"],
+            ["new\r\nline"],
+            ["new\rline"],
+            // Line folding is technically allowed, but deprecated.
+            // We don't support it.
+            ["new\r\n line"],
+        ];
+
+        for ($i = 0; $i <= 0xff; $i++) {
+            if (\chr($i) == "\t") {
+                continue;
+            }
+            if (\chr($i) == " ") {
+                continue;
+            }
+            if ($i >= 0x21 && $i <= 0x7e) {
+                continue;
+            }
+            if ($i >= 0x80) {
+                continue;
+            }
+
+            $tests[] = ["foo" . \chr($i) . "bar"];
+        }
+
+        return $tests;
+    }
 }
