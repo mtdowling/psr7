@@ -246,7 +246,10 @@ class RequestTest extends BaseTest
         );
     }
 
-    public function provideHeaderValuesContainingNotAllowedChars(): iterable
+    /**
+     * @return iterable
+     */
+    public function provideHeaderValuesContainingNotAllowedChars()
     {
         // Explicit tests for newlines as the most common exploit vector.
         $tests = [
