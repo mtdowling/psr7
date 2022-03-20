@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bug MultipartStream no `uri` metadata
 - Bug MultipartStream with filename for `data://` streams
 - Fixed new line handling in MultipartStream
-- Reduced RAM usage when copying streams.
+- Reduced RAM usage when copying streams
 - Updated parsing in `Header::normalize()`
 
 ## 2.1.1 - 2022-03-20
