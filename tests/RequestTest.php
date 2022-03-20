@@ -230,13 +230,12 @@ class RequestTest extends BaseTest
         self::assertSame('foo.com:8125', $r->getHeaderLine('host'));
     }
 
-
     /**
      * @dataProvider provideHeaderValuesContainingNotAllowedChars
      */
     public function testContainsNotAllowedCharsOnHeaderValue($value)
     {
-        $this->expectExceptionMessage(sprintf('"%s" is not valid header value', $value));
+        $this->expectExceptionGuzzle('InvalidArgumentException', sprintf('"%s" is not valid header value', $value));
         $r = new Request(
             'GET',
             'http://foo.com/baz?bar=bam',
