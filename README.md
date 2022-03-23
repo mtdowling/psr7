@@ -812,7 +812,7 @@ equivalence or difference of relative references does not mean anything.
 | Version | Status         | PHP Version      |
 |---------|----------------|------------------|
 | 1.x     | Security fixes | >= 5.4           |
-| 2.x     | Latest         | ^7.2.5 \|\| ^8.0 ||
+| 2.x     | Latest         | ^7.2.5 \|\| ^8.0 |
 
 ## Security
 
