@@ -77,7 +77,7 @@ final class UriResolver
                 $targetQuery = $rel->getQuery() != '' ? $rel->getQuery() : $base->getQuery();
             } else {
                 if ($rel->getPath()[0] === '/') {
-                    $targetPath = $rel->getPath();
+                    $targetPath = rtrim($base->getPath() ?? '', '/') . $rel->getPath();
                 } else {
                     if ($targetAuthority != '' && $base->getPath() === '') {
                         $targetPath = '/' . $rel->getPath();
