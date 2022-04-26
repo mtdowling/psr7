@@ -187,6 +187,17 @@ class RequestTest extends TestCase
         ], $r->getHeaders());
     }
 
+    public function testHeaderValueStartOfHeading(): void
+    {
+        $r = new Request('GET', 'https://example.com/', [
+            'GA' => '/___utmvaPNBuPVKNZ=YUnaMdB; path=/; Max-Age=900'
+        ]);
+        self::assertSame([
+            'Host' => ['example.com'],
+            'GA' => ['/___utmvaPNBuPVKNZ=YUnaMdB; path=/; Max-Age=900']
+        ], $r->getHeaders());
+    }
+
     public function testCanGetHeaderAsCsv(): void
     {
         $r = new Request('GET', 'http://foo.com/baz?bar=bam', [
@@ -335,6 +346,9 @@ class RequestTest extends TestCase
         ];
 
         for ($i = 0; $i <= 0xff; $i++) {
+            if ($i == 0x01) {
+                continue;
+            }
             if (\chr($i) == "\t") {
                 continue;
             }
