@@ -151,7 +151,12 @@ trait MessageTrait
                 $header = (string) $header;
             }
             $this->assertHeader($header);
-            $value = $this->normalizeHeaderValue($value);
+
+            try {
+                $value = $this->normalizeHeaderValue($value);
+            } catch (\InvalidArgumentException $e) {
+                continue;
+            }
             $normalized = strtolower($header);
             if (isset($this->headerNames[$normalized])) {
                 $header = $this->headerNames[$normalized];
@@ -259,7 +264,7 @@ trait MessageTrait
         // Clients must not send a request with line folding and a server sending folded headers is
         // likely very rare. Line folding is a fairly obscure feature of HTTP/1.1 and thus not accepting
         // folding is not likely to break any legitimate use case.
-        if (! preg_match('/^[\x01\x20\x09\x21-\x7E\x80-\xFF]*$/', $value)) {
+        if (! preg_match('/^[\x20\x09\x21-\x7E\x80-\xFF]*$/', $value)) {
             throw new \InvalidArgumentException(sprintf('"%s" is not valid header value', $value));
         }
     }

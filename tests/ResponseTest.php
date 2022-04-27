@@ -257,18 +257,25 @@ class ResponseTest extends TestCase
      */
     public function testConstructResponseInvalidHeader($header, $headerValue, $expectedMessage): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage($expectedMessage);
-        new Response(200, [$header => $headerValue]);
+        self::assertEmpty(
+            (new Response(200, [$header => $headerValue]))->getHeaders()
+        );
     }
 
     public function invalidHeaderProvider(): iterable
     {
         return [
             ['foo', [], 'Header value can not be an empty array.'],
-            ['', '', '"" is not valid header name'],
             ['foo', new \stdClass(),  'Header value must be scalar or null but stdClass provided.'],
         ];
+    }
+
+    public function testConstructResponseEmptyHeaderName(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('"" is not valid header name');
+
+        new Response(200, ['' => '']);
     }
 
     /**

@@ -189,13 +189,12 @@ class RequestTest extends TestCase
 
     public function testHeaderValueStartOfHeading(): void
     {
-        $r = new Request('GET', 'https://example.com/', [
-            'GA' => '/___utmvaPNBuPVKNZ=YUnaMdB; path=/; Max-Age=900'
-        ]);
-        self::assertSame([
-            'Host' => ['example.com'],
-            'GA' => ['/___utmvaPNBuPVKNZ=YUnaMdB; path=/; Max-Age=900']
-        ], $r->getHeaders());
+        self::assertSame(
+            ['Host' => ['example.com']],
+            (new Request('GET', 'https://example.com/', [
+                'GA' => "YUn\x01aMdB; path=/; Max-Age=900"
+            ]))->getHeaders()
+        );
     }
 
     public function testCanGetHeaderAsCsv(): void
@@ -218,7 +217,7 @@ class RequestTest extends TestCase
                 $header
             )
         );
-        $r = new Request(
+        new Request(
             'GET',
             'http://foo.com/baz?bar=bam',
             [
@@ -321,15 +320,15 @@ class RequestTest extends TestCase
      */
     public function testContainsNotAllowedCharsOnHeaderValue(string $value): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf('"%s" is not valid header value', $value));
-
-        $r = new Request(
-            'GET',
-            'http://foo.com/baz?bar=bam',
-            [
-                'testing' => $value
-            ]
+        self::assertEquals(
+            ['Host' => ['foo.com']],
+            (new Request(
+                'GET',
+                'http://foo.com/baz?bar=bam',
+                [
+                    'testing' => $value
+                ]
+            ))->getHeaders()
         );
     }
 
@@ -346,9 +345,6 @@ class RequestTest extends TestCase
         ];
 
         for ($i = 0; $i <= 0xff; $i++) {
-            if ($i == 0x01) {
-                continue;
-            }
             if (\chr($i) == "\t") {
                 continue;
             }
