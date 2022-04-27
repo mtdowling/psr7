@@ -126,6 +126,21 @@ class MessageTest extends TestCase
         self::assertSame('GET_DATA', $request->getMethod());
     }
 
+    public function testParsesRequestMessagesWithNumericHeader(): void
+    {
+        $req = "GET /abc HTTP/1.0\r\nHost: foo.com\r\nFoo: Bar\r\nBaz: Bam\r\nBaz: Qux\r\n123: 456\r\n\r\nTest";
+        $request = Psr7\Message::parseRequest($req);
+        self::assertSame('GET', $request->getMethod());
+        self::assertSame('/abc', $request->getRequestTarget());
+        self::assertSame('1.0', $request->getProtocolVersion());
+        self::assertSame('foo.com', $request->getHeaderLine('Host'));
+        self::assertSame('Bar', $request->getHeaderLine('Foo'));
+        self::assertSame('Bam, Qux', $request->getHeaderLine('Baz'));
+        self::assertSame('456', $request->getHeaderLine('123'));
+        self::assertSame('Test', (string)$request->getBody());
+        self::assertSame('http://foo.com/abc', (string)$request->getUri());
+    }
+
     public function testParsesRequestMessagesWithFoldedHeadersOnHttp10(): void
     {
         $req = "PUT / HTTP/1.0\r\nFoo: Bar\r\n Bam\r\n\r\n";

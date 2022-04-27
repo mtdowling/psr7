@@ -175,6 +175,11 @@ final class Message
     public static function parseRequestUri(string $path, array $headers): string
     {
         $hostKey = array_filter(array_keys($headers), function ($k) {
+            if (is_int($k)) {
+                // Numeric array keys are converted to int by PHP but having a header name '123' is not forbidden by the spec.
+                $k = (string) $k;
+            }
+
             return strtolower($k) === 'host';
         });
 
