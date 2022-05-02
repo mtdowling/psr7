@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Tests\Psr7;
 
+use GuzzleHttp\Psr7\FnStream;
 use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\StreamWrapper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -273,6 +275,30 @@ class StreamTest extends TestCase
 
         self::$isFReadError = false;
         $stream->close();
+    }
+
+    public function testStreamReadingFreadException(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Unable to read from stream');
+
+        $r = StreamWrapper::getResource(new FnStream([
+            'read' => function ($len) {
+                throw new \ErrorException('Some error');
+            },
+            'isReadable' => function () {
+                return true;
+            },
+            'isWritable' => function () {
+                return false;
+            },
+            'eof' => function () {
+                return false;
+            }
+        ]));
+
+        $stream = new Stream($r);
+        $stream->read(1);
     }
 
     /**
