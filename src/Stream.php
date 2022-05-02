@@ -232,11 +232,11 @@ class Stream implements StreamInterface
         try {
             $string = fread($this->stream, $length);
         } catch (\Exception $e) {
-            throw new \RuntimeException('Unable to read from stream: Exception thrown in fread', 0, $e);
+            throw new \RuntimeException('Unable to read from stream', 0, $e);
         }
 
         if (false === $string) {
-            throw new \RuntimeException('Unable to read from stream: fread returned false');
+            throw new \RuntimeException('Unable to read from stream');
         }
 
         return $string;
