@@ -283,16 +283,16 @@ class StreamTest extends TestCase
         $this->expectExceptionMessage('Unable to read from stream');
 
         $r = StreamWrapper::getResource(new FnStream([
-            'read' => function ($len) {
+            'read' => function ($len): string {
                 throw new \ErrorException('Some error');
             },
-            'isReadable' => function () {
+            'isReadable' => function (): bool {
                 return true;
             },
-            'isWritable' => function () {
+            'isWritable' => function (): bool {
                 return false;
             },
-            'eof' => function () {
+            'eof' => function (): bool {
                 return false;
             }
         ]));
