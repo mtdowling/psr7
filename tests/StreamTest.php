@@ -255,7 +255,7 @@ class StreamTest extends TestCase
         $stream->close();
     }
 
-    public function testStreamReadingFreadError(): void
+    public function testStreamReadingFreadFalse(): void
     {
         self::$isFReadError = true;
         $r = fopen('php://temp', 'r');
