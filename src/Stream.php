@@ -231,7 +231,7 @@ class Stream implements StreamInterface
 
         $string = fread($this->stream, $length);
         if (false === $string) {
-            throw new \RuntimeException('Unable to read from stream');
+            throw new \RuntimeException('Unable to read from stream: fread returned false');
         }
 
         return $string;
