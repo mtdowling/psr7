@@ -206,7 +206,7 @@ class UtilsTest extends TestCase
         fwrite($r, 'hello world!');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Unable to read stream contents: stream_get_contents(): read of ');
+        $this->expectExceptionMessage('Unable to read stream contents');
 
         try {
             Psr7\Utils::tryStreamGetContents($r);
