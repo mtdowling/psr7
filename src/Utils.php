@@ -410,7 +410,7 @@ final class Utils
         });
 
         try {
-            $contents = stream_get_contents($this->stream);
+            $contents = stream_get_contents($stream);
 
             if ($contents === false) {
                 $ex = new \RuntimeException('Unable to read stream contents');
