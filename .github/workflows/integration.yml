@@ -36,7 +36,12 @@ jobs:
       - name: Start server
         run: php -S 127.0.0.1:10002 tests/Integration/server.php &
 
-      - name: Run tests
+      - name: Run Guzzle tests
         env:
           TEST_SERVER: 127.0.0.1:10002
-        run: ./vendor/bin/phpunit --testsuite Integration
+        run: ./vendor/bin/phpunit --testsuite "Guzzle PSR-7 Integration Test Suite"
+
+      - name: Run Interop tests
+        env:
+          TEST_SERVER: 127.0.0.1:10002
+        run: ./vendor/bin/phpunit --testsuite "PSR-7 Integration Test Suite"
