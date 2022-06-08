@@ -417,6 +417,24 @@ class StreamTest extends TestCase
 
         $stream->close();
     }
+
+    public function testCannotReadUnreadableStream(): void
+    {
+        $r = fopen(tempnam(sys_get_temp_dir(), 'guzzle-psr7-'), 'w');
+        $stream = new Stream($r);
+
+        $stream->write("Hello world!!");
+
+        $stream->seek(0);
+
+        $this->expectException(\RuntimeException::class);
+
+        try {
+            $stream->getContents();
+        } finally {
+            $stream->close();
+        }
+    }
 }
 
 namespace GuzzleHttp\Psr7;

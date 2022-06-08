@@ -306,6 +306,11 @@ parameters:
 			path: src/UriResolver.php
 
 		-
+			message: "#^Method GuzzleHttp\\\\Psr7\\\\Utils\\:\\:tryStreamGetContents\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: src/Utils.php
+
+		-
 			message: "#^Offset 'uri' on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\} on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: src/Utils.php
@@ -322,6 +327,11 @@ parameters:
 
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Utils.php
+
+		-
+			message: "#^Variable \\$contents might not be defined\\.$#"
 			count: 1
 			path: src/Utils.php
 

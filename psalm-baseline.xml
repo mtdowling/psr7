@@ -124,10 +124,15 @@
     </TypeDoesNotContainType>
   </file>
   <file src="src/Utils.php">
-    <MissingDocblockType occurrences="1">
+    <FalsableReturnStatement occurrences="1">
+      <code>$contents</code>
+    </FalsableReturnStatement>
+    <MissingDocblockType occurrences="2">
+      <code>throw $ex;</code>
       <code>throw $ex;</code>
     </MissingDocblockType>
-    <PossiblyUndefinedVariable occurrences="1">
+    <PossiblyUndefinedVariable occurrences="2">
+      <code>$contents</code>
       <code>$handle</code>
     </PossiblyUndefinedVariable>
   </file>

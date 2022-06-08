@@ -96,6 +96,10 @@ class Stream implements StreamInterface
             throw new \RuntimeException('Stream is detached');
         }
 
+        if (!$this->readable) {
+            throw new \RuntimeException('Cannot read from non-readable stream');
+        }
+
         return Utils::tryStreamGetContents($this->stream);
     }
 
