@@ -9,7 +9,7 @@ on:
 jobs:
   build-lowest-version:
     name: Build lowest version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Set up PHP
@@ -26,11 +26,11 @@ jobs:
         run: composer update --no-interaction --prefer-stable --prefer-lowest --no-progress
 
       - name: Run tests
-        run: make test
+        run: vendor/bin/phpunit --testsuite "Guzzle PSR-7 Unit Test Suite"
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       max-parallel: 10
       matrix:
@@ -47,12 +47,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Mimic PHP 8.0
-        run: composer config platform.php 8.0.999
-        if: matrix.php > 8
-
       - name: Install dependencies
         run: composer update --no-interaction --no-progress
 
       - name: Run tests
-        run: make test
+        run: vendor/bin/phpunit --testsuite "Guzzle PSR-7 Unit Test Suite"
