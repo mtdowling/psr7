@@ -410,6 +410,7 @@ final class Utils
         });
 
         try {
+            /** @var string|false $contents */
             $contents = stream_get_contents($stream);
 
             if ($contents === false) {
