@@ -21,6 +21,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          ini-values: error_reporting=E_ALL
           coverage: none
 
       - name: Checkout code
