@@ -5,6 +5,7 @@
     beStrictAboutOutputDuringTests="true"
     beStrictAboutTestsThatDoNotTestAnything="true"
     bootstrap="vendor/autoload.php"
+    convertDeprecationsToExceptions="true"
 >
     <testsuites>
         <testsuite name="Guzzle PSR-7 Unit Test Suite">
