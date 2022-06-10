@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: composer update --no-interaction --no-progress
+        run: composer update --no-interaction --no-progress --ignore-platform-requirements
 
       - name: Start server
         run: php -S 127.0.0.1:10002 tests/Integration/server.php &
