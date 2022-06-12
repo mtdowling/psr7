@@ -13,28 +13,45 @@ use Psr\Http\Message\StreamInterface;
  */
 trait StreamDecoratorTrait
 {
+    /** @var array<string, StreamInterface> */
+    private $streams; 
+
     /**
      * @param StreamInterface $stream Stream to decorate
      */
     public function __construct(StreamInterface $stream)
     {
+        $this->streams = [];
         $this->stream = $stream;
     }
 
     /**
-     * Magic method used to create a new stream if streams are not added in
+     * Magic method used to return streams and create a new stream if streams are not added in
      * the constructor of a decorator (e.g., LazyOpenStream).
      *
      * @return StreamInterface
      */
     public function __get(string $name)
     {
+        if (isset($this->streams[$name])) {
+            return $this->streams[$name];
+        }
         if ($name === 'stream') {
-            $this->stream = $this->createStream();
-            return $this->stream;
+            $this->streams[$name] = $this->createStream();
+            return $this->streams[$name];
         }
 
         throw new \UnexpectedValueException("$name not found on class");
+    }
+
+    /**
+     * Magic method used to set new streams
+     * 
+     * @return void
+     */
+    public function __set(string $name, mixed $value)
+    {
+        $this->streams[$name] = $value;
     }
 
     public function __toString(): string

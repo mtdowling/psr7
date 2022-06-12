@@ -23,12 +23,16 @@ final class FnStream implements StreamInterface
     /** @var array<string, callable> */
     private $methods;
 
+    /** @var array<string, callable> */
+    private $fnMethods;
+
     /**
      * @param array<string, callable> $methods Hash of method name to a callable.
      */
     public function __construct(array $methods)
     {
         $this->methods = $methods;
+        $this->fnMethods = [];
 
         // Create the functions on the class
         foreach ($methods as $name => $fn) {
@@ -37,14 +41,33 @@ final class FnStream implements StreamInterface
     }
 
     /**
-     * Lazily determine which methods are not implemented.
+     * Get FnMethods
      *
      * @throws \BadMethodCallException
      */
-    public function __get(string $name): void
+    public function __get(string $name): mixed
     {
+        if (isset($this->fnMethods[$name])) {
+            return $this->fnMethods[$name];
+        }
         throw new \BadMethodCallException(str_replace('_fn_', '', $name)
             . '() is not implemented in the FnStream');
+    }
+
+    /**
+     * Set FnMethods
+     */
+    public function __set(string $name, mixed $value): void
+    {
+        $this->fnMethods[$name] = $value;
+    }
+
+    /**
+     * Isset FnMethods
+     */
+    public function __isset(string $name): bool
+    {
+        return isset($this->fnMethods[$name]);
     }
 
     /**
