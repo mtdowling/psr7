@@ -49,7 +49,7 @@ trait StreamDecoratorTrait
      * 
      * @return void
      */
-    public function __set(string $name, mixed $value)
+    public function __set(string $name, $value)
     {
         $this->streams[$name] = $value;
     }

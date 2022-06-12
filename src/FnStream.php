@@ -45,7 +45,7 @@ final class FnStream implements StreamInterface
      *
      * @throws \BadMethodCallException
      */
-    public function __get(string $name): mixed
+    public function __get(string $name)
     {
         if (isset($this->fnMethods[$name])) {
             return $this->fnMethods[$name];
@@ -57,7 +57,7 @@ final class FnStream implements StreamInterface
     /**
      * Set FnMethods
      */
-    public function __set(string $name, mixed $value): void
+    public function __set(string $name, $value): void
     {
         $this->fnMethods[$name] = $value;
     }
