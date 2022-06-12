@@ -45,7 +45,7 @@ final class FnStream implements StreamInterface
      *
      * @throws \BadMethodCallException
      */
-    public function __get(string $name)
+    public function __get(string $name): callable
     {
         if (isset($this->fnMethods[$name])) {
             return $this->fnMethods[$name];
@@ -56,6 +56,8 @@ final class FnStream implements StreamInterface
 
     /**
      * Set FnMethods
+     *
+     * @param callable $value fn method
      */
     public function __set(string $name, $value): void
     {

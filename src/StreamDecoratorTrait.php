@@ -14,7 +14,7 @@ use Psr\Http\Message\StreamInterface;
 trait StreamDecoratorTrait
 {
     /** @var array<string, StreamInterface> */
-    private $streams; 
+    private $streams;
 
     /**
      * @param StreamInterface $stream Stream to decorate
@@ -46,10 +46,10 @@ trait StreamDecoratorTrait
 
     /**
      * Magic method used to set new streams
-     * 
-     * @return void
+     *
+     * @param StreamInterface $value Stream to decorate
      */
-    public function __set(string $name, $value)
+    public function __set(string $name, $value): void
     {
         $this->streams[$name] = $value;
     }
