@@ -9,9 +9,12 @@ use GuzzleHttp\Psr7\StreamDecoratorTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 
-class Str implements StreamInterface
+final class Str implements StreamInterface
 {
     use StreamDecoratorTrait;
+
+    /** @var StreamInterface */
+    private $stream;
 }
 
 /**
