@@ -12,6 +12,9 @@ use Psr\Http\Message\StreamInterface;
 class Str implements StreamInterface
 {
     use StreamDecoratorTrait;
+
+    /** @var StreamInterface */
+    private $stream;
 }
 
 /**
