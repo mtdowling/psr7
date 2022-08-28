@@ -277,10 +277,9 @@ class MessageTest extends TestCase
         self::assertNull(Psr7\Message::bodySummary($message));
     }
 
-    public function testMessageBodySummaryWithRewind(): void
+    public function testMessageBodySummaryNotInitiallyRewound(): void
     {
         $message = new Psr7\Response(200, [], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
-        self::assertSame('Lorem ipsu (truncated...)', Psr7\Message::bodySummary($message, 10));
         $message->getBody()->read(10);
         self::assertSame('Lorem ipsu (truncated...)', Psr7\Message::bodySummary($message, 10));
     }
