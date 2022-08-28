@@ -279,21 +279,15 @@ class MessageTest extends TestCase
 
     public function testMessageBodySummaryWithRewind(): void
     {
-        $message = new Psr7\Response(200, [], 'test');
-        self::assertSame('test', Psr7\Message::bodySummary($message));
-        self::assertSame('test', Psr7\Message::bodySummary($message));
+        $message = new Psr7\Response(200, [], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+        self::assertSame('Lorem ipsu (truncated...)', Psr7\Message::bodySummary($message));
+        $message->getBody()->read(10);
+        self::assertSame('Lorem ipsu (truncated...)', Psr7\Message::bodySummary($message));
     }
 
     public function testGetResponseBodySummaryOfNonReadableStream(): void
     {
         $message = new Psr7\Response(500, [], new ReadSeekOnlyStream());
-        self::assertNull(Psr7\Message::bodySummary($message));
-    }
-
-    public function testGetResponseBodySummaryOfNonReadableStreamWithRewind(): void
-    {
-        $message = new Psr7\Response(500, [], new ReadSeekOnlyStream());
-        self::assertNull(Psr7\Message::bodySummary($message));
         self::assertNull(Psr7\Message::bodySummary($message));
     }
 }
