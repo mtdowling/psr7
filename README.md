@@ -393,6 +393,18 @@ $knownEtags = Header::splitList($request->getHeader('if-none-match'));
 
 Example headers include `accept`, `cache-control` and `if-none-match`.
 
+
+## `GuzzleHttp\Psr7\Header::normalize` (deprecated)
+
+`public static function normalize(string|array $header): array`
+
+`Header::normalize()` is deprecated in favor of [`Header::splitList()`](README.md#guzzlehttppsr7headersplitlist)
+which performs the same operation with a cleaned up API and improved
+documentation.
+
+Converts an array of header values that may contain comma separated
+headers into an array of headers with no comma separated values.
+
 ## `GuzzleHttp\Psr7\Query::parse`
 
 `public static function parse(string $str, int|bool $urlEncoding = true): array`
