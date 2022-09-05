@@ -405,6 +405,7 @@ documentation.
 Converts an array of header values that may contain comma separated
 headers into an array of headers with no comma separated values.
 
+
 ## `GuzzleHttp\Psr7\Query::parse`
 
 `public static function parse(string $str, int|bool $urlEncoding = true): array`
