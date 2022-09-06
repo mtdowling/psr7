@@ -596,12 +596,11 @@ class UriTest extends TestCase
         self::assertSame('foo', (string) $uri);
     }
 
-    public function testRelativePathAndAuthorityThrowsException(): void
+    public function testRelativePathAndAuthority(): void
     {
-        // concatenating a relative path with a host doesn't work: "//example.comfoo" would be wrong
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The path of a URI with an authority must start with a slash "/" or be empty');
-        (new Uri)->withHost('example.com')->withPath('foo');
+        $uri = (new Uri())->withHost('example.com')->withPath('foo');
+        self::assertSame('foo', $uri->getPath());
+        self::assertSame('//example.com/foo', $uri->__toString());
     }
 
     public function testPathStartingWithTwoSlashesAndNoAuthorityIsInvalid(): void
