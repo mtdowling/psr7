@@ -103,7 +103,7 @@ Identical to the RC release.
 ### Removed
 
 - PHP < 7.2 support
-- All functions in the Guzzle\Psr7 namespace
+- All functions in the `GuzzleHttp\Psr7` namespace
 
 ## 1.8.1 - 2021-03-21
 
