@@ -172,7 +172,7 @@ class Uri implements UriInterface, \JsonSerializable
             $uri .= $scheme . ':';
         }
 
-        if ($authority != ''|| $scheme === 'file') {
+        if ($authority != '' || $scheme === 'file') {
             $uri .= '//' . $authority;
         }
 
