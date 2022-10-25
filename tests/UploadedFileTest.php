@@ -181,7 +181,7 @@ class UploadedFileTest extends TestCase
         $uploadedFile = new UploadedFile('not ok', 0, $status);
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('upload error');
-        $uploadedFile->moveTo(__DIR__ . '/' . sha1(uniqid('', true)));
+        $uploadedFile->moveTo(__DIR__ . '/' . bin2hex(random_bytes(20)));
     }
 
     /**
