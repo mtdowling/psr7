@@ -7,6 +7,10 @@ functionality like query string parsing.
 ![CI](https://github.com/guzzle/psr7/workflows/CI/badge.svg)
 ![Static analysis](https://github.com/guzzle/psr7/workflows/Static%20analysis/badge.svg)
 
+# Installation
+
+```composer require guzzlehttp/psr7```
+
 
 # Stream implementation
 
