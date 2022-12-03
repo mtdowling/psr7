@@ -8,6 +8,12 @@ functionality like query string parsing.
 ![Static analysis](https://github.com/guzzle/psr7/workflows/Static%20analysis/badge.svg)
 
 
+# Installation
+
+```shell
+composer require guzzlehttp/psr7
+```
+
 # Stream implementation
 
 This package comes with a number of stream implementations and stream
