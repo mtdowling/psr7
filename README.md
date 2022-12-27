@@ -245,6 +245,8 @@ class EofCallbackStream implements StreamInterface
 
     private $callback;
 
+    private $stream;
+
     public function __construct(StreamInterface $stream, callable $cb)
     {
         $this->stream = $stream;
