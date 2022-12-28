@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace GuzzleHttp\Tests\Psr7;
+namespace HeGuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Psr7\FnStream;
-use GuzzleHttp\Psr7\LimitStream;
-use GuzzleHttp\Psr7\NoSeekStream;
-use GuzzleHttp\Psr7\Stream;
+use HeGuzzleHttp\Psr7;
+use HeGuzzleHttp\Psr7\FnStream;
+use HeGuzzleHttp\Psr7\LimitStream;
+use HeGuzzleHttp\Psr7\NoSeekStream;
+use HeGuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\TestCase;
 
 /**

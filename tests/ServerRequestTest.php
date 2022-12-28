@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GuzzleHttp\Tests\Psr7;
+namespace HeGuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7\ServerRequest;
-use GuzzleHttp\Psr7\UploadedFile;
-use GuzzleHttp\Psr7\Uri;
+use HeGuzzleHttp\Psr7\ServerRequest;
+use HeGuzzleHttp\Psr7\UploadedFile;
+use HeGuzzleHttp\Psr7\Uri;
 use PHPUnit\Framework\TestCase;
 
 /**

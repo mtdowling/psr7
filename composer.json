@@ -69,12 +69,12 @@
     },
     "autoload": {
         "psr-4": {
-            "GuzzleHttp\\Psr7\\": "src/"
+            "HeGuzzleHttp\\Psr7\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "GuzzleHttp\\Tests\\Psr7\\": "tests/"
+            "HeGuzzleHttp\\Tests\\Psr7\\": "tests/"
         }
     },
     "extra": {

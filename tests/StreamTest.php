@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GuzzleHttp\Tests\Psr7;
+namespace HeGuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7\FnStream;
-use GuzzleHttp\Psr7\Stream;
-use GuzzleHttp\Psr7\StreamWrapper;
+use HeGuzzleHttp\Psr7\FnStream;
+use HeGuzzleHttp\Psr7\Stream;
+use HeGuzzleHttp\Psr7\StreamWrapper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -437,9 +437,9 @@ class StreamTest extends TestCase
     }
 }
 
-namespace GuzzleHttp\Psr7;
+namespace HeGuzzleHttp\Psr7;
 
-use GuzzleHttp\Tests\Psr7\StreamTest;
+use HeGuzzleHttp\Tests\Psr7\StreamTest;
 
 function fread($handle, $length)
 {

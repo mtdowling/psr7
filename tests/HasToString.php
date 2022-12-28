@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GuzzleHttp\Tests\Psr7;
+namespace HeGuzzleHttp\Tests\Psr7;
 
 class HasToString
 {

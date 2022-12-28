@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GuzzleHttp\Tests\Psr7;
+namespace HeGuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Psr7\StreamWrapper;
+use HeGuzzleHttp\Psr7;
+use HeGuzzleHttp\Psr7\StreamWrapper;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 

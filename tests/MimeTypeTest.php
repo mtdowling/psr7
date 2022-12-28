@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GuzzleHttp\Tests\Psr7;
+namespace HeGuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
+use HeGuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
 
 class MimeTypeTest extends TestCase

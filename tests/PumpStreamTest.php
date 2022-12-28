@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GuzzleHttp\Tests\Psr7;
+namespace HeGuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Psr7\LimitStream;
-use GuzzleHttp\Psr7\PumpStream;
+use HeGuzzleHttp\Psr7;
+use HeGuzzleHttp\Psr7\LimitStream;
+use HeGuzzleHttp\Psr7\PumpStream;
 use PHPUnit\Framework\TestCase;
 
 class PumpStreamTest extends TestCase

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GuzzleHttp\Tests\Psr7;
+namespace HeGuzzleHttp\Tests\Psr7;
 
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Psr7\InflateStream;
-use GuzzleHttp\Psr7\NoSeekStream;
+use HeGuzzleHttp\Psr7;
+use HeGuzzleHttp\Psr7\InflateStream;
+use HeGuzzleHttp\Psr7\NoSeekStream;
 use PHPUnit\Framework\TestCase;
 
 /**

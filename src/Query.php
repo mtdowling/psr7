@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GuzzleHttp\Psr7;
+namespace HeGuzzleHttp\Psr7;
 
 final class Query
 {
