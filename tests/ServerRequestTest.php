@@ -163,6 +163,7 @@ class ServerRequestTest extends TestCase
                         'tmp_name' => [
                             0 => '/tmp/php/hp9hskjhf',
                             1 => '/tmp/php/php1h4j1o',
+                            2 => '/tmp/php/w0ensl4ar',
                         ],
                         'error' => [
                             0 => '0',
@@ -171,6 +172,11 @@ class ServerRequestTest extends TestCase
                         'size' => [
                             0 => '123',
                             1 => '7349',
+                        ],
+                    ],
+                    'minimum_data' => [
+                        'tmp_name' => [
+                            0 => '/tmp/php/hp9hskjhf',
                         ],
                     ],
                     'nested' => [
@@ -226,6 +232,18 @@ class ServerRequestTest extends TestCase
                             UPLOAD_ERR_OK,
                             'Image.png',
                             'image/png'
+                        ),
+                        2 => new UploadedFile(
+                            '/tmp/php/w0ensl4ar',
+                            null,
+                            UPLOAD_ERR_OK
+                        ),
+                    ],
+                    'minimum_data' => [
+                        0 => new UploadedFile(
+                            '/tmp/php/hp9hskjhf',
+                            0,
+                            UPLOAD_ERR_OK
                         ),
                     ],
                     'nested' => [
