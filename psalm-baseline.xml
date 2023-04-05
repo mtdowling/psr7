@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.x-dev@">
+  <file src="src/CachingStream.php">
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;stream</code>
+    </UndefinedThisPropertyAssignment>
+  </file>
+  <file src="src/DroppingStream.php">
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;stream</code>
+    </UndefinedThisPropertyAssignment>
+  </file>
   <file src="src/FnStream.php">
-    <InvalidAttribute occurrences="1">
-      <code>\AllowDynamicProperties</code>
-    </InvalidAttribute>
     <InvalidFunctionCall occurrences="15">
       <code>call_user_func($this-&gt;_fn___toString)</code>
       <code>call_user_func($this-&gt;_fn_close)</code>
@@ -26,6 +33,16 @@
     <ParamNameMismatch occurrences="1">
       <code>$file</code>
     </ParamNameMismatch>
+  </file>
+  <file src="src/InflateStream.php">
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;stream</code>
+    </UndefinedThisPropertyAssignment>
+  </file>
+  <file src="src/LimitStream.php">
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;stream</code>
+    </UndefinedThisPropertyAssignment>
   </file>
   <file src="src/MessageTrait.php">
     <LessSpecificImplementedReturnType occurrences="7">
@@ -51,17 +68,14 @@
       <code>$filename</code>
       <code>$filename</code>
     </PossiblyNullArgument>
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;stream</code>
+    </UndefinedThisPropertyAssignment>
   </file>
   <file src="src/Request.php">
     <ParadoxicalCondition occurrences="1">
       <code>isset($this-&gt;headerNames['host'])</code>
     </ParadoxicalCondition>
-  </file>
-  <file src="src/Response.php">
-    <RedundantCast occurrences="2">
-      <code>(int) $code</code>
-      <code>(string) $reasonPhrase</code>
-    </RedundantCast>
   </file>
   <file src="src/ServerRequest.php">
     <InvalidReturnStatement occurrences="1">
@@ -80,9 +94,6 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;stream</code>
     </InvalidPropertyAssignmentValue>
-    <RedundantCast occurrences="1">
-      <code>(int) $whence</code>
-    </RedundantCast>
     <RedundantPropertyInitializationCheck occurrences="10">
       <code>isset($this-&gt;stream)</code>
       <code>isset($this-&gt;stream)</code>
@@ -95,6 +106,12 @@
       <code>isset($this-&gt;stream)</code>
       <code>isset($this-&gt;stream)</code>
     </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/StreamDecoratorTrait.php">
+    <UndefinedThisPropertyAssignment occurrences="2">
+      <code>$this-&gt;stream</code>
+      <code>$this-&gt;stream</code>
+    </UndefinedThisPropertyAssignment>
   </file>
   <file src="src/Uri.php">
     <PossiblyInvalidArgument occurrences="1">
