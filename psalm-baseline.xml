@@ -1,51 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.x-dev@">
-  <file src="src/CachingStream.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;stream</code>
-    </UndefinedThisPropertyAssignment>
-  </file>
-  <file src="src/DroppingStream.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;stream</code>
-    </UndefinedThisPropertyAssignment>
-  </file>
+<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
   <file src="src/FnStream.php">
-    <InvalidFunctionCall occurrences="15">
-      <code>call_user_func($this-&gt;_fn___toString)</code>
-      <code>call_user_func($this-&gt;_fn_close)</code>
-      <code>call_user_func($this-&gt;_fn_detach)</code>
-      <code>call_user_func($this-&gt;_fn_eof)</code>
-      <code>call_user_func($this-&gt;_fn_getContents)</code>
-      <code>call_user_func($this-&gt;_fn_getMetadata, $key)</code>
-      <code>call_user_func($this-&gt;_fn_getSize)</code>
-      <code>call_user_func($this-&gt;_fn_isReadable)</code>
-      <code>call_user_func($this-&gt;_fn_isSeekable)</code>
-      <code>call_user_func($this-&gt;_fn_isWritable)</code>
-      <code>call_user_func($this-&gt;_fn_read, $length)</code>
-      <code>call_user_func($this-&gt;_fn_rewind)</code>
-      <code>call_user_func($this-&gt;_fn_seek, $offset, $whence)</code>
-      <code>call_user_func($this-&gt;_fn_tell)</code>
-      <code>call_user_func($this-&gt;_fn_write, $string)</code>
+    <InvalidFunctionCall>
+      <code><![CDATA[call_user_func($this->_fn___toString)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_close)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_detach)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_eof)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_getContents)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_getMetadata, $key)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_getSize)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_isReadable)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_isSeekable)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_isWritable)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_read, $length)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_rewind)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_seek, $offset, $whence)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_tell)]]></code>
+      <code><![CDATA[call_user_func($this->_fn_write, $string)]]></code>
     </InvalidFunctionCall>
   </file>
+  <file src="src/Header.php">
+    <PossiblyUndefinedArrayOffset>
+      <code>$m[0]</code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
   <file src="src/HttpFactory.php">
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$file</code>
     </ParamNameMismatch>
   </file>
-  <file src="src/InflateStream.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;stream</code>
-    </UndefinedThisPropertyAssignment>
-  </file>
-  <file src="src/LimitStream.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;stream</code>
-    </UndefinedThisPropertyAssignment>
+  <file src="src/Message.php">
+    <PossiblyUndefinedArrayOffset>
+      <code>$parts[1]</code>
+      <code>$parts[1]</code>
+      <code>$parts[1]</code>
+      <code>$parts[1]</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="src/MessageTrait.php">
-    <LessSpecificImplementedReturnType occurrences="7">
+    <LessSpecificImplementedReturnType>
       <code>MessageInterface</code>
       <code>MessageInterface</code>
       <code>MessageInterface</code>
@@ -54,7 +47,7 @@
       <code>array</code>
       <code>array</code>
     </LessSpecificImplementedReturnType>
-    <ParamNameMismatch occurrences="6">
+    <ParamNameMismatch>
       <code>$header</code>
       <code>$header</code>
       <code>$header</code>
@@ -63,75 +56,75 @@
       <code>$header</code>
     </ParamNameMismatch>
   </file>
-  <file src="src/MultipartStream.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$filename</code>
-      <code>$filename</code>
-    </PossiblyNullArgument>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;stream</code>
-    </UndefinedThisPropertyAssignment>
-  </file>
   <file src="src/Request.php">
-    <ParadoxicalCondition occurrences="1">
-      <code>isset($this-&gt;headerNames['host'])</code>
-    </ParadoxicalCondition>
+    <NoValue>
+      <code>$header</code>
+    </NoValue>
+  </file>
+  <file src="src/Response.php">
+    <RedundantCast>
+      <code>(int) $code</code>
+      <code>(string) $reasonPhrase</code>
+    </RedundantCast>
   </file>
   <file src="src/ServerRequest.php">
-    <InvalidReturnStatement occurrences="1">
+    <InvalidArgument>
+      <code>$_SERVER['SERVER_PORT']</code>
+    </InvalidArgument>
+    <InvalidArrayOffset>
+      <code>$normalizedFiles[$key]</code>
+    </InvalidArrayOffset>
+    <InvalidReturnStatement>
       <code>$normalizedFiles</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType>
       <code>UploadedFileInterface[]</code>
     </InvalidReturnType>
-    <ParamNameMismatch occurrences="3">
+    <ParamNameMismatch>
       <code>$attribute</code>
       <code>$attribute</code>
       <code>$attribute</code>
     </ParamNameMismatch>
   </file>
   <file src="src/Stream.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$this-&gt;stream</code>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->stream]]></code>
     </InvalidPropertyAssignmentValue>
-    <RedundantPropertyInitializationCheck occurrences="10">
-      <code>isset($this-&gt;stream)</code>
-      <code>isset($this-&gt;stream)</code>
-      <code>isset($this-&gt;stream)</code>
-      <code>isset($this-&gt;stream)</code>
-      <code>isset($this-&gt;stream)</code>
-      <code>isset($this-&gt;stream)</code>
-      <code>isset($this-&gt;stream)</code>
-      <code>isset($this-&gt;stream)</code>
-      <code>isset($this-&gt;stream)</code>
-      <code>isset($this-&gt;stream)</code>
+    <RedundantCast>
+      <code>(int) $whence</code>
+    </RedundantCast>
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[isset($this->stream)]]></code>
+      <code><![CDATA[isset($this->stream)]]></code>
+      <code><![CDATA[isset($this->stream)]]></code>
+      <code><![CDATA[isset($this->stream)]]></code>
+      <code><![CDATA[isset($this->stream)]]></code>
+      <code><![CDATA[isset($this->stream)]]></code>
+      <code><![CDATA[isset($this->stream)]]></code>
+      <code><![CDATA[isset($this->stream)]]></code>
+      <code><![CDATA[isset($this->stream)]]></code>
+      <code><![CDATA[isset($this->stream)]]></code>
     </RedundantPropertyInitializationCheck>
   </file>
-  <file src="src/StreamDecoratorTrait.php">
-    <UndefinedThisPropertyAssignment occurrences="2">
-      <code>$this-&gt;stream</code>
-      <code>$this-&gt;stream</code>
-    </UndefinedThisPropertyAssignment>
-  </file>
   <file src="src/Uri.php">
-    <PossiblyInvalidArgument occurrences="1">
+    <PossiblyInvalidArgument>
       <code>$result</code>
     </PossiblyInvalidArgument>
   </file>
   <file src="src/UriResolver.php">
-    <TypeDoesNotContainType occurrences="1">
+    <TypeDoesNotContainType>
       <code>'' === $relativePath</code>
     </TypeDoesNotContainType>
   </file>
   <file src="src/Utils.php">
-    <FalsableReturnStatement occurrences="1">
+    <FalsableReturnStatement>
       <code>$contents</code>
     </FalsableReturnStatement>
-    <MissingDocblockType occurrences="2">
+    <MissingDocblockType>
       <code>throw $ex;</code>
       <code>throw $ex;</code>
     </MissingDocblockType>
-    <PossiblyUndefinedVariable occurrences="2">
+    <PossiblyUndefinedVariable>
       <code>$contents</code>
       <code>$handle</code>
     </PossiblyUndefinedVariable>

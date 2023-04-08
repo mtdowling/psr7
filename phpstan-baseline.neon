@@ -221,16 +221,6 @@ parameters:
 			path: src/PumpStream.php
 
 		-
-			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, mixed given\\.$#"
-			count: 1
-			path: src/Request.php
-
-		-
-			message: "#^Property GuzzleHttp\\\\Psr7\\\\Request\\:\\:\\$requestTarget \\(string\\|null\\) does not accept mixed\\.$#"
-			count: 1
-			path: src/Request.php
-
-		-
 			message: "#^Method GuzzleHttp\\\\Psr7\\\\ServerRequest\\:\\:normalizeNestedFileSpec\\(\\) should return array\\<Psr\\\\Http\\\\Message\\\\UploadedFileInterface\\> but returns array\\<int\\|string, array\\<Psr\\\\Http\\\\Message\\\\UploadedFileInterface\\>\\|Psr\\\\Http\\\\Message\\\\UploadedFileInterface\\>\\.$#"
 			count: 1
 			path: src/ServerRequest.php
@@ -286,7 +276,7 @@ parameters:
 			path: src/Uri.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\|string\\)\\: mixed\\)\\|null, 'urldecode' given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\<0, 65535\\>\\|string\\)\\: mixed\\)\\|null, 'urldecode' given\\.$#"
 			count: 1
 			path: src/Uri.php
 
@@ -301,7 +291,7 @@ parameters:
 			path: src/UriNormalizer.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between '' and non\\-empty\\-string will always evaluate to false\\.$#"
+			message: "#^Strict comparison using \\=\\=\\= between '' and non\\-falsy\\-string will always evaluate to false\\.$#"
 			count: 1
 			path: src/UriResolver.php
 
