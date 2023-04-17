@@ -288,6 +288,15 @@ class ResponseTest extends TestCase
         yield [[], 'foo', 'Header name must be a string but array provided.'];
         yield [false, 'foo', 'Header name must be a string but boolean provided.'];
         yield [new \stdClass(), 'foo', 'Header name must be a string but stdClass provided.'];
+        yield ['', 'foo', "\"\" is not valid header name."];
+        yield ["Content-Type\r\n\r\n", 'foo', "\"Content-Type\r\n\r\n\" is not valid header name."];
+        yield ["Content-Type\r\n", 'foo', "\"Content-Type\r\n\" is not valid header name."];
+        yield ["Content-Type\n", 'foo', "\"Content-Type\n\" is not valid header name."];
+        yield ["\r\nContent-Type", 'foo', "\"\r\nContent-Type\" is not valid header name."];
+        yield ["\nContent-Type", 'foo', "\"\nContent-Type\" is not valid header name."];
+        yield ["\n", 'foo', "\"\n\" is not valid header name."];
+        yield ["\r\n", 'foo', "\"\r\n\" is not valid header name."];
+        yield ["\t", 'foo', "\"\t\" is not valid header name."];
     }
 
     public function testHeaderValuesAreTrimmed(): void
