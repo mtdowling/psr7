@@ -271,6 +271,13 @@ class MessageTest extends TestCase
         self::assertSame('’é€௵ဪ‱', Psr7\Message::bodySummary($message));
     }
 
+    public function testMessageBodySummaryWithSpecialUTF8CharactersAndLargeBody(): void
+    {
+        $message = new Psr7\Response(200, [], '🤦🏾‍♀️');
+        // The first Unicode codepoint of the body has four bytes.
+        self::assertNull(Psr7\Message::bodySummary($message, 3));
+    }
+
     public function testMessageBodySummaryWithEmptyBody(): void
     {
         $message = new Psr7\Response(200, [], '');
