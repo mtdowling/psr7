@@ -3,8 +3,10 @@ name: Checks
 on:
   push:
     branches:
-      - master
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   composer-normalize:

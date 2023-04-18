@@ -3,11 +3,12 @@ name: Integration
 on:
   push:
     branches:
-      - master
   pull_request:
 
-jobs:
+permissions:
+  contents: read
 
+jobs:
   build:
     name: Test
     runs-on: ubuntu-22.04

@@ -3,8 +3,10 @@ name: Static analysis
 on:
   push:
     branches:
-      - master
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   phpstan:
