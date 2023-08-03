@@ -143,7 +143,7 @@ class MultipartStreamTest extends TestCase
 
         $f3 = Psr7\FnStream::decorate(Psr7\Utils::streamFor('bar'), [
             'getMetadata' => static function (): string {
-                return '/foo/bar.gif';
+                return '/foo/bar.unknown';
             },
         ]);
 
@@ -176,9 +176,9 @@ class MultipartStreamTest extends TestCase
             "\r\n",
             "baz\r\n",
             "--boundary\r\n",
-            "Content-Disposition: form-data; name=\"qux\"; filename=\"bar.gif\"\r\n",
+            "Content-Disposition: form-data; name=\"qux\"; filename=\"bar.unknown\"\r\n",
             "Content-Length: 3\r\n",
-            "Content-Type: image/gif\r\n",
+            "Content-Type: application/octet-stream\r\n",
             "\r\n",
             "bar\r\n",
             "--boundary--\r\n",
