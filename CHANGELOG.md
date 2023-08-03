@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+
+- Corrected mime type for `.acc` files to `audio/aac`
+
 ## 2.5.0 - 2023-04-17
 
 ### Changed
