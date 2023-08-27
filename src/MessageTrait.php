@@ -12,10 +12,10 @@ use Psr\Http\Message\StreamInterface;
  */
 trait MessageTrait
 {
-    /** @var array<string, string[]> Map of all registered headers, as original name => array of values */
+    /** @var string[][] Map of all registered headers, as original name => array of values */
     private $headers = [];
 
-    /** @var array<string, string> Map of lowercase header name => original name at registration */
+    /** @var string[] Map of lowercase header name => original name at registration */
     private $headerNames = [];
 
     /** @var string */
