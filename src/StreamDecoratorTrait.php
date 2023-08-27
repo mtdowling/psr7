@@ -82,8 +82,6 @@ trait StreamDecoratorTrait
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return mixed
      */
     public function getMetadata($key = null)

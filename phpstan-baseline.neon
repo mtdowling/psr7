@@ -206,16 +206,6 @@ parameters:
 			path: src/NoSeekStream.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function strlen expects string, mixed given\\.$#"
-			count: 1
-			path: src/PumpStream.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of method GuzzleHttp\\\\Psr7\\\\BufferStream\\:\\:write\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/PumpStream.php
-
-		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/PumpStream.php
@@ -311,7 +301,7 @@ parameters:
 			path: src/Utils.php
 
 		-
-			message: "#^Parameter \\#1 \\$source of class GuzzleHttp\\\\Psr7\\\\PumpStream constructor expects callable\\(int\\)\\: string\\|false\\|null, Closure\\(\\)\\: mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$source of class GuzzleHttp\\\\Psr7\\\\PumpStream constructor expects callable\\(int\\)\\: \\(string\\|false\\|null\\), Closure\\(\\)\\: mixed given\\.$#"
 			count: 1
 			path: src/Utils.php
 
