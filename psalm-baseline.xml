@@ -2,21 +2,21 @@
 <files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
   <file src="src/FnStream.php">
     <InvalidFunctionCall>
-      <code><![CDATA[call_user_func($this->_fn___toString)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_close)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_detach)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_eof)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_getContents)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_getMetadata, $key)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_getSize)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_isReadable)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_isSeekable)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_isWritable)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_read, $length)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_rewind)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_seek, $offset, $whence)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_tell)]]></code>
-      <code><![CDATA[call_user_func($this->_fn_write, $string)]]></code>
+      <code><![CDATA[($this->_fn___toString)()]]></code>
+      <code><![CDATA[($this->_fn_close)()]]></code>
+      <code><![CDATA[($this->_fn_detach)()]]></code>
+      <code><![CDATA[($this->_fn_eof)()]]></code>
+      <code><![CDATA[($this->_fn_getContents)()]]></code>
+      <code><![CDATA[($this->_fn_getMetadata)($key)]]></code>
+      <code><![CDATA[($this->_fn_getSize)()]]></code>
+      <code><![CDATA[($this->_fn_isReadable)()]]></code>
+      <code><![CDATA[($this->_fn_isSeekable)()]]></code>
+      <code><![CDATA[($this->_fn_isWritable)()]]></code>
+      <code><![CDATA[($this->_fn_read)($length)]]></code>
+      <code><![CDATA[($this->_fn_rewind)()]]></code>
+      <code><![CDATA[($this->_fn_seek)($offset, $whence)]]></code>
+      <code><![CDATA[($this->_fn_tell)()]]></code>
+      <code><![CDATA[($this->_fn_write)($string)]]></code>
     </InvalidFunctionCall>
   </file>
   <file src="src/Header.php">

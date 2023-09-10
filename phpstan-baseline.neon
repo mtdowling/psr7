@@ -91,69 +91,9 @@ parameters:
 			path: src/FnStream.php
 
 		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:__toString\\(\\) should return string but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:detach\\(\\) should return resource\\|null but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:eof\\(\\) should return bool but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:getContents\\(\\) should return string but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:getSize\\(\\) should return int\\|null but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:isReadable\\(\\) should return bool but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:isSeekable\\(\\) should return bool but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:isWritable\\(\\) should return bool but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:read\\(\\) should return string but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:tell\\(\\) should return int but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\FnStream\\:\\:write\\(\\) should return int but returns mixed\\.$#"
-			count: 1
-			path: src/FnStream.php
-
-		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/FnStream.php
-
-		-
-			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: src/Header.php
 
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
@@ -189,11 +129,6 @@ parameters:
 			message: "#^Variable \\$headerLines in PHPDoc tag @var does not match assigned variable \\$count\\.$#"
 			count: 1
 			path: src/Message.php
-
-		-
-			message: "#^Method GuzzleHttp\\\\Psr7\\\\MultipartStream\\:\\:getHeader\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/MultipartStream.php
 
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
@@ -296,11 +231,6 @@ parameters:
 			path: src/Utils.php
 
 		-
-			message: "#^Parameter \\#1 \\$keys of static method GuzzleHttp\\\\Psr7\\\\Utils\\:\\:caselessRemove\\(\\) expects array\\<string\\>, array\\<int, int\\|string\\> given\\.$#"
-			count: 1
-			path: src/Utils.php
-
-		-
 			message: "#^Parameter \\#1 \\$source of class GuzzleHttp\\\\Psr7\\\\PumpStream constructor expects callable\\(int\\)\\: \\(string\\|false\\|null\\), Closure\\(\\)\\: mixed given\\.$#"
 			count: 1
 			path: src/Utils.php
@@ -319,4 +249,3 @@ parameters:
 			message: "#^Variable \\$handle might not be defined\\.$#"
 			count: 1
 			path: src/Utils.php
-

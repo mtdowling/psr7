@@ -28,7 +28,7 @@ class Request implements RequestInterface
     /**
      * @param string                               $method  HTTP method
      * @param string|UriInterface                  $uri     URI
-     * @param array<string, string|string[]>       $headers Request headers
+     * @param (string|string[])[]                  $headers Request headers
      * @param string|resource|StreamInterface|null $body    Request body
      * @param string                               $version Protocol version
      */

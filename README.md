@@ -273,7 +273,7 @@ class EofCallbackStream implements StreamInterface
 
         // Invoke the callback when EOF is hit.
         if ($this->eof()) {
-            call_user_func($this->callback);
+            ($this->callback)();
         }
 
         return $result;

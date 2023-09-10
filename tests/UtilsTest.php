@@ -522,6 +522,11 @@ class UtilsTest extends TestCase
                 ['Foo-Bar' => 'hello', 123 => '', 'Foo-BAR' => 'hello123', 'foobar' => 'baz'],
                 [123 => '', 'foobar' => 'baz'],
             ],
+            [
+                ['foo-Bar', 123],
+                ['Foo-Bar' => 'hello', 123 => '', 'Foo-BAR' => 'hello123', 'foobar' => 'baz'],
+                ['foobar' => 'baz'],
+            ],
         ];
     }
 
