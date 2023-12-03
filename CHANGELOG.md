@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 2.6.2 - 2023-12-03
 
+### Fixed
+
+- Fixed another issue with the fact that PHP transforms numeric strings in array keys to ints
+
 ### Changed
 
 - Updated links in docs to their canonical versions
+- Replaced `call_user_func*` with native calls
 
 ## 2.6.1 - 2023-08-27
 
