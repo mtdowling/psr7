@@ -68,6 +68,9 @@ final class Message
         }
 
         do {
+            if ($size < $truncateAt) {
+                break;
+            }
             $body->rewind();
             $body->seek($truncateAt);
             $char = $body->read(1);
@@ -75,12 +78,12 @@ final class Message
             // detect the character binary conversion
             // stoped at 0x00000000 - 0x0000007F or the first byte of the utf8 code points
             // @see https://man7.org/linux/man-pages/man7/utf-8.7.html
-            if (!$bin[0] || ($bin[0] && $bin[1])) {
+            if ($bin[0] === '0' || ($bin[0] === '1' && $bin[1] === '1')) {
                 $body->rewind();
                 break;
             }
-            $truncateAt -= 1;
-        } while ($bin[0]);
+            --$truncateAt;
+        } while ($bin[0] !== '0');
         // fast return while won't need reading the stream
         if ($truncateAt === 0) {
             return null;
