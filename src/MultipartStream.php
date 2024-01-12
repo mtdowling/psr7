@@ -9,6 +9,13 @@ use Psr\Http\Message\StreamInterface;
 /**
  * Stream that when read returns bytes for a streaming multipart or
  * multipart/form-data stream.
+ *
+ * @phpstan-type Element array{
+ *     name: string,
+ *     contents: StreamInterface|resource|string,
+ *     headers?: array<string, string>,
+ *     filename?: string
+ * }
  */
 final class MultipartStream implements StreamInterface
 {
@@ -21,16 +28,14 @@ final class MultipartStream implements StreamInterface
     private $stream;
 
     /**
-     * @param array  $elements Array of associative arrays, each containing a
-     *                         required "name" key mapping to the form field,
-     *                         name, a required "contents" key mapping to a
-     *                         StreamInterface/resource/string, an optional
-     *                         "headers" associative array of custom headers,
-     *                         and an optional "filename" key mapping to a
-     *                         string to send as the filename in the part.
-     * @param string $boundary You can optionally provide a specific boundary
-     *
-     * @throws \InvalidArgumentException
+     * @param array<Element> $elements Array of associative arrays, each containing a
+     *                                 required "name" key mapping to the form field,
+     *                                 name, a required "contents" key mapping to a
+     *                                 StreamInterface/resource/string, an optional
+     *                                 "headers" associative array of custom headers,
+     *                                 and an optional "filename" key mapping to a
+     *                                 string to send as the filename in the part.
+     * @param string         $boundary You can optionally provide a specific boundary
      */
     public function __construct(array $elements = [], string $boundary = null)
     {
@@ -65,15 +70,14 @@ final class MultipartStream implements StreamInterface
 
     /**
      * Create the aggregate stream that will be used to upload the POST data
+     *
+     * @param array<Element> $elements
      */
     protected function createStream(array $elements = []): StreamInterface
     {
         $stream = new AppendStream();
 
         foreach ($elements as $element) {
-            if (!is_array($element)) {
-                throw new \UnexpectedValueException('An array is expected');
-            }
             $this->addElement($stream, $element);
         }
 
@@ -83,14 +87,11 @@ final class MultipartStream implements StreamInterface
         return $stream;
     }
 
+    /**
+     * @param Element $element
+     */
     private function addElement(AppendStream $stream, array $element): void
     {
-        foreach (['contents', 'name'] as $key) {
-            if (!array_key_exists($key, $element)) {
-                throw new \InvalidArgumentException("A '{$key}' key is required");
-            }
-        }
-
         $element['contents'] = Utils::streamFor($element['contents']);
 
         if (empty($element['filename'])) {

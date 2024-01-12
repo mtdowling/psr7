@@ -36,18 +36,6 @@ class MultipartStreamTest extends TestCase
         self::assertSame(strlen($boundary) + 6, $b->getSize());
     }
 
-    public function testValidatesFilesArrayElement(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        new MultipartStream([['foo' => 'bar']]);
-    }
-
-    public function testEnsuresFileHasName(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        new MultipartStream([['contents' => 'bar']]);
-    }
-
     public function testSerializesFields(): void
     {
         $b = new MultipartStream([
