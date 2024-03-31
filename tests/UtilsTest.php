@@ -77,7 +77,7 @@ class UtilsTest extends TestCase
     public function testCopyToStreamReadsInChunksInsteadOfAllInMemory(): void
     {
         $sizes = [];
-        $s1 = new Psr7\FnStream([
+        $s1 = new FnStream([
             'eof' => function () {
                 return false;
             },
