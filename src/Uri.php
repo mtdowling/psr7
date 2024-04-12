@@ -119,8 +119,8 @@ class Uri implements UriInterface, \JsonSerializable
             $ipv4_address = $matches[3];
             $ipParts      = explode('.', $ipv4_address);
             if (count($ipParts) === 4) {
-                $part7 = base_convert((string)(($ipParts[0] * 256) + $ipParts[1]), 10, 16);
-                $part8 = base_convert((string)(($ipParts[2] * 256) + $ipParts[3]), 10, 16);
+                $part7 = base_convert((string)(((int)$ipParts[0] * 256) + (int)$ipParts[1]), 10, 16);
+                $part8 = base_convert((string)(((int)$ipParts[2] * 256) + (int)$ipParts[3]), 10, 16);
 
                 $prefix = $matches[1] . '[' . $matches[2] . ':' . $part7 . ':' . $part8 . ']';
                 $url    = $matches[4];
