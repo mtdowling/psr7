@@ -141,7 +141,7 @@ trait MessageTrait
     }
 
     /**
-     * @param array<string|int, string|string[]> $headers
+     * @param (string|string[])[] $headers
      */
     private function setHeaders(array $headers): void
     {

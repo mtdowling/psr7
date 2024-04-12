@@ -185,7 +185,7 @@ final class UriNormalizer
     {
         $regex = '/(?:%[A-Fa-f0-9]{2})++/';
 
-        $callback = function (array $match) {
+        $callback = function (array $match): string {
             return strtoupper($match[0]);
         };
 
@@ -201,7 +201,7 @@ final class UriNormalizer
     {
         $regex = '/%(?:2D|2E|5F|7E|3[0-9]|[46][1-9A-F]|[57][0-9A])/i';
 
-        $callback = function (array $match) {
+        $callback = function (array $match): string {
             return rawurldecode($match[0]);
         };
 

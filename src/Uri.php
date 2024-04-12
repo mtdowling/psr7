@@ -279,7 +279,7 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * @see https://datatracker.ietf.org/doc/html/rfc3986#section-4.4
      */
-    public static function isSameDocumentReference(UriInterface $uri, UriInterface $base = null): bool
+    public static function isSameDocumentReference(UriInterface $uri, ?UriInterface $base = null): bool
     {
         if ($base !== null) {
             $uri = UriResolver::resolve($base, $uri);
@@ -336,8 +336,8 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * It has the same behavior as withQueryValue() but for an associative array of key => value.
      *
-     * @param UriInterface               $uri           URI to use as a base.
-     * @param array<string, string|null> $keyValueArray Associative array of key and values
+     * @param UriInterface    $uri           URI to use as a base.
+     * @param (string|null)[] $keyValueArray Associative array of key and values
      */
     public static function withQueryValues(UriInterface $uri, array $keyValueArray): UriInterface
     {
@@ -638,7 +638,7 @@ class Uri implements UriInterface, \JsonSerializable
     }
 
     /**
-     * @param string[] $keys
+     * @param (string|int)[] $keys
      *
      * @return string[]
      */
@@ -650,7 +650,9 @@ class Uri implements UriInterface, \JsonSerializable
             return [];
         }
 
-        $decodedKeys = array_map('rawurldecode', $keys);
+        $decodedKeys = array_map(function ($k): string {
+            return rawurldecode((string) $k);
+        }, $keys);
 
         return array_filter(explode('&', $current), function ($part) use ($decodedKeys) {
             return !in_array(rawurldecode(explode('=', $part)[0]), $decodedKeys, true);
