@@ -7,6 +7,10 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
 
+use function http_build_query;
+
+use const PHP_QUERY_RFC3986;
+
 class QueryTest extends TestCase
 {
     public function parseQueryProvider()
@@ -114,5 +118,11 @@ class QueryTest extends TestCase
             'bar' => [false, 'false'],
         ];
         self::assertEquals('foo=1&foo=true&bar=0&bar=false', Psr7\Query::build($data, PHP_QUERY_RFC1738));
+
+        $data = [
+            'foo' => true,
+            'bar' => false,
+        ];
+        self::assertEquals('foo=true&bar=false', Psr7\Query::build($data, PHP_QUERY_RFC3986, false));
     }
 }
