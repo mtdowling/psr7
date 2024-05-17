@@ -117,13 +117,13 @@ class Uri implements UriInterface, \JsonSerializable
         if (preg_match("%^(.*://)\[((?:[0-9a-fA-F]{1,4}:){4}):((?:\d{1,3}\.){3}\d{1,3})](.*?)$%", $url, $matches)) {
             /** @var array{0:string, 1:string, 2:string, 3:string, 4:string} $matches */
             $ipv4_address = $matches[3];
-            $ipParts      = explode('.', $ipv4_address);
+            $ipParts = explode('.', $ipv4_address);
             if (count($ipParts) === 4) {
-                $part7 = base_convert((string)(((int)$ipParts[0] * 256) + (int)$ipParts[1]), 10, 16);
-                $part8 = base_convert((string)(((int)$ipParts[2] * 256) + (int)$ipParts[3]), 10, 16);
+                $part7 = base_convert((string) (((int) $ipParts[0] * 256) + (int) $ipParts[1]), 10, 16);
+                $part8 = base_convert((string) (((int) $ipParts[2] * 256) + (int) $ipParts[3]), 10, 16);
 
-                $prefix = $matches[1] . '[' . $matches[2] . ':' . $part7 . ':' . $part8 . ']';
-                $url    = $matches[4];
+                $prefix = $matches[1].'['.$matches[2].':'.$part7.':'.$part8.']';
+                $url = $matches[4];
             }
         }
 
