@@ -539,4 +539,11 @@ class UtilsTest extends TestCase
     {
         self::assertSame($expected, Psr7\Utils::caselessRemove($keys, $data));
     }
+
+    public function testRedactUserinfoInUri(): void
+    {
+        $uri = new Psr7\Uri('http://my_user:secretPass@localhost/');
+
+        self::assertSame('http://my_user:***@localhost/', Psr7\Utils::redactUserinfoInUri($uri)->__toString());
+    }
 }

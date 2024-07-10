@@ -460,4 +460,18 @@ final class Utils
 
         throw new \InvalidArgumentException('URI must be a string or UriInterface');
     }
+
+    /**
+     * Redacts the password in the userinfo part of a UriInterface.
+     */
+    public static function redactUserinfoInUri(UriInterface $uri): UriInterface
+    {
+        $userInfo = $uri->getUserInfo();
+
+        if (false !== ($pos = \strpos($userInfo, ':'))) {
+            return $uri->withUserInfo(\substr($userInfo, 0, $pos), '***');
+        }
+
+        return $uri;
+    }
 }
