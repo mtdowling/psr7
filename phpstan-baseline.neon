@@ -226,11 +226,6 @@ parameters:
 			path: src/Utils.php
 
 		-
-			message: "#^Offset 'uri' on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\} on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: src/Utils.php
-
-		-
 			message: "#^Parameter \\#1 \\$source of class GuzzleHttp\\\\Psr7\\\\PumpStream constructor expects callable\\(int\\)\\: \\(string\\|false\\|null\\), Closure\\(\\)\\: mixed given\\.$#"
 			count: 1
 			path: src/Utils.php

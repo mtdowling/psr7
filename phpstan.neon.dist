@@ -3,7 +3,9 @@ includes:
     - vendor-bin/phpstan/vendor/phpstan/phpstan-deprecation-rules/rules.neon
 
 parameters:
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
     level: max
     paths:
         - src
