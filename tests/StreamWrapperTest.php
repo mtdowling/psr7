@@ -17,7 +17,7 @@ class StreamWrapperTest extends TestCase
 {
     public function testResource(): void
     {
-        $stream = Psr7\Utils::streamFor('foo');
+        $stream = Utils::streamFor('foo');
         $handle = StreamWrapper::getResource($stream);
         self::assertSame('foo', fread($handle, 3));
         self::assertSame(3, ftell($handle));
@@ -64,7 +64,7 @@ class StreamWrapperTest extends TestCase
 
     public function testStreamContext(): void
     {
-        $stream = Psr7\Utils::streamFor('foo');
+        $stream = Utils::streamFor('foo');
 
         self::assertSame('foo', file_get_contents('guzzle://stream', false, StreamWrapper::createStreamContext($stream)));
     }
@@ -72,8 +72,8 @@ class StreamWrapperTest extends TestCase
     public function testStreamCast(): void
     {
         $streams = [
-            StreamWrapper::getResource(Psr7\Utils::streamFor('foo')),
-            StreamWrapper::getResource(Psr7\Utils::streamFor('bar')),
+            StreamWrapper::getResource(Utils::streamFor('foo')),
+            StreamWrapper::getResource(Utils::streamFor('bar')),
         ];
         $write = null;
         $except = null;
@@ -158,7 +158,7 @@ class StreamWrapperTest extends TestCase
      */
     public function testXmlReaderWithStream(): void
     {
-        $stream = Psr7\Utils::streamFor('<?xml version="1.0" encoding="utf-8"?><foo />');
+        $stream = Utils::streamFor('<?xml version="1.0" encoding="utf-8"?><foo />');
 
         StreamWrapper::register();
         libxml_set_streams_context(StreamWrapper::createStreamContext($stream));
@@ -174,7 +174,7 @@ class StreamWrapperTest extends TestCase
      */
     public function testXmlWriterWithStream(): void
     {
-        $stream = Psr7\Utils::streamFor(fopen('php://memory', 'wb'));
+        $stream = Utils::streamFor(fopen('php://memory', 'wb'));
 
         StreamWrapper::register();
         libxml_set_streams_context(StreamWrapper::createStreamContext($stream));
