@@ -7,10 +7,6 @@ namespace GuzzleHttp\Tests\Psr7;
 use GuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
 
-use function http_build_query;
-
-use const PHP_QUERY_RFC3986;
-
 class QueryTest extends TestCase
 {
     public function parseQueryProvider()
