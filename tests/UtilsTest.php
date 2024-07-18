@@ -154,6 +154,15 @@ class UtilsTest extends TestCase
         self::assertSame('h', Psr7\Utils::readLine($s));
     }
 
+    public function testRedactUserInfo(): void
+    {
+        $uri = new Psr7\Uri('http://my_user:secretPass@localhost/');
+
+        $redactedUri = Psr7\Utils::redactUserInfo($uri);
+
+        self::assertSame('http://my_user:***@localhost/', (string) $redactedUri);
+    }
+
     public function testCalculatesHash(): void
     {
         $s = Psr7\Utils::streamFor('foobazbar');

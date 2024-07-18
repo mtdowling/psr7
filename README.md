@@ -503,6 +503,13 @@ a message.
 Read a line from the stream up to the maximum allowed buffer length.
 
 
+## `GuzzleHttp\Psr7\Utils::redactUserInfo`
+
+`public static function redactUserInfo(UriInterface $uri): UriInterface`
+
+Redact the password in the user info part of a URI.
+
+
 ## `GuzzleHttp\Psr7\Utils::streamFor`
 
 `public static function streamFor(resource|string|null|int|float|bool|StreamInterface|callable|\Iterator $resource = '', array $options = []): StreamInterface`
