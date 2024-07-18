@@ -250,7 +250,6 @@ final class Utils
         return $buffer;
     }
 
-
     /**
      * Redact the password in the user info part of a URI.
      */
