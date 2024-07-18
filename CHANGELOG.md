@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Make `StreamWrapper::stream_stat()` returns `false` if inner stream's size is `null` 
+- Make `StreamWrapper::stream_stat()` return `false` if inner stream's size is `null` 
 
 ### Changed
 
