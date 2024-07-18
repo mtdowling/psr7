@@ -1,8 +1,8 @@
 {
     "require": {
         "php": "^7.4 || ^8.0",
-        "phpstan/phpstan": "1.10.47",
-        "phpstan/phpstan-deprecation-rules": "1.1.4"
+        "phpstan/phpstan": "1.11.7",
+        "phpstan/phpstan-deprecation-rules": "1.2.0"
     },
     "config": {
         "preferred-install": "dist"
