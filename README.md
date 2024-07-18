@@ -436,7 +436,7 @@ will be parsed into `['foo[a]' => '1', 'foo[b]' => '2'])`.
 
 ## `GuzzleHttp\Psr7\Query::build`
 
-`public static function build(array $params, int|false $encoding = PHP_QUERY_RFC3986): string`
+`public static function build(array $params, int|false $encoding = PHP_QUERY_RFC3986, bool $treatBoolsAsInts = true): string`
 
 Build a query string from an array of key value pairs.
 
