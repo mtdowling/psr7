@@ -89,8 +89,8 @@ final class Query
         }
 
         $castBool = $treatBooleansAsInts
-            ? function ($v) { return (int) $v; }
-        : function ($v) { return $v ? 'true' : 'false'; };
+            ? static function ($v) { return (int) $v; }
+            : static function ($v) { return $v ? 'true' : 'false'; };
 
         $qs = '';
         foreach ($params as $k => $v) {
