@@ -92,7 +92,7 @@ final class MultipartStream implements StreamInterface
         }
 
         if (is_array($element['contents'])) {
-            $prepare = function ($contents, $key, $root = null) use ($stream, &$values, &$prepare) {
+            $prepare = function ($contents, $key, $root = null) use ($stream, &$prepare) {
                 $fieldName = $root ? sprintf('%s[%s]', $root, $key) : $key;
 
                 if (is_array($contents)) {
