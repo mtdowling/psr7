@@ -127,6 +127,35 @@ class MultipartStreamTest extends TestCase
         self::assertSame($expected, (string) $b);
     }
 
+    public function testExpandNestedArrayFields(): void
+    {
+        $b = new MultipartStream([
+            [
+                'name' => 'foo',
+                'contents' => [
+                    ['key' => 'bar'],
+                    ['key' => 'baz']
+                ]
+            ]
+        ], 'boundary');
+
+        $expected = \implode('', [
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"foo[0][key]\"\r\n",
+            "Content-Length: 3\r\n",
+            "\r\n",
+            "bar\r\n",
+            "--boundary\r\n",
+            "Content-Disposition: form-data; name=\"foo[1][key]\"\r\n",
+            "Content-Length: 3\r\n",
+            "\r\n",
+            "baz\r\n",
+            "--boundary--\r\n",
+        ]);
+
+        self::assertSame($expected, (string) $b);
+    }
+
     public function testSerializesFiles(): void
     {
         $f1 = Psr7\FnStream::decorate(Psr7\Utils::streamFor('foo'), [
