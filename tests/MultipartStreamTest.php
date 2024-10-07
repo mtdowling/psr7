@@ -134,9 +134,9 @@ class MultipartStreamTest extends TestCase
                 'name' => 'foo',
                 'contents' => [
                     ['key' => 'bar'],
-                    ['key' => 'baz']
-                ]
-            ]
+                    ['key' => 'baz'],
+                ],
+            ],
         ], 'boundary');
 
         $expected = \implode('', [
